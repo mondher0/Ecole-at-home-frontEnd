@@ -3,6 +3,7 @@ import React from "react";
 import "../css/ChercherUnCours.css";
 import { useContext, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
+import TimingCard from "../Components/TimingCard/TimingCard";
 
 const ChercherUnCours = () => {
   const { niveau, matiere, handleSearch, professeurs } =
@@ -55,14 +56,10 @@ const ChercherUnCours = () => {
         </div>
         <button className="hero_search_btn">RECHERCHER</button>
       </form>
-        <div className="professeurs">
-        {
-            professeurs && professeurs.items.map((prof) => (
-                <div className="professeur" key={prof.id}>{prof.id}</div>
-            ))
-
-        }
-        </div>
+      <div className="timing_cards">
+        {professeurs &&
+          professeurs.items.map((prof) => <TimingCard key={prof.id} />)}
+      </div>
     </div>
   );
 };
