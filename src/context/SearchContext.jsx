@@ -9,26 +9,36 @@ const SearchProvider = ({ children }) => {
   const [niveau, setNiveau] = useState([]);
   const [matiere, setMatiere] = useState([]);
   const [professeurs, setProfesseurs] = useState();
+
   const baseURl = "http://localhost:9999/api";
 
   //Get Niveau and Matiere
   const getMatiereAndNiveau = async () => {
-    const niveauResponse = await fetch(`${baseURl}/niveau`);
-    const matiereResponse = await fetch(`${baseURl}/matiere`);
-    const niveauData = await niveauResponse.json();
-    const matiereData = await matiereResponse.json();
-    console.log(niveauData);
-    console.log(matiereData);
-    setNiveau(niveauData);
-    setMatiere(matiereData);
+    try {
+      const niveauResponse = await fetch(`${baseURl}/niveau`);
+      const matiereResponse = await fetch(`${baseURl}/matiere`);
+      const niveauData = await niveauResponse.json();
+      const matiereData = await matiereResponse.json();
+      console.log(niveauData);
+      console.log(matiereData);
+      setNiveau(niveauData);
+      setMatiere(matiereData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  //Search
   const handleSearch = async (e) => {
-    e.preventDefault();
-    const response = await fetch(`${baseURl}/professeurs?page=1&pageSize=10`);
-    const professeurs = await response.json();
-    console.log("hello", professeurs);
-    setProfesseurs(professeurs);
+    try {
+      e.preventDefault();
+      const response = await fetch(`${baseURl}/professeurs?page=1&pageSize=10`);
+      const professeurs = await response.json();
+      console.log("hello", professeurs);
+      setProfesseurs(professeurs);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -37,7 +47,7 @@ const SearchProvider = ({ children }) => {
 
   return (
     <SearchContext.Provider
-      value={{ niveau, matiere, handleSearch, professeurs }}
+      value={{ niveau, matiere, handleSearch, professeurs, setProfesseurs }}
     >
       {children}
     </SearchContext.Provider>

@@ -6,7 +6,7 @@ import { SearchContext } from "../context/SearchContext";
 import TimingCard from "../Components/TimingCard/TimingCard";
 
 const ChercherUnCours = () => {
-  const { niveau, matiere, handleSearch, professeurs } =
+  const { niveau, matiere, handleSearch, professeurs, timings } =
     useContext(SearchContext);
   const [selectedNiveau, setSelectedNiveau] = useState("");
   const [selectedMatiere, setSelectedMatiere] = useState("");
@@ -58,7 +58,7 @@ const ChercherUnCours = () => {
       </form>
       <div className="timing_cards">
         {professeurs &&
-          professeurs.items.map((prof) => <TimingCard key={prof.id} />)}
+          professeurs.items.map((prof) => <TimingCard key={prof.id} item={prof} timings={timings} />)}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import "./NavBar.css";
-import { Outlet } from "react-router-dom/dist";
+import { Outlet, useNavigate } from "react-router-dom/dist";
 
 const NavBar = () => {
+  const  navigate = useNavigate();
   return (
     <>
       <header>
@@ -15,7 +16,9 @@ const NavBar = () => {
             </ul>
             <div className="nav_logs">
               <>
-                <button className="insc_btn">INSCRIPTION</button>
+                <button className="insc_btn" onClick={() => {
+                  navigate('/choose_user_type');
+                }}>INSCRIPTION</button>
                 <button className="con_btn">CONNEXION</button>
               </>
             </div>

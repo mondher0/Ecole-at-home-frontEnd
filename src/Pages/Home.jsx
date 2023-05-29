@@ -4,11 +4,13 @@ import { useState, useContext } from "react";
 import "../App.css";
 import Footer from "../Components/Footer/Footer";
 import { SearchContext } from "../context/SearchContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [selectedNiveau, setSelectedNiveau] = useState("");
   const [selectedMatiere, setSelectedMatiere] = useState("");
-  const { niveau, matiere } = useContext(SearchContext);
+  const { niveau, matiere, setProfesseurs} = useContext(SearchContext);
+  const navigate = useNavigate();
 
   const handleNiveauChange = (e) => {
     setSelectedNiveau(e.target.value);
@@ -16,6 +18,22 @@ const Home = () => {
   const handleMatiereChange = (e) => {
     setSelectedMatiere(e.target.value);
   };
+
+    //Search
+    
+  const baseURl = "http://localhost:9999/api";
+    const handleSearch = async (e) => {
+      try {
+        e.preventDefault();
+        const response = await fetch(`${baseURl}/professeurs?page=1&pageSize=10`);
+        const professeurs = await response.json();
+        console.log("hello", professeurs);
+        setProfesseurs(professeurs);
+        navigate(`/chercher-un-cours`, { state: { professeurs } });
+      } catch (error) {
+        console.log(error);
+      }
+    };
   return (
     <>
       <div>
@@ -45,7 +63,7 @@ const Home = () => {
             <img src="assets/hero_img.png" className="hero_img" />
             <div className="hero_form">
               <h3 className="hero_form_title">Trouvez votre professeur</h3>
-              <form className="search_form">
+              <form className="search_form" onSubmit={handleSearch}>
                 <div className="hero_input">
                   <h4>NIVEAU</h4>
                   <select className="left" value={selectedNiveau} onChange={handleNiveauChange}>

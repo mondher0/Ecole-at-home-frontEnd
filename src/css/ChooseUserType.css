@@ -1,0 +1,329 @@
+
+/* Choose User Type */
+
+.user_type_fs{
+    width: min-content;
+    padding: 0px 16px 30px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.user_type_fs .continue_btn{
+    width: 320px;
+    max-width: 90%;
+}
+
+.user_type_fs form{
+    display: flex;
+    margin: auto;
+    margin-top: 25px;
+    gap: 35px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: max-content;
+    max-width: calc(60vw - 12px * 2);
+    min-width: 190px;
+
+}
+
+.user_type_card{
+    width: 180px;
+    height: 195px;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 15px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 21px;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 37px;
+    text-align: center;
+    color: var(--main_color);
+    cursor: pointer;
+}
+
+.user_type_card img{
+    width: 95px;
+    height: 110px;
+    margin-bottom: 20px;
+    filter: invert(100%) sepia(42%) saturate(3551%) hue-rotate(174deg) brightness(99%) contrast(93%);
+}
+
+.user_type_card.selected{
+    background-color: var(--main_color);
+    color: white;
+}
+
+.user_type_card.selected img{
+    filter: invert(100%) sepia(100%) saturate(27%) hue-rotate(43deg) brightness(108%) contrast(106%);
+}
+
+
+/* Media  */
+@media(max-width: 350px){
+    .user_type_fs .continue_btn{
+        width: 180px;
+    }
+}
+
+fieldset{
+    width: 580px;
+    max-width: calc( 100% - 20px * 2);
+    margin: auto;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 15px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    padding-top: 0px;
+    margin-top: 80px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+fieldset button{
+    margin-top: 22px;
+}
+
+
+legend, .sign_up_legend{
+    color: rgba(0, 120, 212, 1);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 26px;
+}
+
+
+.login_container{    
+    padding-bottom: 55px;
+}
+
+.input_container{
+    border: solid 1px var(--main_color);
+    height: 55px;
+    border-radius: 4px;
+    position: relative;
+    margin-top: 25px;
+    padding: 6px;
+    /* max-width: 520px; */
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.input_container label{
+    position: absolute;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    top: -7px;
+    left: 20px;
+    background-color: #FFFFFF;
+    padding: 0px 3px;
+    color: var(--main_color);
+}
+.accept {
+    margin-top: 20px;
+}
+
+fieldset form{
+    display: flex;
+    flex-wrap: wrap;    
+    justify-content: space-between;
+    max-width: calc( 90vw - 20px * 2);
+    width: 100%;
+}
+
+fieldset form ul{
+    width: 100%;
+    overflow: hidden;    
+}
+
+.input_container input,
+.input_container select{
+    border: none;
+    width: 100%;
+    height: 100%;
+    padding-left: 20px;
+    outline: none;
+
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(67, 84, 111, 1);
+    background-color: #FFFFFF;
+
+
+}
+
+.input_container.quarter {
+    width: calc(25% - 5px);
+    /* min-width: 200px; */
+  }
+
+.professor_sign_up fieldset{
+    width: 780px;
+}  
+
+.professor_sign_up fieldset ul{
+    width: max-content;
+    margin: auto;
+    padding: 12px;
+}
+
+.professor_sign_up fieldset legend{
+    margin: auto;
+}
+
+.login_container h5{
+    color: var(--main_color);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.15px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    cursor: pointer;
+}
+
+.login_container h5:hover{
+    text-decoration: underline;
+}
+
+.login_container .login_btn, fieldset button{
+    width: 100%;
+    height: 55px;
+    background-color: var(--main_color);
+    border: none;
+    border-radius: 40px;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 37px;
+    color: #FFFFFF;
+    cursor: pointer;
+
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.25);
+    max-width: 515px;  
+    margin: auto;  
+}
+
+
+
+fieldset .insc_btn{
+    background-color: rgba(43, 176, 74, 1) !important;
+    margin-top: 32px;
+}
+
+/* parent_sign_up  */
+
+.parent_sign_up fieldset ul, .parent_sign_up p{
+    padding-left: 12px;
+}
+
+.parent_sign_up fieldset li{
+    list-style: none;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.15px;
+    color: #43546F;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    max-width: 515px;
+       
+}
+
+.parent_sign_up fieldset li:first-child{
+    flex-wrap: wrap; 
+}
+
+.parent_sign_up fieldset li a{
+    color: var(--main_color);
+}
+
+.parent_sign_up fieldset li input{
+    margin-right: 6px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.parent_sign_up p{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(172, 172, 172, 1);
+}
+
+/* parent register a kid */
+
+.parent_sign_up .form_subtitle{
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.15px;
+    color: #43546F; 
+    margin-bottom: 0;   
+    margin-top: 0;
+}
+
+.p_s_kid .input_container:nth-child(2){
+    margin-top: 14px;
+}
+
+.p_s_kid fieldset{
+   width: auto;
+   max-width: 665px;
+   padding: 20px;
+   padding-top: 35px ;
+}
+
+.p_s_kid fieldset form{
+    max-width: 520px;
+    justify-content: space-between;
+}
+
+.p_s_kid .blue{
+    color: var(--main_color);
+}
+
+.p_s_kid .blue span, .form_subtitle span{
+    font-weight: bold;
+}
+
+.width100{
+    width: 100%;
+}
+
+.p_s_kid .yallow{
+    color: rgba(252, 159, 24, 1);
+}
+
+.p_s_kid fieldset ul{
+    padding-left: 0;
+}
+
+.input_container.half{
+    width: calc(50% - 5px);
+    min-width: 200px;
+}
+
+.form_error{
+    color: var(--error_color) !important;
+    text-decoration: none !important;
+    width: 100%;
+    text-align: center;
+    margin: 0 !important;
+    line-height: 38px !important;
+    cursor: auto !important;
+}
