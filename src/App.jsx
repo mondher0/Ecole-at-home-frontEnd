@@ -7,6 +7,7 @@ import ChercherUnCours from "./Pages/ChercherUnCours";
 import ChooseUserType from "./Pages/ChooseUserType";
 import Insecription from "./Pages/Insecription";
 import ChooseKids from "./Pages/ChooseKids";
+import Login from "./Pages/Login";
 
 const App = () => {
   return (
@@ -18,7 +19,9 @@ const App = () => {
           <Route path="/choose_user_type" element={<ChooseUserType />} />
           <Route path="/inscription/:userType" element={<Insecription />} />
           <Route path="/choose-your-kid" element={<ChooseKids />} />
+          <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </BrowserRouter>
   );

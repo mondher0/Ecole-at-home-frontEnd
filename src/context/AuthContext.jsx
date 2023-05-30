@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 export const AuthContext = createContext();
+import jwtDecode from "jwt-decode";
 
 const AuthProvider = ({ children }) => {
   const [nom, setNom] = useState("");
@@ -18,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const [nomEnfant, setNomEnfant] = useState("");
   const [prenomEnfant, setPrenomEnfant] = useState("");
   const [emailEnfant, setEmailEnfant] = useState("");
-
+  const [isAuth, setIsAuth] = useState({ userInfo: null, isLogged: false });
   const baseURl = "http://localhost:9999/api/auth";
 
   //Register student
@@ -89,12 +90,47 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Login
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const data = {
+        email: email,
+        password: password,
+      };
+      const response = await axios.post(`${baseURl}/login`, data);
+      localStorage.setItem("token", response.data.access_token);
+      checkUserLoggedIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuth({ userInfo: null, isLogged: false });
+  };
+
+  // check if user is logged in
+  const checkUserLoggedIn = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      console.log(token);
+      setIsAuth({ userInfo: jwtDecode(token), isLogged: true });
+    }
+  };
+
+  const { userInfo, isLogged } = isAuth;
   return (
     <AuthContext.Provider
       value={{
         handleRegisterStudent,
         handleRegisterTeacher,
         handleRegisterParent,
+        handleLogin,
+        handleLogout,
+        checkUserLoggedIn,
         setNom,
         setPrenom,
         setEmail,
@@ -109,6 +145,7 @@ const AuthProvider = ({ children }) => {
         setEmailEnfant,
         codePostal,
         ville,
+        isLogged,
       }}
     >
       {children}
