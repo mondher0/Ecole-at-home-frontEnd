@@ -8,6 +8,7 @@ import ChooseUserType from "./Pages/ChooseUserType";
 import Insecription from "./Pages/Insecription";
 import ChooseKids from "./Pages/ChooseKids";
 import Login from "./Pages/Login";
+import MesCours from "./Pages/MesCours";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/inscription/:userType" element={<Insecription />} />
           <Route path="/choose-your-kid" element={<ChooseKids />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/mes-cours" element={<MesCours />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
       </Routes>

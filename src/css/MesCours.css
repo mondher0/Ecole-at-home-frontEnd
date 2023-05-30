@@ -1,0 +1,445 @@
+.side_nav{
+    float: left;
+    width: 25%;
+    padding-left: 4px;
+    border-right: solid rgba(0, 0, 0, 0.1) 2px;    
+    padding-top: 50px;
+}
+
+.side_nav h3.welcome{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 38px;    
+    color: #101828;    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  
+    position: relative;      
+}
+
+.side_nav ul{
+    padding: 0;
+}
+
+.side_nav li{
+    width: 360px;
+    max-width: 95%;
+    height: 49px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 24.5px;   
+    display: flex;
+    align-items: center; 
+    padding: 0px 25px;
+    margin-bottom: 14px;
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #344054;    
+}
+
+.side_nav li.selected,
+.side_nav li:hover{
+    color:#FFFFFF;
+    background-color: var(--main_color);
+    cursor: pointer;
+
+}
+
+.side_nav li.selected img,
+.side_nav li:hover img{
+    filter: invert(100%) sepia(100%) saturate(27%) hue-rotate(43deg) brightness(108%) contrast(106%);
+}
+
+.side_nav li img{
+    width: 22px;
+    height: 22px;
+    margin-right: 13px;
+    filter: invert(27%) sepia(3%) saturate(4319%) hue-rotate(175deg) brightness(91%) contrast(87%);
+}
+
+.main_section{
+    float: right;
+    width: 75%;
+    padding-left: 25px;
+    padding-top: 50px;
+
+}
+
+/* up_coming_courses  */
+
+.up_coming_courses .green_title{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    color: #2BB04A;    
+}
+
+.select_child{
+    display: flex;
+    flex-direction: column;
+}
+
+.select_child label{
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #002F53;    
+    margin-bottom: 4px;
+}
+
+.select_child select{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;   
+    border: none; 
+    color: rgba(102, 102, 102, 1);
+    width: 235px;
+    height: 50px;
+    padding: 0px 14px;
+
+    font-family: inherit;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 25px 20px ;    
+}
+
+.courses_cards{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    gap: 52px;
+    padding-bottom: 55px;
+}
+
+.cours_card{
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    width: calc( 100% - 12px);
+    max-width: 830px;
+    position: relative;    
+    min-height: 217px;
+    height: auto;
+    flex-wrap: wrap;
+    height: auto;   
+    gap: 22px; 
+    padding: 18px;
+}
+
+.cours_card .info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+.cours_card .avatare{
+    height: 182px;
+    width: 182px;
+    border-radius: 100%;    
+        
+}
+
+.cours_card h4{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #3E4958; 
+    margin: 0;
+    max-width: 100%;
+}
+
+.cours_card h4.bold{
+    font-weight: 800;
+}
+
+.cours_card .tags{
+    display: flex;
+    list-style: none;   
+    padding: 0; 
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    row-gap: 12px;    
+    justify-content: center;
+}
+
+.cours_card .tags li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 22px;
+
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: #0078D4;    
+}
+
+.cours_card .tags img{
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+}
+
+.cours_card .btns{
+    display: flex;
+    align-items: center; 
+    flex-wrap: wrap;
+    row-gap: 12px;
+    padding: 12px 0px;
+    justify-content: center;
+}
+
+.cours_card .btns button, .cours_card .btns a{
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;    
+    text-align: center;    
+    color: #FFFFFF; 
+    
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 36px;
+    border: none;    
+    width: calc( 50% - 7px * 2);
+    margin-right: 7px;
+    height: 41px;
+
+    min-width: 150px;
+}
+
+.cours_card .btns .green{
+    background-color: #2BB04A;
+    padding-top: 10px;
+}
+
+.cours_card .btns .red{
+    background-color: #EB001B;
+}
+
+.cours_card .btns .canceled{
+    background-color: #989898;
+}
+
+.cours_card .username{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;    
+    color: #000000;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin: 0;
+}
+
+.cours_card .username img{
+    width: 14px;
+    height: 16px;
+    filter: invert(100%) sepia(42%) saturate(3551%) hue-rotate(174deg) brightness(99%) contrast(93%);    
+    margin-right: 3px;
+}
+
+.cours_card .date{
+    color: rgba(62, 73, 88, 0.76);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;    
+    position: absolute;
+    top: -22px;
+    margin: 0;
+    left: 0;
+}
+
+/* Factures  */
+
+.invoices_page .main_title{
+    font-weight: 500;
+    font-size: 23px;
+    line-height: 38px;
+    color: #101828;      
+    border-bottom: #C4C4C4 solid 5px;  
+    width: max-content;
+}
+
+.invoices_page .invoices_table{
+    width: calc( 100% - 12px);
+    margin-top: 22px;
+    border-radius: 20px;  
+    text-align: center;  
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);    
+    border-radius: 20px 20px 0px 0px;      
+    overflow: hidden;
+}
+
+
+.invoices_page .invoices_table th{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;    
+    color: #0078D4; 
+    height: 64px;
+    background-color: transparent;   
+    
+}
+
+.invoices_page .invoices_table tr:first-child{
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 20px 20px 0px 0px;  
+    background-color: rgba(248, 250, 253, 1);  
+     
+}
+
+.invoices_page .invoices_table td{
+    height: 64px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;    
+    color: #989898;
+    border-bottom: solid #F2F2F2 1px;
+        
+}
+
+.invoices_page .invoices_table img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* Notifications */
+
+.notification_page .main_title{
+    font-weight: 500;
+    font-size: 23px;
+    line-height: 38px;
+    color: #101828;
+        
+}
+
+
+.the_notification_card{
+    height: 140px;
+    width: calc( 100% - 12px);
+    display: flex;    
+}
+
+.the_notification_card .notivication_time{
+    font-weight: 500;
+    font-size: 14px;
+    color: #667085;        
+    width: 85px;
+    border-right: 2px solid #E4E7EC;
+    padding-top: 32px;
+    padding-left: 10px;
+    margin: 0;
+}
+
+.the_notification_card .notification_text{
+    padding-left: 48px;
+    padding-top: 32px;
+}
+
+.the_notification_card .notification_text h2{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.the_notification_card .notification_text p{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    color: #667085;    
+    margin: 0;
+
+}
+
+.Settings fieldset{
+    margin: 0;
+    width: calc( 100% - 12px);
+    max-width: unset;
+    
+}
+
+.Settings form{
+    width: 100%;
+    justify-content: space-between;
+}
+
+.side_nav .berger{
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;    
+    height: calc( 5px * 3 + 6px * 2 + 6px * 2);
+    cursor: pointer;  
+    position: absolute;
+    top: -50px;
+    right: calc( -40px - 6px * 2);
+    background-color: white;
+    width: auto;
+    padding: 6px;
+    border: solid rgba(0, 0, 0, 0.1) 2px;
+    border-left: none;
+}
+
+
+.side_nav .berger div{
+    width: 35px;
+    height: 5px;
+    background-color: var(--main_color);
+}
+
+.side_nav.inside{
+    left: -250px;
+
+}
+
+/* Media */
+
+@media(max-width:991px){
+    .side_nav {
+        width: 250px;
+        position: absolute;
+        top: 0;
+        background-color: white;
+        z-index: 1;
+        padding-left: 22px;
+        height: 100%;
+    }
+
+    .main_section{
+        width: 100%;
+    }
+
+    .side_nav .berger{
+        display: flex;
+    }
+}
+
+@media(max-width:600px){
+    
+    .invoices_page .invoices_table{
+        margin-left: -25px;
+    }
+
+    .invoices_page .invoices_table th, 
+    .invoices_page .invoices_table td{
+        font-size: 16px;
+        font-weight: 400;
+    }
+}

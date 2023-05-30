@@ -20,8 +20,30 @@ const NavBar = () => {
               }}
             ></div>
             <ul className="nav_center_li">
-              <li>ACCEUIL</li>
-              {isLogged ? <li>MES COURS</li> : <li>CHERCHER UN COURS</li>}
+              <li
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                ACCEUIL
+              </li>
+              {isLogged ? (
+                <li
+                  onClick={() => {
+                    navigate("/mes-cours");
+                  }}
+                >
+                  MES COURS
+                </li>
+              ) : (
+                <li
+                  onClick={() => {
+                    navigate("/chercher-un-cours");
+                  }}
+                >
+                  CHERCHER UN COURS
+                </li>
+              )}
               <li>A PROPOS</li>
             </ul>
             <div className="nav_logs">

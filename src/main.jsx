@@ -5,11 +5,14 @@ import App from "./App.jsx";
 import "./index.css";
 import SearchProvider from "./context/SearchContext.jsx";
 import AuthProvider from "./context/AuthContext.jsx";
+import GlobalProvider from "./context/GlobalContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
-    <SearchProvider>
-      <App />
-    </SearchProvider>
+    <GlobalProvider>
+      <SearchProvider>
+        <App />
+      </SearchProvider>
+    </GlobalProvider>
   </AuthProvider>
 );

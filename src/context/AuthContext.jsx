@@ -100,6 +100,7 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURl}/login`, data);
       localStorage.setItem("token", response.data.access_token);
+      window.location.href = "/";
       checkUserLoggedIn();
     } catch (error) {
       console.log(error);
@@ -109,6 +110,7 @@ const AuthProvider = ({ children }) => {
   // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
+    window.location.href = "/login";
     setIsAuth({ userInfo: null, isLogged: false });
   };
 
@@ -120,6 +122,11 @@ const AuthProvider = ({ children }) => {
       setIsAuth({ userInfo: jwtDecode(token), isLogged: true });
     }
   };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      checkUserLoggedIn();
+    }
+  }, []);
 
   const { userInfo, isLogged } = isAuth;
   return (
