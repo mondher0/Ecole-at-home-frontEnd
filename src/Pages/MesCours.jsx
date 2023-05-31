@@ -4,7 +4,11 @@ import "../css/MesCours.css";
 import { useState, useContext } from "react";
 import UpComingCourses from "../Components/UpComingCourses/UpComingCourses";
 import { GlobalContext } from "../context/GlobalContext";
-
+import Notification from "../Components/Notification/Notification";
+import Disponibilité from "../Components/Disponibilité/Disponibilité";
+import Facture from "../Components/Facture/Facture";
+import Settings from "../Components/Settings/Settings";
+import Status from "../Components/Status/Status";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role } = userInfo;
@@ -41,35 +45,42 @@ const MesCours = () => {
               <img src="../assets/courses.svg" />
               Cours passés
             </li>
+            {role === "teacher" && (
+              <li
+                className={sideLinks === "disponibilités" ? "selected" : ""}
+                onClick={() => {
+                  setSideLinks("disponibilités");
+                }}
+              >
+                <img src="../assets/clock_calender.svg" />
+                Disponibilités
+              </li>
+            )}
+            {role === "parent" ||
+              (role === "student" && (
+                <li
+                  className={sideLinks === "abonnement" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("abonnement");
+                  }}
+                >
+                  <img src="../assets/two_users.svg" />
+                  Abonnement
+                </li>
+              ))}
+            {role === "parent" ||
+              (role === "student" && (
+                <li
+                  className={sideLinks === "facture" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("facture");
+                  }}
+                >
+                  <img src="../assets/euro.svg" />
+                  Facture
+                </li>
+              ))}
 
-            <li
-              className={sideLinks === "disponibilités" ? "selected" : ""}
-              onClick={() => {
-                setSideLinks("disponibilités");
-              }}
-            >
-              <img src="../assets/clock_calender.svg" />
-              Disponibilités
-            </li>
-
-            <li
-              className={sideLinks === "abonnement" ? "selected" : ""}
-              onClick={() => {
-                setSideLinks("abonnement");
-              }}
-            >
-              <img src="../assets/two_users.svg" />
-              Abonnement
-            </li>
-            <li
-              className={sideLinks === "facture" ? "selected" : ""}
-              onClick={() => {
-                setSideLinks("facture");
-              }}
-            >
-              <img src="../assets/euro.svg" />
-              Facture
-            </li>
             <li
               className={sideLinks === "paiement" ? "selected" : ""}
               onClick={() => {
@@ -88,6 +99,18 @@ const MesCours = () => {
               <img src="../assets/bell.svg" />
               Notifications
             </li>
+            {role === "teacher" && (
+              <li
+                className={sideLinks === "status" ? "selected" : ""}
+                onClick={() => {
+                  setSideLinks("status");
+                }}
+              >
+                <img src="../assets/status.svg" />
+                Status
+              </li>
+            )}
+
             <li
               className={sideLinks === "parametres" ? "selected" : ""}
               onClick={() => {
@@ -103,12 +126,13 @@ const MesCours = () => {
         <div className="main_section">
           {sideLinks === "cours_venir" ? <UpComingCourses /> : null}
           {sideLinks === "cours_passés" ? <div>cours_passés</div> : null}
-          {sideLinks === "disponibilités" ? <div>disponibilités</div> : null}
+          {sideLinks === "disponibilités" ? <Disponibilité /> : null}
           {sideLinks === "abonnement" ? <div>abonnement</div> : null}
-          {sideLinks === "facture" ? <div>facture</div> : null}
+          {sideLinks === "facture" ? <Facture /> : null}
           {sideLinks === "paiement" ? <div>paiementr</div> : null}
-          {sideLinks === "notifications" ? <div>notifications</div> : null}
-          {sideLinks === "parametres" ? <div>parametresr</div> : null}
+          {sideLinks === "notifications" ? <Notification /> : null}
+          {sideLinks === "status" ? <Status /> : null}
+          {sideLinks === "parametres" ? <Settings /> : null}
         </div>
       </div>
     </>

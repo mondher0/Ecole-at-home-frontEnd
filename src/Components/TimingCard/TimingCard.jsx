@@ -50,6 +50,9 @@ const TimingCard = ({ item }) => {
         console.log(data);
         alert("Vous êtes inscrit dans ce cours");
       }
+      else {
+        alert("Vous ne pouvez pas vous inscrire dans ce cours");
+      }
     } catch (error) {
       console.log(error);
     }
