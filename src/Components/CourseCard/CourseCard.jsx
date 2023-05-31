@@ -9,7 +9,7 @@ const CourseCard = ({ course }) => {
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
   const { role, prenom, nom } = userInfo;
-  const { abonnement, createdAt } = course;
+  const { abonnement, createdAt, zoomMeetingJoinUrl } = course;
 
   // get date
   const date = new Date(createdAt);
@@ -58,15 +58,27 @@ const CourseCard = ({ course }) => {
           </li>
         </ul>
         <div className="btns">
-          <button
-            className="green"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("demCours").showModal();
-            }}
-          >
-            Démarrer le cours
-          </button>
+          {role === "teacher" ? (
+            <button
+              className="green"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("demCours").showModal();
+              }}
+            >
+              Démarrer le cours
+            </button>
+          ) : (
+            <a
+              href={zoomMeetingJoinUrl}
+              className="green"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Assiter au cours
+            </a>
+          )}
+
           <button className="red">Annuler</button>
         </div>
       </div>

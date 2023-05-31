@@ -2,9 +2,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
+import axiosInstance from "../../utils/utils";
 
 const TimingCard = ({ item }) => {
+  const { userInfo } = useContext(GlobalContext);
+  const {eleveProfile} = userInfo;
+  console.log(item);
   const [timings, setTimings] = useState([]);
   const days = [
     "Sunday",
@@ -33,6 +38,24 @@ const TimingCard = ({ item }) => {
     console.log(timingData);
     setTimings(timingData);
   };
+
+  // Subscribe in a course
+  const handleSubscribe = async (id) => {
+    try {
+      if (eleveProfile.status !== "test") {
+        const response = await axiosInstance.patch(
+          `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
+        );
+        const data = await response.data;
+        console.log(data);
+        alert("Vous êtes inscrit dans ce cours");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   useEffect(() => {
     getTiming();
   }, []);
@@ -78,7 +101,9 @@ const TimingCard = ({ item }) => {
                   {timings.map((timing) =>
                     abonnement.timing.start_hour === timing.start_hour ? (
                       <>
-                        <h3 className="the_time">
+                        <h3 className="the_time" onClick={() => {
+                          handleSubscribe(abonnement.id)
+                        }} >
                           {abonnement.timing.start_hour}-{" "}
                           {abonnement.timing.end_hour}
                         </h3>
