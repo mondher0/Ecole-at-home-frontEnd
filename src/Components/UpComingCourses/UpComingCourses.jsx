@@ -8,9 +8,11 @@ import axiosInstance from "../../utils/utils";
 
 const UpComingCourses = () => {
   const { userInfo } = useContext(GlobalContext);
+  console.log(userInfo);
   const { role } = userInfo;
   const baseURl = "http://localhost:9999/api";
   const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
+  const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
 
   // Get upComing Courses of the teacher
   const getUpComingCoursesForTeacher = async () => {
@@ -26,9 +28,26 @@ const UpComingCourses = () => {
     }
   };
 
+  // Get upComing Courses of the student
+  const getUpComingCoursesForStudent = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/students/cours-avenir`
+      );
+      const upComingCourses = await response.data;
+      console.log(upComingCourses);
+      setUpComingCoursesStudent(upComingCourses);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (role === "teacher") {
       getUpComingCoursesForTeacher();
+    }
+    if (role === "student") {
+      getUpComingCoursesForStudent();
     }
   }, []);
   return (
@@ -43,12 +62,16 @@ const UpComingCourses = () => {
         </div>
       ) : role === "student" ? (
         <div className="courses_cards">
-          <CourseCard />
+          {upComingCoursesStudent.map((course) => {
+            console.log(course);
+            return <CourseCard key={course.id} course={course} />;
+          })}
           <div>Student</div>
         </div>
       ) : role === "teacher" ? (
         <div className="courses_cards">
           {upComingCoursesTeacher.map((course) => {
+            console.log(course);
             return <CourseCard key={course.id} course={course} />;
           })}
           <div>teacher</div>

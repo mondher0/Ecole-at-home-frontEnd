@@ -1,0 +1,114 @@
+.pop_up_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.28);
+  z-index: 20;
+  text-align: center;
+}
+
+.pop_up {
+  position: absolute;
+  height: 500px;
+  width: 800px;
+  background-color: white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 5;
+  border-radius: 26px;
+  background-image: url("../imgs/pop_up_decorations.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100% - 12px * 2);
+}
+
+.pop_up h1 {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 47px;
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 25px;
+}
+
+.pop_up h3 {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: black;
+  margin-bottom: 40px;
+}
+
+.pop_up .trail_btn {
+  background-color: var(--main_color);
+  color: white;
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  border: none;
+  width: 183px;
+  height: 37px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  text-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.pop_up {
+  background-image: none;
+  width: max-content;
+  height: max-content;
+  padding: 55px 55px;
+}
+
+.dispo_form {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+}
+
+.input_container.time {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.input_container.time input {
+  flex-shrink: 1;
+}
+
+.submit_btn {
+  width: 100%;
+  background-color: var(--green);
+  font-weight: 700;
+  font-size: 100%;
+  line-height: 37px;
+  color: white;
+  border: none;
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.25);
+  border-radius: 44px;
+  margin-top: 24px;
+  padding: 9px 0px;
+}
+
+.hide_btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.input_container.half {
+  min-width: unset;
+}
