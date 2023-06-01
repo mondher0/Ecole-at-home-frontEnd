@@ -13,6 +13,10 @@ import AdminContainer from "./Admin/Components/AdminContainer/AdminContainer";
 import BoardPage from "./Admin/Pages/BoardPage";
 import Profeseurs from "./Admin/Pages/Professeurs";
 import EleveParent from "./Admin/Pages/EleveParent";
+import EditEleve from "./Admin/Pages/EditEleve";
+import EditParent from "./Admin/Pages/EditParent";
+import EmailsPage from "./Admin/Pages/Emails";
+import EditMail from "./Admin/Pages/EditEmail";
 
 const App = () => {
   return (
@@ -32,6 +36,10 @@ const App = () => {
           <Route path="/admin/board" element={<BoardPage />} />
           <Route path="/admin/professeurs" element={<Profeseurs />} />
           <Route path="/admin/eleve-parent" element={<EleveParent />} />
+          <Route path="/admin/Parent/edit" element={<EditParent />} />
+          <Route path="/admin/Eleve/edit" element={<EditEleve />} />
+          <Route path="/admin/Emails" element={<EmailsPage />} />
+          <Route path="/admin/Email/edit" element={<EditMail />} />
         </Route>
       </Routes>
     </BrowserRouter>

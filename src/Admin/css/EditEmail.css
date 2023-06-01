@@ -1,0 +1,112 @@
+.email_editor{
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0px 8px 10px 1px rgba(0, 0, 0, 0.14);
+    border-radius: 8px;
+    padding-bottom: 14px;
+}
+
+.email_editor .top_bar{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 18px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--main_color);
+
+    background: #D6E4EC;
+    border-radius: 8px 8px 0px 0px;    
+    
+    
+}
+
+.email_editor .email_content{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 16px;
+}
+
+.email_editor .email_content > *{
+    width: 100%;
+    border: none;
+    outline: none;
+
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: rgba(0, 0, 0, 0.54);
+    
+        
+}
+
+.email_editor .email_content input{
+    border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+    padding: 3px 0px;
+
+}
+
+.email_editor .email_content textarea{
+    height: 400px;
+    resize: none;    
+}
+
+.bottom_bar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 11px;
+    flex-wrap: wrap;    
+}
+
+
+.bottom_bar .cta{
+    background: #1A73E8;
+    border-radius: 29px;   
+    padding: 8px 22px;
+    border: none;
+    
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: -0.01em;    
+    color: #FFFFFF;    
+}
+
+.bottom_bar .tools{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bottom_bar .tools div{
+    width: max-content;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;  
+    margin-left: auto;
+    margin-right: 0;  
+}
+
+.bottom_bar .tools > *{
+    cursor: pointer;
+}
+
+@media(max-width: 460px){
+    .bottom_bar .tools div{
+        margin: 0;
+    }
+}

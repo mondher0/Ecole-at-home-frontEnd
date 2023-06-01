@@ -3,11 +3,12 @@
 import React from "react";
 import "./AdminSideBar.css";
 import { NavLink } from "react-router-dom";
+import logo from "./nav_logo.svg";
 
 const AdminSideBar = ({ mobile }) => {
   return (
     <div className={mobile ? "admin_side_bar active" : "admin_side_bar"}>
-      <img className="side_bar_logo" src="../assets/nav_logo.svg" />
+      <img className="side_bar_logo" src={logo} />
 
       <ul className="links">
         <NavLink to="/admin/board">
@@ -18,7 +19,7 @@ const AdminSideBar = ({ mobile }) => {
             <div className="border right"></div>
           </li>
         </NavLink>
-        <NavLink to="/admin/Professeurs">
+        <NavLink to="/admin/professeurs">
           <li>
             <img className="side_bar_logo" src="../assets/bag.svg" />
             Profeseurs

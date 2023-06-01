@@ -121,6 +121,34 @@
   top: 0;
   gap: 4px;
 }
+.input_container2 input,
+.input_container2 select {
+  height: 50px;
+  width: 100%;
+  border-radius: 40px;
+  border: 1px solid #c5c9cf;
+  padding: 8px 24px;
+  outline: none;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #43546e;
+  background-color: transparent;
+}
+.input_container2 {
+  width: 100%;
+  position: relative;
+}
+.input_container2 label {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #43546e;
+  position: absolute;
+  top: -11px;
+  left: 18px;
+  background-color: white;
+}
 
 .eleve_cards_container .user_type_card .tools button {
   background-color: #ffffff;
@@ -188,7 +216,8 @@
   all: unset;
   width: 72%;
   height: 72%;
-  filter: var(--light_blue_filter);
+  filter: invert(100%) sepia(22%) saturate(6683%) hue-rotate(175deg)
+    brightness(98%) contrast(97%);
 }
 
 .pop_up_container .pop_up.edit {
@@ -774,11 +803,11 @@ label {
   text-align: left;
 }
 .edit_etat {
-    width: max-content;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Nunito Sans', sans-serif !important;
-    gap: 12px;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  font-family: "Nunito Sans", sans-serif !important;
+  gap: 12px;
 }
 
 .pop_up.edit .prof_edit_top .text span {
