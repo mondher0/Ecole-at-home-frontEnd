@@ -4,14 +4,11 @@ import { useNavigate } from "react-router-dom";
 const EmailsPage = () => {
   let Navigate = useNavigate();
   const columns = [
-    "Professeur",
-    "Date d’inscription",
-    "Email",
-    "Téléphone",
-    "Diplome",
-    "Experience",
-    "Note",
-    "Etat",
+    "ID",
+    "Objet mail",
+    "Contenu",
+    "Destination",
+    "lantence",
     "Action",
   ];
 
@@ -84,13 +81,11 @@ const EmailsPage = () => {
           <tbody>
             {data.map((row) => (
               <tr key={row.id}>
-                <td>{row.professeur}</td>
-                <td>{row.dateInscription}</td>
+   
                 <td>{row.email}</td>
                 <td>{row.telephone}</td>
                 <td>{row.diplome}</td>
                 <td>{row.experience}</td>
-                <td>{row.note}</td>
                 <td>{row.note}</td>
                 <td>
                   <button className="btn">

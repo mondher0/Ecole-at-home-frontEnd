@@ -12,25 +12,20 @@ const EleveParent = () => {
     "Parents",
     "Date d’inscription",
     "Email",
-    "Téléphone",
-    "Diplome",
-    "Experience",
-    "Note",
+    "Parent",
     "Etat",
     "Action",
   ];
 
   const columnsElève = [
-    "Elève",
+    "Parents",
     "Date d’inscription",
     "Email",
-    "Téléphone",
-    "Diplome",
-    "Experience",
-    "Note",
+    "Parent",
     "Etat",
     "Action",
   ];
+  
 
   const data = [
     {
@@ -145,9 +140,6 @@ const EleveParent = () => {
                 </td>
                 <td>{row.dateInscription}</td>
                 <td>{row.email}</td>
-                <td>{row.telephone}</td>
-                <td>{row.diplome}</td>
-                <td>{row.experience}</td>
                 <td>{row.note}</td>
                 <td className={row.etat}>
                   <div>

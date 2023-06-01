@@ -22,7 +22,7 @@ const EditMail = () => {
         <div className='bottom_bar'>
             <div className='tools'>
                 <button className='cta'>Enregistrer</button>
-                <img src="../imgs/A.svg"/>
+                <img src="../assets/A.svg"/>
                 <img src="../assets/clip.svg"/>
                 <img src="../assets/add_link.svg"/>
                 <img src="../assets/emoji.svg"/>
