@@ -9,6 +9,10 @@ import Insecription from "./Pages/Insecription";
 import ChooseKids from "./Pages/ChooseKids";
 import Login from "./Pages/Login";
 import MesCours from "./Pages/MesCours";
+import AdminContainer from "./Admin/Components/AdminContainer/AdminContainer";
+import BoardPage from "./Admin/Pages/BoardPage";
+import Profeseurs from "./Admin/Pages/Professeurs";
+import EleveParent from "./Admin/Pages/EleveParent";
 
 const App = () => {
   return (
@@ -24,6 +28,11 @@ const App = () => {
           <Route path="/mes-cours" element={<MesCours />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
+        <Route path="/admin" element={<AdminContainer />}>
+          <Route path="/admin/board" element={<BoardPage />} />
+          <Route path="/admin/professeurs" element={<Profeseurs />} />
+          <Route path="/admin/eleve-parent" element={<EleveParent />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

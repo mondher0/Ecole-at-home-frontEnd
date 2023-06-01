@@ -1,0 +1,149 @@
+.admin_container{
+    display: flex;
+}
+
+
+.page_layout{
+    flex-grow: 1;
+    max-width: calc( 100vw - 250px);    
+}
+
+.page_content{
+    padding: 22px;
+}
+
+.admin_container > *{
+    flex-shrink: 0;
+}
+
+.admin_side_bar{
+    padding: 18px 0px;
+    width: 250px;
+    background-color: var(--main_color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: margin-left 0.3s ease-out;
+}
+
+.admin_side_bar .logo{
+    width: 104px;
+}
+
+.admin_side_bar .links{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    width: 100%;
+    margin: 0;
+}
+
+.admin_side_bar ul a{
+    position: relative;
+}
+
+.admin_side_bar li{
+    margin: 0;    
+    display: flex; 
+    align-items: center;
+    column-gap: 14px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;    
+    color: #FFFFFF;    
+    opacity: 0.5;    
+    padding: 12px 28px;
+}
+
+.admin_side_bar li .border{
+    width: 11px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #FFC107;
+    opacity: 0;
+}
+
+.admin_side_bar li .border.left{
+    left: 0;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.admin_side_bar li .border.right{
+    right: 0;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.admin_side_bar .active li,
+.admin_side_bar .active .border,
+.admin_side_bar li:hover,
+.admin_side_bar li:hover .border{
+    opacity: 1;
+}
+
+.admin_side_bar li img{
+    width: 24px;
+    height: 24px;
+    filter: var(--white_filter);
+}
+
+.admin_side_bar .logout_btn{
+    opacity: 1;
+    cursor: pointer;
+}
+
+
+.side_bar_berger {
+    cursor: pointer;
+    position: absolute;
+    left: 22px;
+    z-index: 6;
+    display: none;
+  }
+  
+  .side_bar_berger div {
+    width: 30px;
+    height: 5px;
+    margin: 5px;
+    background-color: var(--main_color);
+    transition: 0.4s;
+  }
+  
+  /* Rotate first bar */
+  .side_bar_berger.active div:first-child {
+    transform: rotate(-45deg) translate(-8px, 5px);
+  }
+  
+  /* Fade out middle bar */
+  .side_bar_berger.active div:nth-of-type(2) {
+    opacity: 0;
+  }
+  
+  /* Rotate third bar */
+  .side_bar_berger.active div:last-child {
+    transform: rotate(45deg) translate(-8px, -5px);
+  }
+  
+
+@media(max-width: 992px){
+    .page_layout {
+        flex-grow: 1;
+        max-width: 100%;
+      }
+      
+    
+    .admin_side_bar {
+        margin-left: -250px;        
+      }      
+
+    .admin_side_bar.active{
+        margin-left: 0;
+    }
+
+    .side_bar_berger{
+        display: inline-block;
+    }
+}

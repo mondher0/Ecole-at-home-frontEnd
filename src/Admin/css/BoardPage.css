@@ -1,0 +1,320 @@
+.admin_section_title{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;    
+    color: #212121;    
+}
+
+.admin_cards_list{
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.admin_cards_list .list_label{
+    font-weight: 600;
+    font-size: 14px;    
+    color: #000000;    
+    width: 75px;
+}
+
+.admin_cards_list .cards_container{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+
+.admin_cards_list .cards_container .card{
+    width: calc(100% / 3 - 12px);
+    height: 100px;
+    box-shadow:0px 4px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 14px 22px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-width: 222px;    
+}
+
+.admin_cards_list .cards_container .card *{
+    margin: 0;
+}
+
+.admin_cards_list .cards_container .card .text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: max-content;
+    max-width: 60%;
+    overflow: hidden;
+}
+
+.admin_cards_list .cards_container .card .text .title{
+    width: max-content;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;    
+    color: #797D8C;    
+    max-width: 100%;
+}
+
+.admin_cards_list .cards_container .card .text .def{
+    width: max-content;
+    color: #EA8F95;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+}
+
+.admin_cards_list .cards_container .card .text .def.pos{
+    color: #4DC643;
+}
+
+.admin_cards_list .cards_container .card .text .def img{
+    width: 16px;
+    height: 16px;    
+
+}
+
+.admin_cards_list .cards_container .card .value{
+    color: #04103B;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;    
+}
+
+.admin_cards_list .cards_container .card_icon{
+    width: 36px;
+    height: 36px;
+}
+
+.cards_rows{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin_sections_header{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0px;
+    gap: 12px;    
+    flex-wrap: wrap;    
+}
+
+.admin_time_filter{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: flex-end;
+    flex-wrap: wrap;    
+}
+
+.admin_time_filter label{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;    
+    color: #707070;    
+}
+
+.admin_container .radio_container{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;   
+    justify-content: flex-end;
+}
+
+.admin_container .radio_container input[type="radio"]{
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--main_color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.admin_container .radio_container input[type="radio"]:checked{
+    background-color: var(--main_color);
+}
+
+.admin_container .radio_container input[type="radio"]:checked + label[for="date_range"]{
+    color: #0078D4;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;    
+}
+
+.admin_container .radio_container .date_picker_container{
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 43px;
+    height: 35px;         
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+    gap: 4px;
+    width: max-content;
+    padding: 8px 14px;
+}
+
+.admin_container .radio_container .date_picker_container > img{
+    filter: var(--light_grey_filter);
+    width: 20px;
+    height: 20px;
+}
+
+.admin_container .radio_container .date_picker_container input,
+.admin_container .radio_container .date_picker_container select{
+    border: none;
+    outline: none;
+    color: #BDBDBD;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.paiment_chart_container{
+
+    background: #FFFFFF;
+    border: 1px solid #D3CBFB;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 60%;
+    height: 300px;        
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paiment_chart_container .payment_chart{
+    width: calc( 100% - 180px);
+    height: 100%;
+    display: flex;
+    align-items: center;    
+    position: relative;  
+    flex-grow: 1;      
+}
+
+.paiment_section{
+    display: flex;
+    align-items: center;
+    padding: 22px 0px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 22px;    
+}
+
+.paiment_card_illustraion{
+    width: 247px;
+    height: 300px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;        
+    overflow: hidden;
+}
+
+.paiment_section .legends{
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 22px 16px;
+    height: 100%;
+    justify-content: end;
+}
+
+.paiment_section .legends .legend{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    color: #000000;
+    
+        
+}
+
+.paiment_section .legends .legend > div{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.paiment_card_illustraion .top_text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.paiment_card_illustraion .top_text h5{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0.016em;
+    color: #00261C;       
+    margin: 0; 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.paiment_card_illustraion .top_text .add_btn{
+    width: 32px;
+    height: 32px;
+    background: #0078D4;
+    box-shadow: 0px 4px 16px rgba(90, 85, 210, 0.4);
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paiment_card_illustraion .top_text .add_btn > img{
+    width: 14;
+    height: 14;
+}
+
+.paiment_card_illustraion .top_text .the_value{
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 40px;
+    color: #0078D4;       
+    margin: 0;         
+}
+
+.paiment_card_illustraion .the_card_illustraion{
+    width: 100%;
+}
+
+@media(max-width: 992px){
+    .admin_cards_list .list_label{
+        width: 100%;
+    }
+}
+
+@media(max-width: 505px){
+    .cards_container{
+        justify-content: center;
+    }
+
+    .cards_container .card{
+        width: 100% !important;
+    }
+}

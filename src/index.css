@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+}
 *{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -21,10 +25,7 @@
   --blue_filter: invert(38%) sepia(73%) saturate(3374%) hue-rotate(187deg) brightness(87%) contrast(101%);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-*{
-    font-family: 'Roboto', sans-serif;
-}
+
 
 a{
   text-decoration: none;
