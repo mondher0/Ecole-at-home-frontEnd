@@ -43,7 +43,7 @@ const AdminSideBar = ({ mobile }) => {
             <div className="border right"></div>
           </li>
         </NavLink>
-        <NavLink to="/admin/Abonnements">
+        <NavLink to="/admin/abonnements">
           <li>
             <img className="side_bar_logo" src="../assets/chart.svg" />
             Abonnements

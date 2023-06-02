@@ -149,6 +149,17 @@
   left: 18px;
   background-color: white;
 }
+.btn {
+  background-color: "#0078D4";
+  color: "white";
+  border: "none";
+  padding: "10px 20px";
+  border-radius: "25px";
+  cursor: "pointer";
+  margin-top: "20px";
+  width: "120px";
+  text-align: "center";
+}
 
 .eleve_cards_container .user_type_card .tools button {
   background-color: #ffffff;

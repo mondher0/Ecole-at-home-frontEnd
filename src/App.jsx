@@ -17,6 +17,7 @@ import EditEleve from "./Admin/Pages/EditEleve";
 import EditParent from "./Admin/Pages/EditParent";
 import EmailsPage from "./Admin/Pages/Emails";
 import EditMail from "./Admin/Pages/EditEmail";
+import Abonnements from "./Admin/Pages/Abonnements";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/admin/Eleve/edit" element={<EditEleve />} />
           <Route path="/admin/Emails" element={<EmailsPage />} />
           <Route path="/admin/Email/edit" element={<EditMail />} />
+          <Route path="/admin/abonnements" element={<Abonnements />} />
         </Route>
       </Routes>
     </BrowserRouter>

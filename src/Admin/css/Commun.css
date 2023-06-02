@@ -1,0 +1,177 @@
+.inscription_validation .item.title label{
+    color: var(--main_color);
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: left;
+}
+
+.inscription_validation .item.empty label{
+    color: transparent;
+    user-select: none;
+}
+
+.inscription_validation table{
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    border-collapse: separate;
+    border-spacing: 30px 0px; 
+    flex-wrap: wrap;
+    padding-top: 55px;
+}
+
+.inscription_validation table .table_title{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    margin: 0;
+    color: #FC9F18;    
+}
+
+.inscription_validation label{
+
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;    
+    color: #000000;    
+    cursor: pointer;
+}
+
+.inscription_validation input[type="checkbox"]{
+    margin-right: 4px;
+    width: 16px;
+    height: 16px; 
+    cursor: pointer;    
+}
+
+
+.inscription_validation fieldset input:checked + label{
+    font-weight: 700;
+}
+
+.inscription_validation fieldset{
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    height: max-content;
+    max-height: unset;
+}
+
+
+
+.inscription_validation .max{
+    display: flex;
+    padding: 22px 0px;    
+    gap: 12px;
+    align-items: center;
+}
+
+.inscription_validation .max h3{
+    font-weight: 600;
+    font-size: 16px;
+    color: #FC9F18;  
+    margin: 0;      
+}
+
+.inscription_validation .max input{
+    width: 138px;
+    height: 32px;
+    border: 1px solid #0078D4;
+    border-radius: 4px;    
+    outline: none;
+    padding: 0px 12px;
+}
+
+.inscription_validation .cta_btn{
+    width: 100%;
+    background-color: var(--green);
+    max-width: unset;
+}
+
+.inscription_validation .items_container{
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.inscription_validation .items_container .tab_col{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.inscription_validation .items_container .tab_col .item{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.inscription_validation .item.timing{
+    justify-content: center;
+}
+
+.pop_up_container .inscription_validation table{
+    padding: 8px;
+}
+
+.pop_up.edit{
+    width: max-content;
+    height: max-content;
+    padding: 22px 32px;
+}
+
+.pop_up.edit .prof_edit_top img{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.pop_up.edit .prof_edit_top .text{
+    font-family: 'Nunito Sans', sans-serif !important; 
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pop_up.edit .prof_edit_top .text .user_name{
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: capitalize;    
+    color: #797D8C;    
+    font-family: 'Nunito Sans', sans-serif !important; 
+}
+
+.pop_up.edit .prof_edit_top .text span{
+    font-family: 'Nunito Sans', sans-serif !important; 
+    font-weight: 500;
+    font-size: 16px; 
+    color: #797D8C;    
+}
+
+.pop_up.edit .hide_btn{
+    filter: var(--blue_filter);
+}
+
+.prof_edit_top{
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    width: 100%;
+    padding: 0px 0px 22px 0px;
+    align-items: center;
+    gap: 12px;
+}
+
+.prof_edit_top *{
+    margin: 0;
+    padding: 0;
+}
+
+@media(min-width: 992px){
+
+    .inscription_validation fieldset{
+        padding: 0px 45px 45px 45px;
+    }    
+    
+}
