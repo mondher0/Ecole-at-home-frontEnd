@@ -9,6 +9,7 @@ const Settings = () => {
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showAddModer, setShowAddModer] = useState(false);
+  const [showEditModer, setShowEditModer] = useState(false);
 
   const columns = ["ID", "Modérateur", "Email", "Téléphone", "Profil", "Admin"];
 
@@ -134,7 +135,6 @@ const Settings = () => {
                 <label>Nouveau mot de passe</label>
                 <div className="password-input">
                   <input type={showPassword ? "text" : "password"} />
-   
                 </div>
               </div>
             </div>
@@ -216,7 +216,12 @@ const Settings = () => {
                   <td>{row.telephone}</td>
                   <td>{row.telephone}</td>
                   <td>
-                    <button className="btn btn-danger">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        setShowEditModer(true);
+                      }}
+                    >
                       <img src="../assets/admin_edit.svg" />
                     </button>
                     <button className="btn btn-primary">
@@ -281,6 +286,50 @@ const Settings = () => {
             <img
               className="hide_btn"
               onClick={() => setShowAddModer(false)}
+              src="../assets/x.svg"
+            />
+          </div>
+        </div>
+      )}
+
+      {showEditModer && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat">
+            <h5 className="input_pop_title">Nouveau modérateur</h5>
+            <div className="admin_inputs_pop_up">
+              <div className="input_container2 half">
+                <label>Nom</label>
+                <input type="text" placeholder="Patrick" />
+              </div>
+              <div className="input_container2 half">
+                <label>Prénom </label>
+                <input type="text" placeholder="Nicholas" />
+              </div>
+              <div className="input_container2 half">
+                <label>Téléphone</label>
+                <input type="text" placeholder="01124548870" />
+              </div>
+              <div className="input_container2 half">
+                <label>Email</label>
+                <input type="text" placeholder="imane@gmail.com" />
+              </div>
+              <div className="input_container2 half">
+                <label>Profil</label>
+                <select>
+                  <option>Admin</option>
+                </select>
+              </div>
+              <div className="input_container2 half">
+                <label>Nouveau mot de passe</label>
+                <div className="password-input">
+                  <input type={showPassword ? "text" : "password"} />
+                </div>
+              </div>
+            </div>
+            <button className="cta">Modifier</button>
+            <img
+              className="hide_btn"
+              onClick={() => setShowEditModer(false)}
               src="../assets/x.svg"
             />
           </div>
