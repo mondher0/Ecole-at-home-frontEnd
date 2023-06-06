@@ -6,3 +6,4 @@ adding factorie
 pop up delete in parametre delete mode
 handdling the parent in the client 
 adding the payment in the abonnement
+adding some details in the subscription details (from backend)

@@ -64,7 +64,7 @@ const UpComingCourses = () => {
         <div className="courses_cards">
           {upComingCoursesStudent.map((course) => {
             console.log(course);
-            return <CourseCard key={course.id} course={course} />;
+            return <CourseCard key={course.id} course={course} etat="venir" />;
           })}
           <div>Student</div>
         </div>

@@ -5,10 +5,12 @@ import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const TimingCard = ({ item }) => {
+  const navigate = useNavigate();
   const { userInfo } = useContext(GlobalContext);
-  const {eleveProfile} = userInfo;
+  const { eleveProfile } = userInfo;
   console.log(item);
   const [timings, setTimings] = useState([]);
   const days = [
@@ -49,15 +51,13 @@ const TimingCard = ({ item }) => {
         const data = await response.data;
         console.log(data);
         alert("Vous êtes inscrit dans ce cours");
-      }
-      else {
-        alert("Vous ne pouvez pas vous inscrire dans ce cours");
+      } else {
+        navigate(`/payment/${id}`);
       }
     } catch (error) {
       console.log(error);
     }
   };
-
 
   useEffect(() => {
     getTiming();
@@ -104,9 +104,12 @@ const TimingCard = ({ item }) => {
                   {timings.map((timing) =>
                     abonnement.timing.start_hour === timing.start_hour ? (
                       <>
-                        <h3 className="the_time" onClick={() => {
-                          handleSubscribe(abonnement.id)
-                        }} >
+                        <h3
+                          className="the_time"
+                          onClick={() => {
+                            handleSubscribe(abonnement.id);
+                          }}
+                        >
                           {abonnement.timing.start_hour}-{" "}
                           {abonnement.timing.end_hour}
                         </h3>
