@@ -4,3 +4,5 @@ in the abonnment adding popUp of deleting
 adding cosulting in the abonnment niveau and matiere
 adding factorie
 pop up delete in parametre delete mode
+handdling the parent in the client 
+adding the payment in the abonnement

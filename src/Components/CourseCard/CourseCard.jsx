@@ -5,7 +5,8 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, etat }) => {
+  console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
   const { role, prenom, nom } = userInfo;
@@ -34,6 +35,7 @@ const CourseCard = ({ course }) => {
   const dateFormated = `${day} ${formatedMonth} ${year}`;
   console.log(abonnement);
   console.log(userInfo);
+  console.log(role);
 
   return (
     <div className="cours_card">
@@ -58,28 +60,35 @@ const CourseCard = ({ course }) => {
           </li>
         </ul>
         <div className="btns">
-          {role === "teacher" ? (
-            <button
-              className="green"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("demCours").showModal();
-              }}
-            >
-              Démarrer le cours
-            </button>
+          {etat === "venir" ? (
+            <>
+              {role === "teacher" ? (
+                <button
+                  className="green"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("demCours").showModal();
+                  }}
+                >
+                  Démarrer le cours
+                </button>
+              ) : (
+                <a
+                  href={zoomMeetingJoinUrl}
+                  className="green"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Assiter au cours
+                </a>
+              )}
+              <button className="red">Annuler</button>
+            </>
           ) : (
-            <a
-              href={zoomMeetingJoinUrl}
-              className="green"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Assiter au cours
-            </a>
+            <button className="green" style={{
+              width: "100%",
+            }}>Voir lenregistrement </button>
           )}
-
-          <button className="red">Annuler</button>
         </div>
       </div>
       <h2 className="date">{dateFormated}</h2>

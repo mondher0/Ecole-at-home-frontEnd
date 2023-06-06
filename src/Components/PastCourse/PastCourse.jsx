@@ -6,37 +6,37 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
 
-const UpComingCourses = () => {
+const PastCourse = () => {
   const { userInfo } = useContext(GlobalContext);
   console.log(userInfo);
   const { role } = userInfo;
   const baseURl = "http://localhost:9999/api";
-  const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
-  const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
+  const [pastCoursesTeacher, setPastCoursesTeacher] = useState([]);
+  const [pastCoursesStudent, setPastCoursesStudent] = useState([]);
 
-  // Get upComing Courses of the teacher
-  const getUpComingCoursesForTeacher = async () => {
+  // get past courses of the teacher
+  const getPastCoursesForTeacher = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/cours/professeurs/cours-avenir`
+        `${baseURl}/cours/professeurs/cours-passe`
       );
-      const upComingCourses = await response.data;
-      console.log(upComingCourses);
-      setUpComingCoursesTeacher(upComingCourses);
+      const pastCourses = await response.data;
+      console.log(pastCourses);
+      setPastCoursesTeacher(pastCourses);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Get upComing Courses of the student
-  const getUpComingCoursesForStudent = async () => {
+  // Get past Courses of the student
+  const getPastCoursesForStudent = async () => {
     try {
       const response = await axiosInstance.get(
         `${baseURl}/cours/students/cours-avenir`
       );
-      const upComingCourses = await response.data;
-      console.log(upComingCourses);
-      setUpComingCoursesStudent(upComingCourses);
+      const pastCourses = await response.data;
+      console.log(pastCourses);
+      setPastCoursesStudent(pastCourses);
     } catch (error) {
       console.log(error);
     }
@@ -44,10 +44,10 @@ const UpComingCourses = () => {
 
   useEffect(() => {
     if (role === "teacher") {
-      getUpComingCoursesForTeacher();
+      getPastCoursesForTeacher();
     }
     if (role === "student") {
-      getUpComingCoursesForStudent();
+      getPastCoursesForStudent();
     }
   }, []);
   return (
@@ -62,7 +62,7 @@ const UpComingCourses = () => {
         </div>
       ) : role === "student" ? (
         <div className="courses_cards">
-          {upComingCoursesStudent.map((course) => {
+          {pastCoursesStudent.map((course) => {
             console.log(course);
             return <CourseCard key={course.id} course={course} />;
           })}
@@ -70,9 +70,9 @@ const UpComingCourses = () => {
         </div>
       ) : role === "teacher" ? (
         <div className="courses_cards">
-          {upComingCoursesTeacher.map((course) => {
+          {pastCoursesTeacher.map((course) => {
             console.log(course);
-            return <CourseCard key={course.id} course={course} etat="venir" />;
+            return <CourseCard key={course.id} course={course} etat="passe" />;
           })}
           <div>teacher</div>
         </div>
@@ -83,4 +83,4 @@ const UpComingCourses = () => {
   );
 };
 
-export default UpComingCourses;
+export default PastCourse;

@@ -9,6 +9,7 @@ import Disponibilité from "../Components/Disponibilité/Disponibilité";
 import Facture from "../Components/Facture/Facture";
 import Settings from "../Components/Settings/Settings";
 import Status from "../Components/Status/Status";
+import PastCourse from "../Components/PastCourse/PastCourse";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role } = userInfo;
@@ -125,7 +126,7 @@ const MesCours = () => {
 
         <div className="main_section">
           {sideLinks === "cours_venir" ? <UpComingCourses /> : null}
-          {sideLinks === "cours_passés" ? <div>cours_passés</div> : null}
+          {sideLinks === "cours_passés" ? <PastCourse /> : null}
           {sideLinks === "disponibilités" ? <Disponibilité /> : null}
           {sideLinks === "abonnement" ? <div>abonnement</div> : null}
           {sideLinks === "facture" ? <Facture /> : null}
