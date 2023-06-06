@@ -25,6 +25,7 @@ import Historique from "./Admin/Pages/Historique";
 import Settings from "./Admin/Pages/Settings";
 import EditEntreprise from "./Admin/Pages/EditEntreprise";
 import AdminLogin from "./Admin/Pages/AdminLogin";
+import Payment from "./Pages/Payment";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/choose-your-kid" element={<ChooseKids />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mes-cours" element={<MesCours />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
         <Route path="/admin/login" element={<AdminLogin />} />
