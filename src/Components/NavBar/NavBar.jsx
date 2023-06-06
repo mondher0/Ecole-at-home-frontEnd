@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import "./NavBar.css";
-import { Outlet, useNavigate } from "react-router-dom/dist";
+import { NavLink, Outlet, useNavigate } from "react-router-dom/dist";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -20,31 +20,21 @@ const NavBar = () => {
               }}
             ></div>
             <ul className="nav_center_li">
-              <li
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                ACCEUIL
-              </li>
+              <NavLink to="/">
+                <li>ACCEUIL</li>
+              </NavLink>
               {isLogged ? (
-                <li
-                  onClick={() => {
-                    navigate("/mes-cours");
-                  }}
-                >
-                  MES COURS
-                </li>
+                <NavLink to="/mes-cours">
+                  <li>MES COURS</li>
+                </NavLink>
               ) : (
-                <li
-                  onClick={() => {
-                    navigate("/chercher-un-cours");
-                  }}
-                >
-                  CHERCHER UN COURS
-                </li>
+                <NavLink to="/chercher-un-cours">
+                  <li>CHERCHER UN COURS</li>
+                </NavLink>
               )}
+              <NavLink to="/a-propos">
               <li>A PROPOS</li>
+              </NavLink>
             </ul>
             <div className="nav_logs">
               {isLogged ? (
