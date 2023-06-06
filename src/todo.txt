@@ -1,0 +1,2 @@
+putting the images in the src folder
+adding popUp in the edit parent exctlly when he delete the child

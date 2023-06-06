@@ -13,19 +13,21 @@ const EleveParent = () => {
     "Date d’inscription",
     "Email",
     "Parent",
-    "Etat",
+    "Etat Parent",
+    "Enfant",
+    "Email Enfant",
+    "Etat Enfant",
     "Action",
   ];
 
   const columnsElève = [
-    "Parents",
+    "Elève",
     "Date d’inscription",
     "Email",
     "Parent",
     "Etat",
     "Action",
   ];
-  
 
   const data = [
     {
@@ -133,41 +135,80 @@ const EleveParent = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                  {row.professeur}
-                </td>
-                <td>{row.dateInscription}</td>
-                <td>{row.email}</td>
-                <td>{row.note}</td>
-                <td className={row.etat}>
-                  <div>
-                    <button className="btn btn-danger">
-                      <img
-                        src="../assets/admin_edit.svg"
-                        onClick={() => setShowProfEtat(true)}
-                      />
-                    </button>
-                    <span>{row.etat}</span>
-                  </div>
-                </td>
-                <td>
-                  <button className="btn btn-primary">
-                    <img
-                      src="../assets/aye.svg"
-                      onClick={() => Navigate(`/admin/${tab}/edit`)}
-                    />
-                  </button>
-                  <button className="btn btn-danger">
-                    <img
-                      src="../assets/admin_delete.svg"
-                      onClick={() => setShowDelete(true)}
-                    />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {tab === "Eleve"
+              ? data.map((row) => (
+                  <tr key={row.id}>
+                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                      {row.professeur}
+                    </td>
+                    <td>{row.dateInscription}</td>
+                    <td>{row.email}</td>
+                    <td>{row.note}</td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowProfEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button className="btn btn-primary">
+                        <img
+                          src="../assets/aye.svg"
+                          onClick={() => Navigate(`/admin/${tab}/edit`)}
+                        />
+                      </button>
+                      <button className="btn btn-danger">
+                        <img
+                          src="../assets/admin_delete.svg"
+                          onClick={() => setShowDelete(true)}
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              : data.map((row) => (
+                  <tr key={row.id}>
+                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                      {row.professeur}
+                    </td>
+                    <td>{row.dateInscription}</td>
+                    <td>{row.email}</td>
+                    <td>{row.note}</td>
+                    <td>{row.note}</td>
+                    <td>{row.note}</td>
+                    <td>{row.note}</td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowProfEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button className="btn btn-primary">
+                        <img
+                          src="../assets/aye.svg"
+                          onClick={() => Navigate(`/admin/${tab}/edit`)}
+                        />
+                      </button>
+                      <button className="btn btn-danger">
+                        <img
+                          src="../assets/admin_delete.svg"
+                          onClick={() => setShowDelete(true)}
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </table>
         <div className="table_pagination_bar">
@@ -183,9 +224,12 @@ const EleveParent = () => {
             </button>
           </div>
         </div>
-        <ul className="table_resume_bar" style={{
+        <ul
+          className="table_resume_bar"
+          style={{
             marginTop: "20px",
-        }}>
+          }}
+        >
           <li style={{ color: "#0078D4" }}>Professeur:</li>
           <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
           <li style={{ color: "#004AAD" }}>Confirmé: 0</li>

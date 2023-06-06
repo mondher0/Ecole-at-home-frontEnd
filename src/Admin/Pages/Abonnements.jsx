@@ -11,28 +11,46 @@ const Abonnements = () => {
   let Navigate = useNavigate();
 
   const columnsParent = [
-    "Parents",
-    "Date d’inscription",
-    "Email",
-    "Téléphone",
-    "Diplome",
-    "Experience",
-    "Note",
+    "ID",
+    "Professeur",
+    "Date",
+    "Niveau",
+    "Matière",
+    "Parent",
+    "Email Parent",
+    "Etat abonnement",
+    "Etat parent",
+    "Enfant",
+    "Email enfant",
+    "Etat enfant",
+  ];
+
+  const columnsProfesseur = [
+    "ID",
+    "Professeur",
+    "Date",
+    "Matière",
+    "Niveau",
+    "Places",
+    "ElevesInscrits",
+    "Enregistrement",
     "Etat",
     "Action",
   ];
 
   const columnsElève = [
+    "ID",
+    "Professeur",
+    "Date",
+    "Matière",
+    "Niveau",
     "Elève",
-    "Date d’inscription",
     "Email",
-    "Téléphone",
-    "Diplome",
-    "Experience",
-    "Note",
-    "Etat",
-    "Action",
+    "Etat Elève",
+    "Etat Abonnement",
   ];
+
+  const columnsNiveauMatière = ["Niveau", "Matière", "Date d'ajout", "Action"];
 
   const data = [
     {
@@ -108,7 +126,6 @@ const Abonnements = () => {
             onClick={() => setTab("Parent")}
           >
             Parents
-            
           </span>
         </h2>
         <div className="admin_time_filter">
@@ -187,7 +204,14 @@ const Abonnements = () => {
 
       {tab === "Niveaux&Matières" && (
         <div className="admin_sections_header">
-          <h2 className="admin_section_title">Emails</h2>
+          <h2
+            className="admin_section_title"
+            style={{
+              color: " #0078D4",
+            }}
+          >
+            Liste des niveaux/matières à enseigner :
+          </h2>
           <button className="cta" onClick={() => setShowAddLevel(true)}>
             <img src="../assets/plus_calender.svg" />
             <span>Ajouter Niveaux&Matières</span>
@@ -201,55 +225,169 @@ const Abonnements = () => {
             <tr>
               {tab === "Eleve"
                 ? columnsElève.map((column) => <th key={column}>{column}</th>)
-                : columnsParent.map((column) => <th key={column}>{column}</th>)}
+                : tab === "Parent"
+                ? columnsParent.map((column) => <th key={column}>{column}</th>)
+                : tab === "Professeurs"
+                ? columnsProfesseur.map((column) => (
+                    <th key={column}>{column}</th>
+                  ))
+                : columnsNiveauMatière.map((column) => (
+                    <th key={column}>{column}</th>
+                  ))}
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                  {row.professeur}
-                </td>
-                <td>{row.dateInscription}</td>
-                <td>{row.email}</td>
-                <td>{row.telephone}</td>
-                <td>{row.diplome}</td>
-                <td>{row.experience}</td>
-                <td className={row.etat}>
-                  <div>
-                    <button className="btn btn-danger">
-                      <img
-                        src="../assets/admin_edit.svg"
-                        onClick={() => setShowEtatEn(true)}
-                      />
-                    </button>
-                    <span>{row.etat}</span>
-                  </div>
-                </td>
-                <td className={row.etat}>
-                  <div>
-                    <button className="btn btn-danger">
-                      <img
-                        src="../assets/admin_edit.svg"
-                        onClick={() => setShowEtat(true)}
-                      />
-                    </button>
-                    <span>{row.etat}</span>
-                  </div>
-                </td>
-                <td>
-                  <button className="btn btn-primary">
-                    <img
-                      src="../assets/aye.svg"
-                      onClick={() => Navigate(`/admin/${tab}/edit`)}
-                    />
-                  </button>
-                  <button className="btn btn-danger">
-                    <img src="../assets/admin_delete.svg" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {tab === "Professeurs"
+              ? data.map((row) => (
+                  <tr key={row.id}>
+                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                      {row.professeur}
+                    </td>
+                    <td>{row.dateInscription}</td>
+                    <td>{row.email}</td>
+                    <td>{row.telephone}</td>
+                    <td>{row.diplome}</td>
+                    <td>{row.experience}</td>
+                    <td>
+                      mondher@gmail.com mondher@gmail.com mondher@gmail.com
+                      mondher@gmail.com
+                    </td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtatEn(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button className="btn btn-primary">
+                        <img
+                          src="../assets/aye.svg"
+                          onClick={() => Navigate(`/admin/${tab}/edit`)}
+                        />
+                      </button>
+                      <button className="btn btn-danger">
+                        <img src="../assets/admin_delete.svg" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              : tab === "Niveaux&Matières"
+              ? data.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.dateInscription}</td>
+                    <td>{row.email}</td>
+                    <td>{row.email}</td>
+                    <td>
+                      <button className="btn btn-primary">
+                        <img
+                          src="../assets/aye.svg"
+                          onClick={() => Navigate(`/admin/${tab}/edit`)}
+                        />
+                      </button>
+                      <button className="btn btn-danger">
+                        <img src="../assets/admin_delete.svg" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              : tab === "Eleve"
+              ? data.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.id}</td>
+                    <td>{row.professeur}</td>
+                    <td>Lundi 18:00 - 20:00 </td>
+                    <td>Physique</td>
+                    <td>Terminal</td>
+                    <td>{row.professeur}</td>
+                    <td>{row.email}</td>
+
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              : data.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.id}</td>
+                    <td>{row.professeur}</td>
+                    <td>Lundi 18:00 - 20:00 </td>
+                    <td>Physique</td>
+                    <td>Terminal</td>
+                    <td>{row.professeur}</td>
+                    <td>{row.email}</td>
+
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                    <td>{row.professeur}</td>
+                    <td>{row.email}</td>
+                    <td className={row.etat}>
+                      <div>
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowEtat(true)}
+                          />
+                        </button>
+                        <span>{row.etat}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </table>
         <div className="table_pagination_bar">
