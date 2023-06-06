@@ -20,6 +20,9 @@ import EditMail from "./Admin/Pages/EditEmail";
 import Abonnements from "./Admin/Pages/Abonnements";
 import Cours from "./Admin/Pages/Cours";
 import Paiment from "./Admin/Pages/Paiment";
+import Avis from "./Admin/Pages/Avis";
+import Historique from "./Admin/Pages/Historique";
+import Settings from "./Admin/Pages/Settings";
 
 const App = () => {
   return (
@@ -46,6 +49,9 @@ const App = () => {
           <Route path="/admin/abonnements" element={<Abonnements />} />
           <Route path="/admin/cours" element={<Cours />} />
           <Route path="/admin/paiment" element={<Paiment />} />
+          <Route path="/admin/avis" element={<Avis />} />
+          <Route path="/admin/historique" element={<Historique />} />
+          <Route path="/admin/parametres" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

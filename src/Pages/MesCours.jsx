@@ -129,7 +129,7 @@ const MesCours = () => {
           {sideLinks === "disponibilités" ? <Disponibilité /> : null}
           {sideLinks === "abonnement" ? <div>abonnement</div> : null}
           {sideLinks === "facture" ? <Facture /> : null}
-          {sideLinks === "paiement" ? <div>paiementr</div> : null}
+          {sideLinks === "paiement" ? <div>paiement</div> : null}
           {sideLinks === "notifications" ? <Notification /> : null}
           {sideLinks === "status" ? <Status /> : null}
           {sideLinks === "parametres" ? <Settings /> : null}

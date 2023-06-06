@@ -67,7 +67,7 @@ const AdminSideBar = ({ mobile }) => {
             <div className="border right"></div>
           </li>
         </NavLink>
-        <NavLink to="/admin/Avis">
+        <NavLink to="/admin/avis">
           <li>
             <img className="side_bar_logo" src="../assets/avis.svg" />
             Avis
@@ -75,7 +75,7 @@ const AdminSideBar = ({ mobile }) => {
             <div className="border right"></div>
           </li>
         </NavLink>
-        <NavLink to="/admin/Historique">
+        <NavLink to="/admin/historique">
           <li>
             <img className="side_bar_logo" src="../assets/historique.svg" />
             Historique
@@ -83,7 +83,7 @@ const AdminSideBar = ({ mobile }) => {
             <div className="border right"></div>
           </li>
         </NavLink>
-        <NavLink to="/admin/Paramètres">
+        <NavLink to="/admin/parametres">
           <li>
             <img className="side_bar_logo" src="../assets/settings.svg" />
             Paramètres
