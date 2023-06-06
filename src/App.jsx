@@ -19,6 +19,7 @@ import EmailsPage from "./Admin/Pages/Emails";
 import EditMail from "./Admin/Pages/EditEmail";
 import Abonnements from "./Admin/Pages/Abonnements";
 import Cours from "./Admin/Pages/Cours";
+import Paiment from "./Admin/Pages/Paiment";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/admin/Email/edit" element={<EditMail />} />
           <Route path="/admin/abonnements" element={<Abonnements />} />
           <Route path="/admin/cours" element={<Cours />} />
+          <Route path="/admin/paiment" element={<Paiment />} />
         </Route>
       </Routes>
     </BrowserRouter>
