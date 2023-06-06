@@ -1,0 +1,100 @@
+.admin_login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.admin_login .logo_section {
+  padding: 55px 0px;
+}
+
+.admin_login .admin_fieldset {
+  padding: 55px 25px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 22px;
+  width: (500px + 25px * 2);
+  max-width: calc(100% - 14px * 2);
+}
+
+.input_container2 {
+  width: 100%;
+  position: relative;
+}
+
+.input_container2 input,
+.input_container2 select {
+  height: 50px;
+  width: 100%;
+  border-radius: 40px;
+  border: 1px solid #c5c9cf;
+  padding: 8px 24px;
+  outline: none;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #43546e;
+  background-color: transparent;
+}
+
+.input_container2 select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 25px 20px;
+}
+
+.input_container2 label {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  color: #43546e;
+  position: absolute;
+  top: -11px;
+  left: 18px;
+  background-color: white;
+}
+
+.input_container2 .aye_btn {
+  position: absolute;
+  background-color: transparent;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  padding: 0;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 24px;
+  box-shadow: none;
+  border: none;
+}
+
+.input_container2 .aye_btn svg {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.admin_fieldset .note {
+  margin: 0;
+  margin-top: -14px;
+  width: 100%;
+  text-align: left;
+  color: var(--main_color);
+  padding: 0px 18px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: 0.15px;
+  cursor: pointer;
+}

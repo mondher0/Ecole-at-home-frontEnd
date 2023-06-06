@@ -24,6 +24,7 @@ import Avis from "./Admin/Pages/Avis";
 import Historique from "./Admin/Pages/Historique";
 import Settings from "./Admin/Pages/Settings";
 import EditEntreprise from "./Admin/Pages/EditEntreprise";
+import AdminLogin from "./Admin/Pages/AdminLogin";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/mes-cours" element={<MesCours />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminContainer />}>
           <Route path="/admin/board" element={<BoardPage />} />
           <Route path="/admin/professeurs" element={<Profeseurs />} />
