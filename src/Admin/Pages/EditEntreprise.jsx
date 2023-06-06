@@ -4,13 +4,13 @@ import { React, useState } from "react";
 const EditEntreprise = () => {
   const [pageAction, setPageAction] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
-  const [mondher, setMondher] = useState(false);
+  const [toggleSubmit, setToggleSubmit] = useState(false);
 
   const handleModifierClick = () => {
     if (pageAction === "Modifier") {
       setPageAction("Enregistrer");
       setInputsDisabled(false);
-      setMondher(true);
+      setToggleSubmit(true);
     } else {
       setPageAction("Modifier");
       setInputsDisabled(true);
@@ -133,20 +133,20 @@ const EditEntreprise = () => {
             </div>
           </div>
         </div>
-        {mondher && (
+        {toggleSubmit && (
           <button className="cta green" onClick={handleModifierClick}>
             Enregistrer
           </button>
         )}
       </form>
-      { !mondher && (
-      <button
-        className={pageAction === "Enregistrer" ? "cta green" : "cta"}
-        onClick={handleModifierClick}
-      >
-        {pageAction}
-      </button>)
-      }
+      {!toggleSubmit && (
+        <button
+          className={pageAction === "Enregistrer" ? "cta green" : "cta"}
+          onClick={handleModifierClick}
+        >
+          {pageAction}
+        </button>
+      )}
     </div>
   );
 };
