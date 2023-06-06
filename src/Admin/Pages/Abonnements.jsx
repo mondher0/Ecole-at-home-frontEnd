@@ -8,6 +8,7 @@ const Abonnements = () => {
   let [showEtatEn, setShowEtatEn] = useState(false);
   let [showEtat, setShowEtat] = useState(false);
   let [showAddLevel, setShowAddLevel] = useState(false);
+  let [dat, setData] = useState("")
   let Navigate = useNavigate();
 
   const columnsParent = [
@@ -380,7 +381,10 @@ const Abonnements = () => {
                         <button className="btn btn-danger">
                           <img
                             src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
+                            onClick={() => {
+                              setShowEtat(true);
+                              setData("mondehr")
+                            }}
                           />
                         </button>
                         <span>{row.etat}</span>
@@ -476,7 +480,7 @@ const Abonnements = () => {
           <div className="pop_up edit etat abonnements">
             <div className="edit_etat">
               <label>
-                Abonnement: <span className="grey">#1</span>
+                Abonnement: <span className="grey">{dat}</span>
               </label>
               <label>
                 Professeur: <span className="grey">Guy Hawkins</span>
