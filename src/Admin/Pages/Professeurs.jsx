@@ -146,7 +146,12 @@ const Profeseurs = () => {
                       onClick={() => setShowProfInfo(true)}
                     />
                   </button>
-                  <button className="btn btn-danger">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      Navigate("/admin/professeurs/edit");
+                    }}
+                  >
                     <img src="../assets/entreprise_icon.svg" />
                   </button>
                 </td>
@@ -520,23 +525,22 @@ const Profeseurs = () => {
                   </select>
                 </div>
               </div>
-    
             </div>
             <button
-            style={{
-              backgroundColor: "#0078D4",
-              color: "white",
-              border: "none",
-              padding: "10px 20px",
-              borderRadius: "25px",
-              cursor: "pointer",
-              marginTop: "20px",
-              width: "120px",
-              textAlign: "center",
-            }}
-          >
-            Confirmer
-          </button>
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+            >
+              Confirmer
+            </button>
             <img
               className="hide_btn"
               onClick={() => setShowProfEtat(false)}

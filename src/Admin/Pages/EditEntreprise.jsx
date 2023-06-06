@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 
-const EditEleve = () => {
+const EditEntreprise = () => {
   const [pageAction, setPageAction] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
+  const [mondher, setMondher] = useState(false);
 
   const handleModifierClick = () => {
     if (pageAction === "Modifier") {
       setPageAction("Enregistrer");
       setInputsDisabled(false);
+      setMondher(true);
     } else {
       setPageAction("Modifier");
       setInputsDisabled(true);
@@ -21,7 +23,11 @@ const EditEleve = () => {
         <span>{">"}</span>
         <span>Nicholas Patrick</span>
       </h3>
-      <form>
+      <form
+        style={{
+          margin: "50px",
+        }}
+      >
         <div className="admin_inputs_cards">
           <div className="admin_inputs">
             <div className="input_container2 half">
@@ -89,16 +95,60 @@ const EditEleve = () => {
             </div>
           </div>
         </div>
+        <div className="admin_inputs_cards">
+          <div
+            className="admin_inputs"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              className="input_container2 half"
+              style={{
+                width: "100%",
+              }}
+            >
+              <label htmlFor="Ville">Siret</label>
+              <input
+                id="Ville"
+                disabled={inputsDisabled}
+                type="text"
+                placeholder="test test"
+              />
+            </div>
+            <div
+              className="input_container2 half"
+              style={{
+                width: "100%",
+              }}
+            >
+              <label htmlFor="Ville">Nom entreprise</label>
+              <input
+                id="Ville"
+                disabled={inputsDisabled}
+                type="text"
+                placeholder="test test"
+              />
+            </div>
+          </div>
+        </div>
+        {mondher && (
+          <button className="cta green" onClick={handleModifierClick}>
+            Enregistrer
+          </button>
+        )}
       </form>
-
+      { !mondher && (
       <button
         className={pageAction === "Enregistrer" ? "cta green" : "cta"}
         onClick={handleModifierClick}
       >
         {pageAction}
-      </button>
+      </button>)
+      }
     </div>
   );
 };
 
-export default EditEleve;
+export default EditEntreprise;

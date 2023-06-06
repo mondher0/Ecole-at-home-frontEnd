@@ -23,6 +23,7 @@ import Paiment from "./Admin/Pages/Paiment";
 import Avis from "./Admin/Pages/Avis";
 import Historique from "./Admin/Pages/Historique";
 import Settings from "./Admin/Pages/Settings";
+import EditEntreprise from "./Admin/Pages/EditEntreprise";
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/admin/avis" element={<Avis />} />
           <Route path="/admin/historique" element={<Historique />} />
           <Route path="/admin/parametres" element={<Settings />} />
+          <Route path="/admin/professeurs/edit" element={<EditEntreprise />} />
         </Route>
       </Routes>
     </BrowserRouter>
