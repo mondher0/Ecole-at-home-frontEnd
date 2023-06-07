@@ -6,10 +6,12 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const TimingCard = ({ item }) => {
   const navigate = useNavigate();
   const { userInfo } = useContext(GlobalContext);
+  const { isLogged } = useContext(AuthContext);
   const { eleveProfile } = userInfo;
   console.log(item);
   const [timings, setTimings] = useState([]);
@@ -44,6 +46,9 @@ const TimingCard = ({ item }) => {
   // Subscribe in a course
   const handleSubscribe = async (id) => {
     try {
+      if (!isLogged) {
+        navigate("/login");
+      }
       if (eleveProfile.status !== "test") {
         const response = await axiosInstance.patch(
           `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
