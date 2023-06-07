@@ -129,6 +129,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const { userInfo, isLogged } = isAuth;
+  console.log(isLogged);
   return (
     <AuthContext.Provider
       value={{

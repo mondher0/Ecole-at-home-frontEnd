@@ -15,6 +15,7 @@ const MesCours = () => {
   const { prenom, role } = userInfo;
   console.log(userInfo);
   const [sideLinks, setSideLinks] = useState("");
+  console.log(role);
   return (
     <>
       <div className="container">
@@ -69,8 +70,32 @@ const MesCours = () => {
                   Abonnement
                 </li>
               ))}
+            {role === "student" ||
+              (role === "parent" && (
+                <li
+                  className={sideLinks === "abonnement" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("abonnement");
+                  }}
+                >
+                  <img src="../assets/two_users.svg" />
+                  Abonnement
+                </li>
+              ))}
             {role === "parent" ||
               (role === "student" && (
+                <li
+                  className={sideLinks === "facture" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("facture");
+                  }}
+                >
+                  <img src="../assets/euro.svg" />
+                  Facture
+                </li>
+              ))}
+            {role === "student" ||
+              (role === "parent" && (
                 <li
                   className={sideLinks === "facture" ? "selected" : ""}
                   onClick={() => {
