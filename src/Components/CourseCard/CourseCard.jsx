@@ -11,6 +11,7 @@ const CourseCard = ({ course, etat }) => {
   const { userInfo } = useContext(GlobalContext);
   const { role, prenom, nom } = userInfo;
   const { abonnement, createdAt, zoomMeetingJoinUrl } = course;
+  console.log(course);
 
   // get date
   const date = new Date(createdAt);
@@ -44,7 +45,7 @@ const CourseCard = ({ course, etat }) => {
         <h4 className="bold">
           {nom} {prenom}
         </h4>
-        <h4>{role}</h4>
+        <h4>{abonnement?.professeur?.diplome}</h4>
         <ul className="tags">
           <li>
             <img src="../assets/tag1.svg" />
@@ -85,9 +86,14 @@ const CourseCard = ({ course, etat }) => {
               <button className="red">Annuler</button>
             </>
           ) : (
-            <button className="green" style={{
-              width: "100%",
-            }}>Voir lenregistrement </button>
+            <button
+              className="green"
+              style={{
+                width: "100%",
+              }}
+            >
+              Voir lenregistrement{" "}
+            </button>
           )}
         </div>
       </div>
