@@ -39,9 +39,12 @@ const PaymentForm = () => {
   const [line2, setLine2] = useState("");
   const stripe = useStripe();
   const elements = useElements({ appearance });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
@@ -67,11 +70,16 @@ const PaymentForm = () => {
           console.log("Successful payment");
           setSuccess(true);
         }
+        setIsLoading(false);
       } catch (error) {
         console.log("Error", error);
+        setIsError(true);
+        setIsLoading(false);
       }
     } else {
       console.log(error.message);
+      setIsLoading(false);
+      setIsError(true);
     }
   };
 
@@ -159,7 +167,13 @@ const PaymentForm = () => {
           </label>
           <CardCvcElement />
         </div>
-        <button className="login_btn">Valider votre abonnement</button>
+        <button className="login_btn">
+          {isLoading
+            ? "loading..."
+            : isError
+            ? "Somethings went wrong, try again"
+            : "Valider votre abonnement"}
+        </button>
         <p className="payment_desc bold">
           Aucun paiement nest effectué, vous serez facturé uniquement après
           avoir assisté au cours
