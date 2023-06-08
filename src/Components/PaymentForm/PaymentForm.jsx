@@ -96,16 +96,67 @@ const PaymentForm = () => {
             setName(e.value.name);
           }}
         />
-        <div className="input_container">
-          <label htmlFor="Numéro">Numéro de carte :</label>
+        <div
+          className="input_container"
+          style={{
+            borderColor: "#30313D",
+            boxShadow:
+              "0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02)",
+            border: "1px solid #e6e6e6",
+          }}
+        >
+          <label
+            htmlFor="Numéro"
+            style={{
+              color: "#30313D",
+              transition:
+                "transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1)",
+            }}
+          >
+            Numéro de carte :
+          </label>
           <CardNumberElement />
         </div>
-        <div className="input_container half">
-          <label htmlFor="expiration">Date dexpiration :</label>
+        <div
+          className="input_container half"
+          style={{
+            borderColor: "#30313D",
+            boxShadow:
+              "0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02)",
+            border: "1px solid #e6e6e6",
+          }}
+        >
+          <label
+            htmlFor="expiration"
+            style={{
+              color: "#30313D",
+              transition:
+                "transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1)",
+            }}
+          >
+            Date dexpiration :
+          </label>
           <CardExpiryElement />
         </div>
-        <div className="input_container half">
-          <label htmlFor="Cryptogramme">Cryptogramme visuel : </label>
+        <div
+          className="input_container half"
+          style={{
+            borderColor: "#30313D",
+            boxShadow:
+              "0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02)",
+            border: "1px solid #e6e6e6",
+          }}
+        >
+          <label
+            htmlFor="Cryptogramme"
+            style={{
+              color: "#30313D",
+              transition:
+                "transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1)",
+            }}
+          >
+            Cryptogramme visuel :{" "}
+          </label>
           <CardCvcElement />
         </div>
         <button className="login_btn">Valider votre abonnement</button>

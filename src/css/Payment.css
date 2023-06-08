@@ -162,7 +162,6 @@
 
 
 /* Media */
-
 @media(max-width:992px){
     .payment_page{
         display: flex;
