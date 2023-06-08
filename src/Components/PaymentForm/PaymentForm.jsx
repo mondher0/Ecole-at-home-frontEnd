@@ -41,9 +41,15 @@ const PaymentForm = () => {
   const elements = useElements({ appearance });
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (city === "" || postalCode === "" || country === "" || name === "") {
+      console.log("Please fill all the fields");
+      setIsEmpy(true);
+      return;
+    }
     setIsLoading(true);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -172,8 +178,18 @@ const PaymentForm = () => {
             ? "loading..."
             : isError
             ? "Somethings went wrong, try again"
+            : success
+            ? "Merci pour votre abonnement"
             : "Valider votre abonnement"}
         </button>
+        {isEmpy && (
+          <p
+            className="payment_desc"
+            style={{ color: "red", textAlign: "center" }}
+          >
+            Please fill all the fields
+          </p>
+        )}
         <p className="payment_desc bold">
           Aucun paiement nest effectué, vous serez facturé uniquement après
           avoir assisté au cours
