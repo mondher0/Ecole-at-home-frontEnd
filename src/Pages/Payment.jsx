@@ -4,6 +4,7 @@ import "../css/Payment.css";
 import { useParams } from "react-router-dom";
 import PaymentForm from "../Components/PaymentForm/PaymentForm";
 import SubscriptionDetails from "../Components/SubscriptionDetails/SubscriptionDetails";
+import StripeContainer from "../Components/PaymentForm/StripeContainer";
 
 const Payment = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const Payment = () => {
     <>
       <div className="container payment_page">
         <div className="payment_section">
-          <PaymentForm />
+          <StripeContainer />
         </div>
         <div className="details_section">
           <SubscriptionDetails id={id} />
