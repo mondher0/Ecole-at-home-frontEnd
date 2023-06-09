@@ -116,7 +116,7 @@ const TimingCard = ({ item }) => {
                           {abonnement.timing.start_hour}-{" "}
                           {abonnement.timing.end_hour}
                         </h3>
-                        <h5 className="places">5places</h5>
+                        <h5 className="places" key={timing.end_hour}>5places</h5>
                       </>
                     ) : (
                       ""
