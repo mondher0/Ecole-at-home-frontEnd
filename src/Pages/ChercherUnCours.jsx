@@ -6,11 +6,19 @@ import { SearchContext } from "../context/SearchContext";
 import TimingCard from "../Components/TimingCard/TimingCard";
 
 const ChercherUnCours = () => {
-  const { niveau, matiere, handleSearch, professeurs, timings } =
-    useContext(SearchContext);
-  const [selectedNiveau, setSelectedNiveau] = useState("");
-  const [selectedMatiere, setSelectedMatiere] = useState("");
-  console.log(professeurs);
+  const {
+    niveau,
+    matiere,
+    handleSearch,
+    professeurs,
+    timings,
+    selectedNiveau,
+    setSelectedNiveau,
+    selectedMatiere,
+    setSelectedMatiere,
+    isLoading,
+  } = useContext(SearchContext);
+
 
   const handleNiveauChange = (e) => {
     setSelectedNiveau(e.target.value);
@@ -57,8 +65,26 @@ const ChercherUnCours = () => {
         <button className="hero_search_btn">RECHERCHER</button>
       </form>
       <div className="timing_cards">
-        {professeurs &&
-          professeurs.items.map((prof) => <TimingCard key={prof.id} item={prof} timings={timings} />)}
+        {professeurs?.length === 1 ? (
+          <TimingCard
+            key={professeurs[0].id}
+            item={professeurs[0]}
+            timings={timings}
+          />
+        ) : professeurs?.length > 1 ? (
+          professeurs?.map((prof) => (
+            <TimingCard key={prof.id} item={prof} timings={timings} />
+          ))
+        ) : (
+          <h1
+            style={{
+              textAlign: "center",
+              marginTop: "50px",
+            }}
+          >
+            {isLoading ? "Loading..." : "Aucun professeur trouvé"}
+          </h1>
+        )}
       </div>
     </div>
   );

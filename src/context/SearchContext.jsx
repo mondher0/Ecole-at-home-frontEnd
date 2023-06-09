@@ -9,6 +9,9 @@ const SearchProvider = ({ children }) => {
   const [niveau, setNiveau] = useState([]);
   const [matiere, setMatiere] = useState([]);
   const [professeurs, setProfesseurs] = useState();
+  const [selectedNiveau, setSelectedNiveau] = useState("");
+  const [selectedMatiere, setSelectedMatiere] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const baseURl = "http://localhost:9999/api";
 
@@ -19,8 +22,6 @@ const SearchProvider = ({ children }) => {
       const matiereResponse = await fetch(`${baseURl}/matiere`);
       const niveauData = await niveauResponse.json();
       const matiereData = await matiereResponse.json();
-      console.log(niveauData);
-      console.log(matiereData);
       setNiveau(niveauData);
       setMatiere(matiereData);
     } catch (error) {
@@ -31,11 +32,14 @@ const SearchProvider = ({ children }) => {
   //Search
   const handleSearch = async (e) => {
     try {
+      setIsLoading(true);
       e.preventDefault();
-      const response = await fetch(`${baseURl}/professeurs?page=1&pageSize=10`);
+      const response = await fetch(
+        `${baseURl}/professeurs?page=1&pageSize=10&classe=${selectedNiveau}&matiere=${selectedMatiere}`
+      );
       const professeurs = await response.json();
-      console.log("hello", professeurs);
-      setProfesseurs(professeurs);
+      setProfesseurs(professeurs.items);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +51,18 @@ const SearchProvider = ({ children }) => {
 
   return (
     <SearchContext.Provider
-      value={{ niveau, matiere, handleSearch, professeurs, setProfesseurs }}
+      value={{
+        niveau,
+        matiere,
+        handleSearch,
+        professeurs,
+        setProfesseurs,
+        selectedNiveau,
+        setSelectedNiveau,
+        selectedMatiere,
+        setSelectedMatiere,
+        isLoading,
+      }}
     >
       {children}
     </SearchContext.Provider>

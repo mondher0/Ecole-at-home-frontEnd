@@ -13,7 +13,6 @@ const TimingCard = ({ item }) => {
   const { userInfo } = useContext(GlobalContext);
   const { isLogged } = useContext(AuthContext);
   const { eleveProfile } = userInfo;
-  console.log(item);
   const [timings, setTimings] = useState([]);
   const days = [
     "Sunday",
@@ -39,7 +38,6 @@ const TimingCard = ({ item }) => {
   const getTiming = async () => {
     const response = await fetch(`${baseURl}/timing-item`);
     const timingData = await response.json();
-    console.log(timingData);
     setTimings(timingData);
   };
 
@@ -54,7 +52,6 @@ const TimingCard = ({ item }) => {
           `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
         );
         const data = await response.data;
-        console.log(data);
         alert("Vous êtes inscrit dans ce cours");
       } else {
         navigate(`/payment/${id}`);

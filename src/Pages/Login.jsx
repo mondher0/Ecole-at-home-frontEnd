@@ -6,7 +6,8 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleLogin, setPassword, setEmail } = useContext(AuthContext);
+  const { handleLogin, setPassword, setEmail, isLoading, error } =
+    useContext(AuthContext);
   return (
     <>
       <div className="container login_container">
@@ -34,8 +35,10 @@ const Login = () => {
               ></input>
             </div>
             <h5>Mot de passe oublié ?</h5>
-            <h5 className="form_error"></h5>
-            <button className="login_btn">Connexion</button>
+            {error && <h5 className="form_error">{error}</h5>}
+            <button className="login_btn">
+              {isLoading ? "Loading..." : "Connexion"}
+            </button>
           </form>
         </fieldset>
 

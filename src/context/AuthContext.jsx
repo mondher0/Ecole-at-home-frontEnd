@@ -20,6 +20,8 @@ const AuthProvider = ({ children }) => {
   const [prenomEnfant, setPrenomEnfant] = useState("");
   const [emailEnfant, setEmailEnfant] = useState("");
   const [isAuth, setIsAuth] = useState({ userInfo: null, isLogged: false });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const baseURl = "http://localhost:9999/api/auth";
 
   //Register student
@@ -93,6 +95,7 @@ const AuthProvider = ({ children }) => {
   // Login
   const handleLogin = async (e) => {
     try {
+      setIsLoading(true);
       e.preventDefault();
       const data = {
         email: email,
@@ -102,7 +105,10 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.access_token);
       window.location.href = "/";
       checkUserLoggedIn();
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response.data.message);
       console.log(error);
     }
   };
@@ -151,9 +157,12 @@ const AuthProvider = ({ children }) => {
         setNomEnfant,
         setPrenomEnfant,
         setEmailEnfant,
+        setIsLoading,
         codePostal,
         ville,
         isLogged,
+        isLoading,
+        error
       }}
     >
       {children}

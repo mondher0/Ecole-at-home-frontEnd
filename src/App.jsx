@@ -26,7 +26,8 @@ import Settings from "./Admin/Pages/Settings";
 import EditEntreprise from "./Admin/Pages/EditEntreprise";
 import AdminLogin from "./Admin/Pages/AdminLogin";
 import Payment from "./Pages/Payment";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
+import LoginProtectedRoute from "./Components/ProtectedRoutes/LoginProtectedRoute";
 
 const App = () => {
   return (
@@ -38,7 +39,14 @@ const App = () => {
           <Route path="/choose_user_type" element={<ChooseUserType />} />
           <Route path="/inscription/:userType" element={<Insecription />} />
           <Route path="/choose-your-kid" element={<ChooseKids />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <LoginProtectedRoute>
+                <Login />
+              </LoginProtectedRoute>
+            }
+          />
           <Route
             path="/mes-cours"
             element={

@@ -12,7 +12,7 @@ import Status from "../Components/Status/Status";
 import PastCourse from "../Components/PastCourse/PastCourse";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
-  const { prenom, role } = userInfo;
+  const { prenom, role, nom } = userInfo;
   console.log(userInfo);
   const [sideLinks, setSideLinks] = useState("");
   console.log(role);
@@ -150,6 +150,22 @@ const MesCours = () => {
         </div>
 
         <div className="main_section">
+          {!sideLinks && (
+            <p
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                color: "#1D1D1D",
+                marginTop: "2rem",
+                marginLeft: "2rem",
+                textAlign: "center",
+              }}
+            >
+              Bienvenue <span style= {{
+                color: "#FF6B00"
+              }}>{prenom} {nom}</span> dans votre espace personnel
+            </p>
+          )}
           {sideLinks === "cours_venir" ? <UpComingCourses /> : null}
           {sideLinks === "cours_passés" ? <PastCourse /> : null}
           {sideLinks === "disponibilités" ? <Disponibilité /> : null}
