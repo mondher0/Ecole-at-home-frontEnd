@@ -102,12 +102,13 @@ const TimingCard = ({ item }) => {
             <h5 className="day_name">{jours[day]}</h5>
             {item.abonnements.map((abonnement) =>
               abonnement.day === day ? (
-                <div className="time_blocks">
+                <div className="time_blocks" key={abonnement?.id}>
                   {timings.map((timing) =>
                     abonnement.timing.start_hour === timing.start_hour ? (
                       <>
                         <h3
                           className="the_time"
+                          key={timing.start_hour}
                           onClick={() => {
                             handleSubscribe(abonnement.id);
                           }}
