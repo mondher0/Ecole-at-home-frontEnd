@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { baseURl } from "../../utils/utils";
 
 const TeacherRegister = () => {
   const [villes, setVilles] = useState([]);
@@ -21,7 +22,7 @@ const TeacherRegister = () => {
   // get villes and code postales
   const getVillesAndCodePostales = async () => {
     try {
-      const response = await fetch("http://localhost:9999/api/ville");
+      const response = await fetch(`${baseURl}/ville`);
       const data = await response.json();
       console.log(data);
       setVilles(data);
@@ -164,7 +165,7 @@ const TeacherRegister = () => {
             </li>
           </ul>
           <h5 className="form_error"></h5>
-          <button className="login_btn">Inscription</button>
+          <button className="login">Inscription</button>
         </form>
       </fieldset>
     </div>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { baseURl } from "../../utils/utils";
 import {
   CardElement,
   useStripe,
@@ -68,7 +69,7 @@ const PaymentForm = () => {
     if (!error) {
       try {
         const { id } = paymentMethod;
-        const response = await axios.post("http://localhost:9999/api/payment", {
+        const response = await axios.post(`${baseURl}/payment`, {
           amount: 1000,
           id,
         });

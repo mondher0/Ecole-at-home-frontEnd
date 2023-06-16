@@ -3,7 +3,20 @@
 import React from "react";
 import "./AdminSideBar.css";
 import { NavLink } from "react-router-dom";
-import logo from "./nav_logo.svg";
+import {
+  adminBoard,
+  bag,
+  twoUsers,
+  email,
+  chart,
+  cours,
+  coins,
+  avis,
+  historique,
+  settings,
+  logout,
+  logo,
+} from "../../../assets/index";
 
 const AdminSideBar = ({ mobile }) => {
   return (
@@ -13,7 +26,7 @@ const AdminSideBar = ({ mobile }) => {
       <ul className="links">
         <NavLink to="/admin/board">
           <li>
-            <img className="side_bar_logo" src="../assets/admin_board.svg" />
+            <img className="side_bar_logo" src={adminBoard} />
             Tableau de bord
             <div className="border left"></div>
             <div className="border right"></div>
@@ -21,7 +34,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/professeurs">
           <li>
-            <img className="side_bar_logo" src="../assets/bag.svg" />
+            <img className="side_bar_logo" src={bag} />
             Profeseurs
             <div className="border left"></div>
             <div className="border right"></div>
@@ -29,7 +42,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/eleve-parent">
           <li>
-            <img className="side_bar_logo" src="../assets/two_users.svg" />
+            <img className="side_bar_logo" src={twoUsers} />
             Elève/Parent
             <div className="border left"></div>
             <div className="border right"></div>
@@ -37,7 +50,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/Emails">
           <li>
-            <img className="side_bar_logo" src="../assets/email.svg" />
+            <img className="side_bar_logo" src={email} />
             Emails
             <div className="border left"></div>
             <div className="border right"></div>
@@ -45,7 +58,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/abonnements">
           <li>
-            <img className="side_bar_logo" src="../assets/chart.svg" />
+            <img className="side_bar_logo" src={chart} />
             Abonnements
             <div className="border left"></div>
             <div className="border right"></div>
@@ -53,7 +66,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/cours">
           <li>
-            <img className="side_bar_logo" src="../assets/cours.svg" />
+            <img className="side_bar_logo" src={cours} />
             Cours
             <div className="border left"></div>
             <div className="border right"></div>
@@ -61,7 +74,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/Paiment">
           <li>
-            <img className="side_bar_logo" src="../assets/coins.svg" />
+            <img className="side_bar_logo" src={coins} />
             Paiment
             <div className="border left"></div>
             <div className="border right"></div>
@@ -69,7 +82,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/avis">
           <li>
-            <img className="side_bar_logo" src="../assets/avis.svg" />
+            <img className="side_bar_logo" src={avis} />
             Avis
             <div className="border left"></div>
             <div className="border right"></div>
@@ -77,7 +90,7 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/historique">
           <li>
-            <img className="side_bar_logo" src="../assets/historique.svg" />
+            <img className="side_bar_logo" src={historique} />
             Historique
             <div className="border left"></div>
             <div className="border right"></div>
@@ -85,14 +98,14 @@ const AdminSideBar = ({ mobile }) => {
         </NavLink>
         <NavLink to="/admin/parametres">
           <li>
-            <img className="side_bar_logo" src="../assets/settings.svg" />
+            <img className="side_bar_logo" src={settings} />
             Paramètres
             <div className="border left"></div>
             <div className="border right"></div>
           </li>
         </NavLink>
         <li className="logout_btn">
-          <img className="side_bar_logo" src="../assets/logout.svg" />
+          <img className="side_bar_logo" src={logout} />
           Se deconnecter
         </li>
       </ul>

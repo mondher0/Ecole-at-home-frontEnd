@@ -2,13 +2,12 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../utils/utils";
+import { baseURl } from "../utils/utils";
 
 export const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
-
-  const baseURl = "http://localhost:9999/api";
 
   // Get User Info
   const getUserInfo = async () => {

@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext } from "react";
 import { useState, useEffect } from "react";
+import { baseURl } from "../utils/utils";
 
 export const SearchContext = createContext();
 
@@ -12,8 +13,6 @@ const SearchProvider = ({ children }) => {
   const [selectedNiveau, setSelectedNiveau] = useState("");
   const [selectedMatiere, setSelectedMatiere] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const baseURl = "http://localhost:9999/api";
 
   //Get Niveau and Matiere
   const getMatiereAndNiveau = async () => {

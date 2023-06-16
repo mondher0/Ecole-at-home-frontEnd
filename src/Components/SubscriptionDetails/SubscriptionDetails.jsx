@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { baseURl } from "../../utils/utils";
 
 const SubscriptionDetails = ({ id }) => {
   const [professeur, setProfesseur] = useState();
@@ -14,9 +15,7 @@ const SubscriptionDetails = ({ id }) => {
   const filterAbonnement = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get(
-        `http://localhost:9999/api/professeurs?page=1&pageSize=10`
-      );
+      const res = await axios.get(`${baseURl}/professeurs?page=1&pageSize=10`);
       const professeurs = res.data;
       console.log(professeurs);
       professeurs.items.forEach((item) => {

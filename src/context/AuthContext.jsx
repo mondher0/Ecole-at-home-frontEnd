@@ -3,8 +3,10 @@
 import { createContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-export const AuthContext = createContext();
+import { baseURl } from "../utils/utils";
 import jwtDecode from "jwt-decode";
+
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [nom, setNom] = useState("");
@@ -22,7 +24,7 @@ const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState({ userInfo: null, isLogged: false });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-  const baseURl = "http://localhost:9999/api/auth";
+  const baseURlAuth = `${baseURl}/auth`;
 
   //Register student
   const handleRegisterStudent = async (e) => {
@@ -34,7 +36,7 @@ const AuthProvider = ({ children }) => {
         prenom: prenom,
         nom: nom,
       };
-      const response = await axios.post(`${baseURl}/register-eleve`, data);
+      const response = await axios.post(`${baseURlAuth}/register-eleve`, data);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -58,7 +60,7 @@ const AuthProvider = ({ children }) => {
         codePostal: codePostal,
       };
       const response = await axios.post(
-        `${baseURl}/register-proffesseur`,
+        `${baseURlAuth}/register-proffesseur`,
         data
       );
       console.log(response);
@@ -85,7 +87,7 @@ const AuthProvider = ({ children }) => {
         nom: nom,
         enfants: enfants,
       };
-      const response = await axios.post(`${baseURl}/register-parent`, data);
+      const response = await axios.post(`${baseURlAuth}/register-parent`, data);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -101,7 +103,7 @@ const AuthProvider = ({ children }) => {
         email: email,
         password: password,
       };
-      const response = await axios.post(`${baseURl}/login`, data);
+      const response = await axios.post(`${baseURlAuth}/login`, data);
       localStorage.setItem("token", response.data.access_token);
       window.location.href = "/";
       checkUserLoggedIn();
@@ -162,7 +164,7 @@ const AuthProvider = ({ children }) => {
         ville,
         isLogged,
         isLoading,
-        error
+        error,
       }}
     >
       {children}

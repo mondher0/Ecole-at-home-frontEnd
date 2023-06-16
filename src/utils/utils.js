@@ -17,3 +17,4 @@ axiosInstance.interceptors.request.use((request) => {
   return request;
 });
 export default axiosInstance;
+export const baseURl = "http://localhost:9999/api";

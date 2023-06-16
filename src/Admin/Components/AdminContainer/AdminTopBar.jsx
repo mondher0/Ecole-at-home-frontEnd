@@ -2,6 +2,11 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import "./AdminTopBar.css";
+import {
+  adminBellIcon,
+  adminProfileIcon,
+  adminSearchIcon,
+} from "../../../assets/index";
 
 const AdminTopBar = (props) => {
   return (
@@ -19,14 +24,14 @@ const AdminTopBar = (props) => {
 
       <div className="admin_search_bar">
         <input type="text" placeholder="Chercher" />
-        <img src="../assets/admin_search_icon.svg" />
+        <img src={adminSearchIcon} />
       </div>
       <ul className="links">
         <li>
-          <img src="../assets/admin_bell_icon.svg" />
+          <img src={adminBellIcon} />
         </li>
         <li>
-          <img src="../assets/admin_profile_icon.svg" />
+          <img src={adminProfileIcon} />
           <span className="username">Test Username</span>
         </li>
       </ul>

@@ -41,7 +41,9 @@ const ChooseKids = () => {
             ></input>
           </div>
           <ul>
-            <li className="blue">
+            <li className="blue" style={{
+              marginTop: "20px",
+            }}>
               <input
                 type="checkbox"
                 checked={isChecked}
@@ -49,7 +51,9 @@ const ChooseKids = () => {
                   setIsChecked(!isChecked);
                 }}
               />
-              Je veux rensigner l’<span>e-mail&nbsp;</span> de mon enfant{" "}
+              Je veux rensigner <span style={{
+                marginLeft: "5px",
+              }}> l’email&nbsp;</span> de mon enfant{" "}
             </li>
             <li className="yallow">
               E-mail sur lequel sera envoyé le lien pour participer au cours en
@@ -75,7 +79,7 @@ const ChooseKids = () => {
             </li>
           </ul>
 
-          <button className="login_btn">Continuer l’Inscription</button>
+          <button className="login">Continuer l’Inscription</button>
         </form>
       </fieldset>
     </div>

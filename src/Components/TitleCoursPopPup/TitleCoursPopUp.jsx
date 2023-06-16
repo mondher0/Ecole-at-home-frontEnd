@@ -4,9 +4,9 @@ import React from "react";
 import "./TitleCoursPopUp.css";
 import { useState } from "react";
 import axiosInstance from "../../utils/utils";
+import { baseURl } from "../../utils/utils";
 
 const TitleCoursPopUp = ({ id, startUrl }) => {
-  const baseUrl = "http://localhost:9999/api";
   const [title, setTitle] = useState("");
 
   // Redirct to zoom url
@@ -14,7 +14,7 @@ const TitleCoursPopUp = ({ id, startUrl }) => {
     try {
       e.preventDefault();
       const response = await axiosInstance.patch(
-        `${baseUrl}/meet?coursId=${id}&title=${title}`,
+        `${baseURl}/meet?coursId=${id}&title=${title}`,
         {}
       );
       console.log(response);

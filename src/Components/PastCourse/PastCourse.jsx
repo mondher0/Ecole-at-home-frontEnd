@@ -5,12 +5,12 @@ import CourseCard from "../CourseCard/CourseCard";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
+import { baseURl } from "../../utils/utils";
 
 const PastCourse = () => {
   const { userInfo } = useContext(GlobalContext);
   console.log(userInfo);
   const { role } = userInfo;
-  const baseURl = "http://localhost:9999/api";
   const [pastCoursesTeacher, setPastCoursesTeacher] = useState([]);
   const [pastCoursesStudent, setPastCoursesStudent] = useState([]);
 

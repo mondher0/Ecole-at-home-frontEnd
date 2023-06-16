@@ -5,12 +5,12 @@ import CourseCard from "../CourseCard/CourseCard";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
+import { baseURl } from "../../utils/utils";
 
 const UpComingCourses = () => {
   const { userInfo } = useContext(GlobalContext);
   console.log(userInfo);
   const { role } = userInfo;
-  const baseURl = "http://localhost:9999/api";
   const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
   const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,14 +105,20 @@ const UpComingCourses = () => {
           <div className="courses_cards"></div>
         </div>
       )}
-      {isError && <h1 style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    
-        fontSize: "3rem",
-        color: "black",
-      }}>Something went wrong -_-</h1>}
+      {isError && (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+            fontSize: "3rem",
+            color: "black",
+          }}
+        >
+          Something went wrong -_-
+        </h1>
+      )}
     </>
   );
 };

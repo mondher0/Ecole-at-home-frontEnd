@@ -7,6 +7,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import axiosInstance from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { baseURl } from "../../utils/utils";
 
 const TimingCard = ({ item }) => {
   const navigate = useNavigate();
@@ -34,7 +35,6 @@ const TimingCard = ({ item }) => {
   };
 
   //Get Timing
-  const baseURl = "http://localhost:9999/api";
   const getTiming = async () => {
     const response = await fetch(`${baseURl}/timing-item`);
     const timingData = await response.json();
@@ -116,7 +116,9 @@ const TimingCard = ({ item }) => {
                           {abonnement.timing.start_hour}-{" "}
                           {abonnement.timing.end_hour}
                         </h3>
-                        <h5 className="places" key={timing.end_hour}>5places</h5>
+                        <h5 className="places" key={timing.end_hour}>
+                          5places
+                        </h5>
                       </>
                     ) : (
                       ""

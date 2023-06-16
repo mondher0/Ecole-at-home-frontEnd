@@ -85,7 +85,7 @@ const StudentAndParent = (type) => {
           <p>
             Site conforme règlement général sur la protection des données RGPD{" "}
           </p>
-          <button className="login_btn">Inscription</button>
+          <button className="login">Inscription</button>
         </form>
       </fieldset>
     </div>
