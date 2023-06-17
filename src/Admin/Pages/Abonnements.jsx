@@ -8,7 +8,9 @@ const Abonnements = () => {
   let [showEtatEn, setShowEtatEn] = useState(false);
   let [showEtat, setShowEtat] = useState(false);
   let [showAddLevel, setShowAddLevel] = useState(false);
-  let [dat, setData] = useState("")
+  let [dat, setData] = useState("");
+  let [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [idNiveauMatier, setIdNiveauMatier] = useState("");
   let Navigate = useNavigate();
 
   const columnsParent = [
@@ -297,11 +299,17 @@ const Abonnements = () => {
                     <td>
                       <button className="btn btn-primary">
                         <img
-                          src="../assets/aye.svg"
-                          onClick={() => setShowEtat(true)}
+                          src="../assets/admin_edit.svg"
+                          onClick={() => setShowAddLevel(true)}
                         />
                       </button>
-                      <button className="btn btn-danger">
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          setShowDeletePopup(true);
+                          setIdNiveauMatier(row.id);
+                        }}
+                      >
                         <img src="../assets/admin_delete.svg" />
                       </button>
                     </td>
@@ -383,7 +391,7 @@ const Abonnements = () => {
                             src="../assets/admin_edit.svg"
                             onClick={() => {
                               setShowEtat(true);
-                              setData("mondehr")
+                              setData("mondehr");
                             }}
                           />
                         </button>
@@ -564,6 +572,47 @@ const Abonnements = () => {
             <img
               className="hide_btn"
               onClick={() => setShowAddLevel(false)}
+              src="../assets/x.svg"
+            />
+          </div>
+        </div>
+      )}
+      {showDeletePopup && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="img_container">
+                <img src="../assets/student.svg" />
+              </div>
+              <div className="text">
+                <h2 className="user_name">{idNiveauMatier}</h2>
+                <span>Elève</span>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">
+                Etes vous sûr de vouloir supprimer lélève{" "}
+                <span>Nicholas Patrick</span>?
+              </p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+            >
+              Confirmer
+            </button>
+            <img
+              className="hide_btn"
+              onClick={() => setShowDeletePopup(false)}
               src="../assets/x.svg"
             />
           </div>
