@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
+import { Parent, supprimer, edit } from "../../assets/index";
 
 const EditParent = () => {
   const [pageAction, setPageAction] = useState("Modifier");
@@ -82,43 +83,53 @@ const EditParent = () => {
       <h4 className="admin_edit_title">Elève inscrits</h4>
       <div className="eleve_cards_container">
         <div className="user_type_card">
-          <img src="../assets/Parent.svg" />
+          <img src={Parent} />
           Khaled
           <div className="bg"></div>
           <div className="tools">
             <button type="button" className="delete">
-              <img src="../assets/delete.svg" />
+              <img
+                src={supprimer}
+                style={{
+                  marginTop: "20px",
+                }}
+              />
             </button>
             <button type="button" className="edit">
-              <img src="../assets/edite.svg" />
+              <img
+                src={edit}
+                style={{
+                  marginTop: "20px",
+                }}
+              />
             </button>
           </div>
         </div>
 
         <div className="user_type_card">
-          <img src="../assets/Parent.svg" />
+          <img src={Parent} />
           Khaled
           <div className="bg"></div>
           <div className="tools">
             <button type="button" className="delete">
-              <img src="../assets/delete.svg" />
+              <img src={supprimer} />
             </button>
             <button type="button" className="edit">
-              <img src="../assets/edite.svg" />
+              <img src={edit} />
             </button>
           </div>
         </div>
 
         <div className="user_type_card">
-          <img src="../assets/Parent.svg" />
+          <img src={Parent} />
           Khaled
           <div className="bg"></div>
           <div className="tools">
             <button type="button" className="delete">
-              <img src="../assets/delete.svg" />
+              <img src={supprimer} />
             </button>
             <button type="button" className="edit">
-              <img src="../assets/edite.svg" />
+              <img src={edit} />
             </button>
           </div>
         </div>

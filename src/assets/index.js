@@ -23,6 +23,9 @@ import logout from "./logout.svg";
 import historique from "./historique.svg";
 import settings from "./settings.svg";
 import logo from "./nav_logo.svg";
+import supprimer from "./delete.svg";
+import Parent from "./student.svg";
+import edit from "./edite.svg";
 
 export {
   A,
@@ -50,4 +53,7 @@ export {
   settings,
   logout,
   logo,
+  supprimer,
+  Parent,
+  edit,
 };
