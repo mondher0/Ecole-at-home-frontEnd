@@ -7,3 +7,5 @@ pop up delete in parametre delete mode
 handdling the parent in the client 
 adding some details in the subscription details (from backend)
 adding protected routes in the admin
+in niveau and matiere we have delete pop up not consulter
+api fih array t3 objects feh niveau w matier 

@@ -298,7 +298,7 @@ const Abonnements = () => {
                       <button className="btn btn-primary">
                         <img
                           src="../assets/aye.svg"
-                          onClick={() => Navigate(`/admin/${tab}/edit`)}
+                          onClick={() => setShowEtat(true)}
                         />
                       </button>
                       <button className="btn btn-danger">
