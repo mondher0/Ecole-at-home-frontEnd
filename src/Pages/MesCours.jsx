@@ -11,6 +11,7 @@ import Settings from "../Components/Settings/Settings";
 import Status from "../Components/Status/Status";
 import PastCourse from "../Components/PastCourse/PastCourse";
 import Abonnement from "../Components/Abonnment/Abonnment";
+import AddingCart from "../Components/AddingCart/AddingCart";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role, nom } = userInfo;
@@ -178,7 +179,7 @@ const MesCours = () => {
           {sideLinks === "disponibilités" ? <Disponibilité /> : null}
           {sideLinks === "abonnement" ? <Abonnement /> : null}
           {sideLinks === "facture" ? <Facture /> : null}
-          {sideLinks === "paiement" ? <div>paiement</div> : null}
+          {sideLinks === "paiement" ? <AddingCart /> : null}
           {sideLinks === "notifications" ? <Notification /> : null}
           {sideLinks === "status" ? <Status /> : null}
           {sideLinks === "parametres" ? <Settings /> : null}

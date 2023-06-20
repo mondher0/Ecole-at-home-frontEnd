@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { baseURl } from "../../utils/utils";
@@ -30,7 +31,7 @@ const appearance = {
   },
 };
 
-const PaymentForm = () => {
+const PaymentForm = ({ test }) => {
   const [success, setSuccess] = useState(false);
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -97,7 +98,9 @@ const PaymentForm = () => {
         <img src="../assets/visa.svg" />
         <img src="../assets/master.svg" />
       </div>
-      <legend>Paiement sécurisé par carte</legend>
+      <legend>
+        {test ? "Ajout de carte bancaire" : "Paiement sécurisé par carte"}
+      </legend>
       <form onSubmit={handleSubmit}>
         <AddressElement
           options={{ mode: "shipping" }}
@@ -174,15 +177,20 @@ const PaymentForm = () => {
           </label>
           <CardCvcElement />
         </div>
-        <button className="login_btn">
-          {isLoading
-            ? "loading..."
-            : isError
-            ? "Somethings went wrong, try again"
-            : success
-            ? "Merci pour votre abonnement"
-            : "Valider votre abonnement"}
-        </button>
+        {test ? (
+          <button className="login_btn">Ajouter ma carte</button>
+        ) : (
+          <button className="login_btn">
+            {isLoading
+              ? "loading..."
+              : isError
+              ? "Somethings went wrong, try again"
+              : success
+              ? "Merci pour votre abonnement"
+              : "Valider votre abonnement"}
+          </button>
+        )}
+
         {isEmpy && (
           <p
             className="payment_desc"
