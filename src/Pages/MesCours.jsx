@@ -10,6 +10,7 @@ import Facture from "../Components/Facture/Facture";
 import Settings from "../Components/Settings/Settings";
 import Status from "../Components/Status/Status";
 import PastCourse from "../Components/PastCourse/PastCourse";
+import Abonnement from "../Components/Abonnment/Abonnment";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role, nom } = userInfo;
@@ -161,15 +162,21 @@ const MesCours = () => {
                 textAlign: "center",
               }}
             >
-              Bienvenue <span style= {{
-                color: "#FF6B00"
-              }}>{prenom} {nom}</span> dans votre espace personnel
+              Bienvenue{" "}
+              <span
+                style={{
+                  color: "#FF6B00",
+                }}
+              >
+                {prenom} {nom}
+              </span>{" "}
+              dans votre espace personnel
             </p>
           )}
           {sideLinks === "cours_venir" ? <UpComingCourses /> : null}
           {sideLinks === "cours_passés" ? <PastCourse /> : null}
           {sideLinks === "disponibilités" ? <Disponibilité /> : null}
-          {sideLinks === "abonnement" ? <div>abonnement</div> : null}
+          {sideLinks === "abonnement" ? <Abonnement /> : null}
           {sideLinks === "facture" ? <Facture /> : null}
           {sideLinks === "paiement" ? <div>paiement</div> : null}
           {sideLinks === "notifications" ? <Notification /> : null}

@@ -3,9 +3,9 @@
 import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
+import CancelAbonnmentPopUp from "../CancelAbonnmentPopUP/CancelAbonnmentPopUp";
 
-const CourseCard = ({ course, etat }) => {
+const AbonnementCard = ({ course, etat }) => {
   console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
@@ -46,9 +46,61 @@ const CourseCard = ({ course, etat }) => {
           {nom} {prenom}
         </h4>
         <h4>{abonnement?.professeur?.diplome}</h4>
-        <ul className="tags" style={{
-          marginTop: "10px"
-        }}>
+        <div
+          className="avis"
+          style={{
+            width: "40%",
+            display: "flex",
+            alignItems: "space-between",
+            marginTop: "10px",
+            justifyContent: "space-between",
+            marginBottom: "10px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "50%",
+            }}
+          >
+            <img src="../assets/Star.svg" />
+            <p
+              style={{
+                color: "#3E4958",
+                fontWeight: "bold",
+                fontSize: "14px",
+              }}
+            >
+              4.8
+            </p>
+          </div>
+
+          <span
+            style={{
+              color: "#3E4958",
+
+              fontSize: "14px",
+            }}
+          >
+            112 avis
+          </span>
+        </div>
+        <p
+          style={{
+            color: "#3E4958",
+            fontWeight: "bold",
+            fontSize: "14px",
+          }}
+        >
+          <span>Expériences</span> : 80 éleves , 50 heures
+        </p>
+        <ul
+          className="tags"
+          style={{
+            marginTop: "10px",
+          }}
+        >
           <li>
             <img src="../assets/tag1.svg" />
             {abonnement.matiere.name}
@@ -63,48 +115,31 @@ const CourseCard = ({ course, etat }) => {
           </li>
         </ul>
         <div className="btns">
-          {etat === "venir" ? (
-            <>
-              {role === "teacher" ? (
-                <button
-                  className="green"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById("demCours").showModal();
-                  }}
-                >
-                  Démarrer le cours
-                </button>
-              ) : (
-                <a
-                  href={zoomMeetingJoinUrl}
-                  className="green"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Assiter au cours
-                </a>
-              )}
-              <button className="red">Annuler</button>
-            </>
-          ) : (
+          <>
             <button
-              className="green"
               style={{
                 width: "100%",
               }}
+              className="red"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("demCours").showModal();
+              }}
             >
-              Voir lenregistrement{" "}
+              Annuler l`abonnement
             </button>
-          )}
+          </>
         </div>
       </div>
       <h2 className="date">{dateFormated}</h2>
       <dialog style={{ border: 0, borderRadius: "20px" }} id="demCours">
-        <TitleCoursPopUp startUrl={course.zoomMeetingStartUrl} id={course.id} />
+        <CancelAbonnmentPopUp
+          startUrl={course.zoomMeetingStartUrl}
+          id={course.id}
+        />
       </dialog>
     </div>
   );
 };
 
-export default CourseCard;
+export default AbonnementCard;
