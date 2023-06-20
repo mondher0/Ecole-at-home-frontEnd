@@ -135,7 +135,7 @@ const AbonnementCard = ({ course, etat }) => {
       <dialog style={{ border: 0, borderRadius: "20px" }} id="demCours">
         <CancelAbonnmentPopUp
           startUrl={course.zoomMeetingStartUrl}
-          id={course.id}
+          day={abonnement.day}
         />
       </dialog>
     </div>

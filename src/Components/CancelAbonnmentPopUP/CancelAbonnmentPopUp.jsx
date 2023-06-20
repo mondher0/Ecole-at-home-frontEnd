@@ -6,24 +6,8 @@ import { useState } from "react";
 import axiosInstance from "../../utils/utils";
 import { baseURl } from "../../utils/utils";
 
-const CancelAbonnmentPopUp = ({ id, startUrl }) => {
+const CancelAbonnmentPopUp = ({ day, startUrl }) => {
   const [title, setTitle] = useState("");
-
-  // Redirct to zoom url
-  const redirctToZoomUrl = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await axiosInstance.patch(
-        `${baseURl}/meet?coursId=${id}&title=${title}`,
-        {}
-      );
-      console.log(response);
-      window.open(startUrl, "_blank");
-      document.getElementById("demCours").close();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="pop_up_container">
@@ -66,7 +50,7 @@ const CancelAbonnmentPopUp = ({ id, startUrl }) => {
           >
             Guy Hawkins Math
           </p>
-          <p>Lundi 18:00 - 20:00 </p>
+          <p>{day} 18:00 - 20:00 </p>
         </div>
         <div className="btns">
           <button
