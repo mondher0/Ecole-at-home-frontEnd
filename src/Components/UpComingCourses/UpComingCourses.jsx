@@ -46,6 +46,8 @@ const UpComingCourses = () => {
       setUpComingCoursesStudent(upComingCourses);
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
