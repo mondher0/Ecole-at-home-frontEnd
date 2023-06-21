@@ -17,6 +17,8 @@ const ChercherUnCours = () => {
     selectedMatiere,
     setSelectedMatiere,
     isLoading,
+    message,
+    result,
   } = useContext(SearchContext);
 
 
@@ -81,8 +83,9 @@ const ChercherUnCours = () => {
               textAlign: "center",
               marginTop: "50px",
             }}
-          >
-            {isLoading ? "Loading..." : "Aucun professeur trouvé"}
+          >  {message && "Veuillez séléctioner un niveau et une matière"}
+            {isLoading && "Chargement..."}
+            {result && "Aucun résultat trouvé"}
           </h1>
         )}
       </div>

@@ -13,6 +13,8 @@ const SearchProvider = ({ children }) => {
   const [selectedNiveau, setSelectedNiveau] = useState("");
   const [selectedMatiere, setSelectedMatiere] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState(false);
+  const[result, setResult] = useState(false);
 
   //Get Niveau and Matiere
   const getMatiereAndNiveau = async () => {
@@ -30,13 +32,21 @@ const SearchProvider = ({ children }) => {
 
   //Search
   const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!selectedMatiere || !selectedNiveau) {
+      setMessage(true);
+      return;
+    }
     try {
+      setMessage(false);
       setIsLoading(true);
-      e.preventDefault();
       const response = await fetch(
         `${baseURl}/professeurs?page=1&pageSize=10&classe=${selectedNiveau}&matiere=${selectedMatiere}`
       );
       const professeurs = await response.json();
+      if (professeurs.items.length === 0) {
+        setResult(true);
+      }
       setProfesseurs(professeurs.items);
       setIsLoading(false);
     } catch (error) {
@@ -61,6 +71,8 @@ const SearchProvider = ({ children }) => {
         selectedMatiere,
         setSelectedMatiere,
         isLoading,
+        message,
+        result,
       }}
     >
       {children}

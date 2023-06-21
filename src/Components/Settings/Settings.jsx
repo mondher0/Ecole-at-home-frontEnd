@@ -1,13 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { Parent } from "../../assets/index";
 import AddingEnfantForm from "../AddingEnfantForm/AddingEnfantForm";
 
 const Settings = () => {
   const { userInfo } = useContext(GlobalContext);
+  console.log(userInfo);
   const { role } = userInfo;
+  const [email, setEmail] = useState(userInfo.email);
   return (
     <div className="Settings">
       <fieldset>
@@ -22,9 +24,20 @@ const Settings = () => {
           </div>
           <div className="input_container half">
             <label htmlFor="email">Email</label>
-            <input placeholder="kk" type={"email"} name="email"></input>
+            <input
+              // disabled={false}
+              style={{
+                color: "black",
+                fontWeight: "bold",
+              }}
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            ></input>
           </div>
-
           <div className="input_container half">
             <label htmlFor="email">Email</label>
             <input placeholder="kk" type={"email"} name="email"></input>
