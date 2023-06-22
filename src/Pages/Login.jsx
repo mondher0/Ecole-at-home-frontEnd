@@ -34,7 +34,9 @@ const Login = () => {
                 }}
               ></input>
             </div>
-            <h5>Mot de passe oublié ?</h5>
+            <h5 onClick={() => navigate("/forgot-password")}>
+              Mot de passe oublié ?
+            </h5>
             {error && <h5 className="form_error">{error}</h5>}
             <button className="login_btn">
               {isLoading ? "Loading..." : "Connexion"}

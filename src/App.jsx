@@ -28,6 +28,8 @@ import AdminLogin from "./Admin/Pages/AdminLogin";
 import Payment from "./Pages/Payment";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
 import LoginProtectedRoute from "./Components/ProtectedRoutes/LoginProtectedRoute";
+import ForgotPassword from "./Pages/ForgotPassword";
+import NewPassword from "./Pages/NewPassword";
 
 const App = () => {
   return (
@@ -64,6 +66,8 @@ const App = () => {
             }
           />
           <Route path="/a-propos" element={<h1>a propos</h1>} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/new-password" element={<NewPassword />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
         <Route path="/admin/login" element={<AdminLogin />} />

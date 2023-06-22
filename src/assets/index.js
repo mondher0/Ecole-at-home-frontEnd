@@ -26,6 +26,8 @@ import logo from "./nav_logo.svg";
 import supprimer from "./delete.svg";
 import Parent from "./student.svg";
 import edit from "./edite.svg";
+import eye from "./eye.svg";
+import succe from "./Vector (2).svg";
 
 export {
   A,
@@ -56,4 +58,6 @@ export {
   supprimer,
   Parent,
   edit,
+  eye,
+  succe,
 };
