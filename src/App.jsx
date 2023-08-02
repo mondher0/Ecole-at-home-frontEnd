@@ -30,6 +30,7 @@ import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
 import LoginProtectedRoute from "./Components/ProtectedRoutes/LoginProtectedRoute";
 import ForgotPassword from "./Pages/ForgotPassword";
 import NewPassword from "./Pages/NewPassword";
+import AdminProtectedRoute from "./Admin/Components/AdminProtectedRoute";
 
 const App = () => {
   return (
@@ -71,7 +72,14 @@ const App = () => {
         </Route>
         <Route path="*" element={<h1>404</h1>} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminContainer />}>
+        <Route
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <AdminContainer />
+            </AdminProtectedRoute>
+          }
+        >
           <Route path="/admin/board" element={<BoardPage />} />
           <Route path="/admin/professeurs" element={<Profeseurs />} />
           <Route path="/admin/eleve-parent" element={<EleveParent />} />

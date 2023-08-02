@@ -24,6 +24,8 @@ const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState({ userInfo: null, isLogged: false });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [adminEmail, setAdminEmail] = useState();
+  const [adminPassword, setAdminPassword] = useState();
   const baseURlAuth = `${baseURl}/auth`;
 
   //Register student
@@ -115,10 +117,35 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // handle admin login
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        email: adminEmail,
+        password: adminPassword,
+      };
+      const response = await axios.post(`${baseURl}/auth/login`, data);
+      console.log(response);
+      localStorage.setItem("token", response.data.access_token);
+      window.location.href = "/admin/board";
+      checkUserLoggedIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.href = "/login";
+    setIsAuth({ userInfo: null, isLogged: false });
+  };
+
+  // admin logout
+  const handleAdminLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/admin/login";
     setIsAuth({ userInfo: null, isLogged: false });
   };
 
@@ -145,7 +172,9 @@ const AuthProvider = ({ children }) => {
         handleRegisterTeacher,
         handleRegisterParent,
         handleLogin,
+        handleAdminLogin,
         handleLogout,
+        handleAdminLogout,
         checkUserLoggedIn,
         setNom,
         setPrenom,
@@ -160,6 +189,8 @@ const AuthProvider = ({ children }) => {
         setPrenomEnfant,
         setEmailEnfant,
         setIsLoading,
+        setAdminEmail,
+        setAdminPassword,
         codePostal,
         ville,
         isLogged,

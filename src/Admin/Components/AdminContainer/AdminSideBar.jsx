@@ -2,7 +2,9 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import "./AdminSideBar.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import {
   adminBoard,
   bag,
@@ -19,7 +21,7 @@ import {
 } from "../../../assets/index";
 
 const AdminSideBar = ({ mobile }) => {
-  const navigat = useNavigate();
+  const { handleAdminLogout } = useContext(AuthContext);
   return (
     <div className={mobile ? "admin_side_bar active" : "admin_side_bar"}>
       <img className="side_bar_logo" src={logo} />
@@ -108,7 +110,7 @@ const AdminSideBar = ({ mobile }) => {
         <li
           className="logout_btn"
           onClick={() => {
-            navigat("login");
+            handleAdminLogout();
           }}
         >
           <img className="side_bar_logo" src={logout} />

@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import "../Css/AdminLogin.css"
-import { BiShow } from 'react-icons/bi';
-import { BiHide } from 'react-icons/bi';
+import React, { useState } from "react";
+import "../Css/AdminLogin.css";
+import { BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { setAdminPassword, setAdminEmail, handleAdminLogin } =
+    useContext(AuthContext);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -13,28 +17,37 @@ const AdminLogin = () => {
 
   return (
     <div className="container admin_login">
-        <div className='logo_section'>
-            <img src='../assets/au_logo.svg' />
-        </div>
-        <fieldset className='admin_fieldset'>
-            <div className='input_container2'>
-                <label>Adresse email</label>
-                <input/>
+      <div className="logo_section">
+        <img src="../assets/au_logo.svg" />
+      </div>
+      <form onSubmit={handleAdminLogin}>
+        <fieldset className="admin_fieldset">
+          <div className="input_container2">
+            <label>Adresse email</label>
+            <input onChange={(e) => setAdminEmail(e.target.value)} />
+          </div>
+          <div className="input_container2">
+            <label>Mot de passe</label>
+            <div className="password-input">
+              <input
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => setAdminPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="aye_btn"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <BiHide /> : <BiShow />}
+              </button>
             </div>
-            <div className='input_container2'>
-                <label>Mot de passe</label>
-                <div className="password-input">
-                  <input type={showPassword ? "text" : "password"}/>
-                  <button type="button" className='aye_btn' onClick={togglePasswordVisibility}>
-                    {showPassword ? <BiHide/> : <BiShow/>}
-                  </button>
-                </div>
-            </div>   
-            <h5 className='note'>Mot de passe oublié ?</h5>    
-            <button>Connexion</button>     
+          </div>
+          <h5 className="note">Mot de passe oublié ?</h5>
+          <button type="submit">Connexion</button>
         </fieldset>
+      </form>
     </div>
-  )
-}
+  );
+};
 
 export default AdminLogin;
