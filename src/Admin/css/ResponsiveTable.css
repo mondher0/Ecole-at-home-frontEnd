@@ -187,20 +187,23 @@ td.Inscrit,
   color:#38B6FF
 }
 
-.table_resume_bar li.Confirmé,
-td.Confirmé,
-.pop_up span.Confirmé{
+.table_resume_bar li.confirme,
+td.confirme,
+.pop_up span.confirme{
   color:#004AAD
 }
 
-.table_resume_bar li.Validé,
-td.Validé,
-.pop_up span.Validé{
+.table_resume_bar li.valide,
+td.valide,
+.pop_up span.Valide{
   color:#4DC643
 }
 
-.table_resume_bar li.Bloqué,
-td.Bloqué,
-.pop_up span.Bloqué{
+.table_resume_bar li.bloque,
+td.bloque,
+.pop_up span.bloque{
+  color:#FF914D
+}
+.status {
   color:#FF914D
 }

@@ -1,13 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Css/ResponsiveTable.css";
 import "../Css/BoardPage.css";
 import "../Components/AdminContainer/AdminContainer.css";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/utils";
+import { baseURl } from "../../utils/utils";
 
 const Profeseurs = () => {
   let [showProfInfo, setShowProfInfo] = useState(false);
   let [showProfEtat, setShowProfEtat] = useState(false);
+  const [professeurs, setProfesseurs] = useState();
   let Navigate = useNavigate();
   const columns = [
     "Professeur",
@@ -20,6 +24,25 @@ const Profeseurs = () => {
     "Etat",
     "Action",
   ];
+
+  // get professeurs
+  const getPronfesseurs = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/professeurs/admin/search?pageSize=5&page=1`
+      );
+      console.log(response);
+      setProfesseurs(response.data?.items);
+      console.log(response.data.items);
+      console.log(professeurs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPronfesseurs();
+  }, []);
 
   const data = [
     {
@@ -117,46 +140,70 @@ const Profeseurs = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td onClick={() => Navigate("/admin/Profeseurs/edit")}>
-                  {row.professeur}
-                </td>
-                <td>{row.dateInscription}</td>
-                <td>{row.email}</td>
-                <td>{row.telephone}</td>
-                <td>{row.diplome}</td>
-                <td>{row.experience}</td>
-                <td>{row.note}</td>
-                <td className={row.etat}>
-                  <div>
-                    <button className="btn btn-danger">
+            {professeurs?.map((prof) => {
+              const { createdAt } = prof.user;
+              const dateObject = new Date(createdAt);
+              const year = dateObject.getUTCFullYear();
+              const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+              const day = dateObject.getUTCDate();
+
+              // Format the date as a string in "YYYY-MM-DD" format
+              const formattedDate = `${year}-${month
+                .toString()
+                .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+              return (
+                <tr key={prof.id}>
+                  <td onClick={() => Navigate("/admin/Profeseurs/edit")}>
+                    {prof?.user?.nom} {prof.user.prenom}
+                  </td>
+                  <td>{formattedDate}</td>
+                  <td>{prof.user.email}</td>
+                  <td>{prof.phoneNumber}</td>
+                  <td>{prof.diplome}</td>
+                  <td>{prof.experience}</td>
+                  <td>{prof.note}</td>
+                  <td className="status">
+                    <div style={{
+                      display:"flex",
+                      flexDirection:"row",
+                      alignItems:"center",
+                      justifyContent:"center"
+                    }}>
+                      <button className="btn btn-danger">
+                        <img
+                          src="../assets/admin_edit.svg"
+                          onClick={() => setShowProfEtat(true)}
+                        />
+                      </button>
+                      <span
+                        className="status"
+                        style={{
+                          color: "#004AAD",
+                        }}
+                      >
+                        {prof.status}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <button className="btn btn-primary">
                       <img
-                        src="../assets/admin_edit.svg"
-                        onClick={() => setShowProfEtat(true)}
+                        src="../assets/aye.svg"
+                        onClick={() => setShowProfInfo(true)}
                       />
                     </button>
-                    <span>{row.etat}</span>
-                  </div>
-                </td>
-                <td>
-                  <button className="btn btn-primary">
-                    <img
-                      src="../assets/aye.svg"
-                      onClick={() => setShowProfInfo(true)}
-                    />
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      Navigate("/admin/professeurs/edit");
-                    }}
-                  >
-                    <img src="../assets/entreprise_icon.svg" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        Navigate("/admin/professeurs/edit");
+                      }}
+                    >
+                      <img src="../assets/entreprise_icon.svg" />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="table_pagination_bar">
