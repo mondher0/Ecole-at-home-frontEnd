@@ -9,3 +9,9 @@ adding some details in the subscription details (from backend)
 adding protected routes in the admin
 in niveau and matiere we have delete pop up not consulter
 api fih array t3 objects feh niveau w matier 
+
+--------------------------------------------------------------------------------------------------------------------------
+all project:
+adding loading and error handdling
+pagination 
+the upadte state 

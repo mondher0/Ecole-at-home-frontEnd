@@ -1,10 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const EditEntreprise = () => {
   const [pageAction, setPageAction] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [toggleSubmit, setToggleSubmit] = useState(false);
+  const [profInfo, setProfInfo] = useState();
+  const [email, setEmail] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const { id } = useParams();
+
+  // get prof info
+  const getProfInfo = async () => {
+    try {
+      const response = await axios.get(`${baseURl}/professeurs/${id}`);
+      setProfInfo(response.data);
+      setEmail(response.data.user.email);
+      setNom(response.data.user.nom);
+      setPrenom(response.data.user.prenom);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update prof info
+  const updateProfInfo = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        siret: profInfo.siret,
+        nomEntreprise: profInfo.nomEntreprise,
+        adress: profInfo.address,
+        codePostal: profInfo.codePostal,
+        ville: profInfo.ville,
+        email: email,
+        phone: profInfo.phoneNumber,
+        nom: nom,
+        prenom: prenom,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/professeurs/admin/${id}`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProfInfo();
+  }, []);
 
   const handleModifierClick = () => {
     if (pageAction === "Modifier") {
@@ -21,12 +73,15 @@ const EditEntreprise = () => {
       <h3 className="current_page">
         <span>Elèves</span>
         <span>{">"}</span>
-        <span>Nicholas Patrick</span>
+        <span>
+          {nom} {prenom}
+        </span>
       </h3>
       <form
         style={{
           margin: "50px",
         }}
+        onSubmit={updateProfInfo}
       >
         <div className="admin_inputs_cards">
           <div className="admin_inputs">
@@ -36,7 +91,10 @@ const EditEntreprise = () => {
                 id="Nom"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="Patrick"
+                value={nom}
+                onChange={(e) => {
+                  setNom(e.target.value);
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -45,7 +103,10 @@ const EditEntreprise = () => {
                 id="Prénom "
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="Nicholas"
+                value={prenom}
+                onChange={(e) => {
+                  setPrenom(e.target.value);
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -54,7 +115,13 @@ const EditEntreprise = () => {
                 id="Téléphone"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="01124548870"
+                value={profInfo?.phoneNumber}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    phoneNumber: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -63,7 +130,10 @@ const EditEntreprise = () => {
                 id="Email"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="imane@gmail.com"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -72,7 +142,13 @@ const EditEntreprise = () => {
                 id="Adresse  "
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="test test"
+                value={profInfo?.address}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    address: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -81,7 +157,13 @@ const EditEntreprise = () => {
                 id="Code postale"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="test"
+                value={profInfo?.codePostal}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    codePostal: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -90,7 +172,13 @@ const EditEntreprise = () => {
                 id="Ville"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="test test"
+                value={profInfo?.ville}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    ville: e.target.value,
+                  });
+                }}
               />
             </div>
           </div>
@@ -114,7 +202,13 @@ const EditEntreprise = () => {
                 id="Ville"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="test test"
+                value={profInfo?.siret}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    siret: e.target.value,
+                  });
+                }}
               />
             </div>
             <div
@@ -128,7 +222,13 @@ const EditEntreprise = () => {
                 id="Ville"
                 disabled={inputsDisabled}
                 type="text"
-                placeholder="test test"
+                value={profInfo?.nomEntreprise}
+                onChange={(e) => {
+                  setProfInfo({
+                    ...profInfo,
+                    nomEntreprise: e.target.value,
+                  });
+                }}
               />
             </div>
           </div>

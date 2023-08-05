@@ -12,6 +12,16 @@ const Profeseurs = () => {
   let [showProfInfo, setShowProfInfo] = useState(false);
   let [showProfEtat, setShowProfEtat] = useState(false);
   const [professeurs, setProfesseurs] = useState();
+  const [bloqueCount, setBloqueCount] = useState();
+  const [confirmeCount, setConfirmeCount] = useState();
+  const [inscritCount, setInscritCount] = useState();
+  const [valideCount, setValideCount] = useState();
+  const [etat, setEtat] = useState();
+  const [etat2 , setEtat2] = useState();
+  const [profNom, setProfNom] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
   let Navigate = useNavigate();
   const columns = [
     "Professeur",
@@ -19,8 +29,6 @@ const Profeseurs = () => {
     "Email",
     "Téléphone",
     "Diplome",
-    "Experience",
-    "Note",
     "Etat",
     "Action",
   ];
@@ -29,10 +37,18 @@ const Profeseurs = () => {
   const getPronfesseurs = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/professeurs/admin/search?pageSize=5&page=1`
+        `${baseURl}/professeurs/admin/search?pageSize=5&page=1&${
+          etat2 ? `status=${etat2}` : ""
+        }${profNom ? `&name=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
       setProfesseurs(response.data?.items);
+      setBloqueCount(response.data?.bloqueCount);
+      setConfirmeCount(response.data?.confirmeCount);
+      setInscritCount(response.data?.inscritCount);
+      setValideCount(response.data?.valideCount);
       console.log(response.data.items);
       console.log(professeurs);
     } catch (error) {
@@ -40,9 +56,24 @@ const Profeseurs = () => {
     }
   };
 
+  // change prof status
+  const changeProfStatus = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/professeurs/admin/status/${id}`,
+        data
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getPronfesseurs();
-  }, []);
+  }, [etat, startDate, endDate, profNom, etat2]);
 
   const data = [
     {
@@ -100,30 +131,42 @@ const Profeseurs = () => {
           <div className="radio_container">
             <label>Professeur</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+              <input type="text" placeholder="Prenom" onChange={(e) => {
+                setProfNom(e.target.value)
+              }} />
             </div>
           </div>
           <div className="radio_container">
             <label>Etat</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
+              <select
+                onChange={(e) => {
+                  setEtat2(e.target.value);
+                }}
+              >
+                <option value="">Choisir</option>
+                <option value="inscrit">Inscrit</option>
+                <option value="confirme">Confirmé</option>
+                <option value="valide">Validé</option>
+                <option value="bloque">Bloqué</option>
               </select>
             </div>
           </div>
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input type="date" onChange={(e) => {
+                setStartDate(e.target.value)
+              }}/>
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input type="date" onChange={(e) => {
+                setEndDate(e.target.value)
+              }}/>
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
@@ -151,28 +194,42 @@ const Profeseurs = () => {
               const formattedDate = `${year}-${month
                 .toString()
                 .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+              console.log(prof.id);
               return (
                 <tr key={prof.id}>
-                  <td onClick={() => Navigate("/admin/Profeseurs/edit")}>
+                  <td
+                    onClick={() =>
+                      Navigate(`/admin/Profeseurs/edit/${prof?.id}`)
+                    }
+                  >
                     {prof?.user?.nom} {prof.user.prenom}
                   </td>
                   <td>{formattedDate}</td>
                   <td>{prof.user.email}</td>
                   <td>{prof.phoneNumber}</td>
                   <td>{prof.diplome}</td>
-                  <td>{prof.experience}</td>
-                  <td>{prof.note}</td>
                   <td className="status">
-                    <div style={{
-                      display:"flex",
-                      flexDirection:"row",
-                      alignItems:"center",
-                      justifyContent:"center"
-                    }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <button className="btn btn-danger">
                         <img
                           src="../assets/admin_edit.svg"
-                          onClick={() => setShowProfEtat(true)}
+                          onClick={() => {
+                            setShowProfEtat({
+                              id: prof.id,
+                              etat: prof.status,
+                              nom: prof.user.nom,
+                              prenom: prof.user.prenom,
+                              diplome: prof.diplome,
+                            });
+                            console.log(showProfEtat);
+                          }}
                         />
                       </button>
                       <span
@@ -195,7 +252,7 @@ const Profeseurs = () => {
                     <button
                       className="btn btn-danger"
                       onClick={() => {
-                        Navigate("/admin/professeurs/edit");
+                        Navigate(`/admin/professeurs/edit/${prof?.id}`);
                       }}
                     >
                       <img src="../assets/entreprise_icon.svg" />
@@ -226,10 +283,10 @@ const Profeseurs = () => {
           }}
         >
           <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
+          <li style={{ color: "#38B6FF" }}>Inscrit: {inscritCount}</li>
+          <li style={{ color: "#004AAD" }}>Confirmé: {confirmeCount}</li>
+          <li style={{ color: "#4DC643" }}>Validé: {valideCount}</li>
+          <li style={{ color: "#FF914D" }}>Bloqué: {bloqueCount}</li>
         </ul>
       </div>
 
@@ -553,22 +610,29 @@ const Profeseurs = () => {
             <div className="prof_edit_top">
               <img src="../assets/empty_avatar.png" />
               <div className="text">
-                <h2 className="user_name">Patrick Nicholas</h2>
-                <span>Ingénieur détat en génie des procédés</span>
+                <h2 className="user_name">
+                  {showProfEtat.nom} {showProfEtat.prenom}
+                </h2>
+                <span>{showProfEtat.diplome}</span>
               </div>
             </div>
             <div className="edit_etat">
               <label>
-                Etat actuel: <span className="Inscrit">Inscrit</span>
+                Etat actuel:{" "}
+                <span className="Inscrit">{showProfEtat.etat}</span>
               </label>
               <div className="radio_container">
                 <label>Etat à changer:</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Inscrit</option>
-                    <option>Confirmé</option>
-                    <option>Validé</option>
-                    <option>Bloqué</option>
+                  <select
+                    onChange={(e) => {
+                      setEtat(e.target.value);
+                    }}
+                  >
+                    <option value="inscrit">Inscrit</option>
+                    <option value="confirme">Confirmé</option>
+                    <option value="valide">Validé</option>
+                    <option value="bloque">Bloqué</option>
                   </select>
                 </div>
               </div>
@@ -584,6 +648,11 @@ const Profeseurs = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                console.log(etat);
+                changeProfStatus(showProfEtat.id, etat);
+                setShowProfEtat(false);
               }}
             >
               Confirmer

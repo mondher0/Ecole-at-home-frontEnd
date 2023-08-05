@@ -101,7 +101,7 @@ const App = () => {
           <Route path="/admin/avis" element={<Avis />} />
           <Route path="/admin/historique" element={<Historique />} />
           <Route path="/admin/parametres" element={<Settings />} />
-          <Route path="/admin/professeurs/edit" element={<EditEntreprise />} />
+          <Route path="/admin/professeurs/edit/:id" element={<EditEntreprise />} />
         </Route>
       </Routes>
     </BrowserRouter>
