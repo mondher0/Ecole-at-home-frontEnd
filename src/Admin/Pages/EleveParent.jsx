@@ -1,12 +1,31 @@
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const EleveParent = () => {
   let [showProfEtat, setShowProfEtat] = useState(false);
   let [tab, setTab] = useState("Eleve");
   let [showDelete, setShowDelete] = useState(false);
   let Navigate = useNavigate();
+
+  // get student
+  const getStudent = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/eleve/admin/search?page=1&pageSize=5`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (tab === "Eleve") {
+      getStudent();
+    }
+  }, [tab]);
 
   const columnsParent = [
     "Parents",
