@@ -7,6 +7,12 @@ const EleveParent = () => {
   let [showProfEtat, setShowProfEtat] = useState(false);
   let [tab, setTab] = useState("Eleve");
   let [showDelete, setShowDelete] = useState(false);
+  const [students, setStudents] = useState();
+  const [bloqueCount, setBloqueCount] = useState();
+  const [confirmeCount, setConfirmeCount] = useState();
+  const [inscritCount, setInscritCount] = useState();
+  const [suspenduCount, setSuspenduCount] = useState();
+  const [etat, setEtat] = useState("inscrit");
   let Navigate = useNavigate();
 
   // get student
@@ -16,10 +22,43 @@ const EleveParent = () => {
         `${baseURl}/eleve/admin/search?page=1&pageSize=5`
       );
       console.log(response);
+      setStudents(response.data?.items);
+      setBloqueCount(response.data?.bloqueCount);
+      setConfirmeCount(response.data?.confirmeCount);
+      setInscritCount(response.data?.inscritCount);
+      setSuspenduCount(response.data?.suspenduCount);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // update status of student
+  const updateStatus = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/eleve/admin/status/${id}`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // delete student
+  const deleteStudent = async (id) => {
+    try {
+      const response = await axiosInstance.delete(
+        `${baseURl}/eleve/admin/${id}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (tab === "Eleve") {
@@ -43,7 +82,6 @@ const EleveParent = () => {
     "Elève",
     "Date d’inscription",
     "Email",
-    "Parent",
     "Etat",
     "Action",
   ];
@@ -155,41 +193,71 @@ const EleveParent = () => {
           </thead>
           <tbody>
             {tab === "Eleve"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.professeur}
-                    </td>
-                    <td>{row.dateInscription}</td>
-                    <td>{row.email}</td>
-                    <td>{row.note}</td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
+              ? students?.map((student) => {
+                  const { createdAt } = student.user;
+                  const dateObject = new Date(createdAt);
+                  const year = dateObject.getUTCFullYear();
+                  const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+                  const day = dateObject.getUTCDate();
+
+                  // Format the date as a string in "YYYY-MM-DD" format
+                  const formattedDate = `${year}-${month
+                    .toString()
+                    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+                  return (
+                    <tr key={student.id}>
+                      <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                        {student.user.nom} {student.user.prenom}
+                      </td>
+                      <td>{formattedDate}</td>
+                      <td>{student.user.email}</td>
+                      <td className="">
+                        <div>
+                          <button className="btn btn-danger">
+                            <img
+                              src="../assets/admin_edit.svg"
+                              onClick={() =>
+                                setShowProfEtat({
+                                  id: student.id,
+                                  role: student.user.role,
+                                  nom: student.user.nom,
+                                  prenom: student.user.prenom,
+                                  etat: student.status,
+                                })
+                              }
+                            />
+                          </button>
+                          <span
+                            style={{
+                              color: "#004AAD",
+                            }}
+                          >
+                            {student.status}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="btn btn-primary">
                           <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowProfEtat(true)}
+                            src="../assets/aye.svg"
+                            onClick={() => Navigate(`/admin/${tab}/edit/${student.id}`)}
                           />
                         </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <button className="btn btn-primary">
-                        <img
-                          src="../assets/aye.svg"
-                          onClick={() => Navigate(`/admin/${tab}/edit`)}
-                        />
-                      </button>
-                      <button className="btn btn-danger">
-                        <img
-                          src="../assets/admin_delete.svg"
-                          onClick={() => setShowDelete(true)}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                        <button className="btn btn-danger">
+                          <img
+                            src="../assets/admin_delete.svg"
+                            onClick={() => setShowDelete({
+                              id: student.id,
+                              role: student.user.role,
+                              nom: student.user.nom,
+                              prenom: student.user.prenom,
+                            })}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               : data.map((row) => (
                   <tr key={row.id}>
                     <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
@@ -250,10 +318,10 @@ const EleveParent = () => {
           }}
         >
           <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
+          <li style={{ color: "#38B6FF" }}>Inscrit: {inscritCount}</li>
+          <li style={{ color: "#004AAD" }}>Confirmé: {confirmeCount}</li>
+          <li style={{ color: "#4DC643" }}>Suspendu: {suspenduCount}</li>
+          <li style={{ color: "#FF914D" }}>Bloqué: {bloqueCount}</li>
         </ul>
       </div>
 
@@ -263,22 +331,33 @@ const EleveParent = () => {
             <div className="prof_edit_top">
               <img src="../assets/empty_avatar.png" />
               <div className="text">
-                <h2 className="user_name">Patrick Nicholas</h2>
-                <span>Ingénieur d’état en génie des procédés</span>
+                <h2 className="user_name">
+                  {showProfEtat.nom} {showProfEtat.prenom}
+                </h2>
+                <span>{showProfEtat.role}</span>
               </div>
             </div>
             <div className="edit_etat">
               <label>
-                Etat actuel: <span className="Inscrit">Inscrit</span>
+                Etat actuel:{" "}
+                <span className="Inscrit">{showProfEtat.etat}</span>
               </label>
               <div className="radio_container">
                 <label>Etat à changer:</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Inscrit</option>
-                    <option>Confirmé</option>
-                    <option>Validé</option>
-                    <option>Bloqué</option>
+                  <select
+                    onChange={(e) => {
+                      setEtat(e.target.value);
+                    }}
+                  >
+                    <option value="inscrit">Inscrit</option>
+                    <option value="confirme">Confirmé</option>
+                    <option value="valide">Validé</option>
+                    <option value="bloque">Bloqué</option>
+                    <option value="suspendu">Suspendu</option>
+                    <option value="abonne">Abonné</option>
+                    <option value="test">Test</option>
+                    <option value="teste">Testé</option>
                   </select>
                 </div>
               </div>
@@ -294,6 +373,10 @@ const EleveParent = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                updateStatus(showProfEtat.id, etat);
+                setShowProfEtat(false);
               }}
             >
               Confirmer
@@ -316,14 +399,14 @@ const EleveParent = () => {
                 <img src="../assets/student.svg" />
               </div>
               <div className="text">
-                <h2 className="user_name">Patrick Nicholas</h2>
-                <span>Elève</span>
+                <h2 className="user_name">{showDelete.nom} {showDelete.prenom}</h2>
+                <span>{showDelete.role}</span>
               </div>
             </div>
             <div className="edit_etat delete">
               <p className="delete_text">
                 Etes vous sûr de vouloir supprimer lélève{" "}
-                <span>Nicholas Patrick</span>?
+                <span>{showDelete.nom} {showDelete.prenom}</span>?
               </p>
             </div>
             <button
@@ -337,6 +420,10 @@ const EleveParent = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                deleteStudent(showDelete.id);
+                setShowDelete(false);
               }}
             >
               Confirmer
