@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +8,15 @@ import { useEffect } from "react";
 
 const Avis = () => {
   let [showAvis, setShowAvis] = useState(false);
+  const [avis, setAvis] = useState();
+  const [profNom, setProfNom] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   let Navigate = useNavigate();
 
   const columns = [
     "Professeur",
     "Parent",
-    "Enfant",
     "Commentaire",
     "Date",
     "Note",
@@ -20,57 +24,32 @@ const Avis = () => {
     "Action",
   ];
 
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Bloqué",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Validé",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Inscrit",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Confirmé",
-    },
-  ];
-
   // get avis
   const getAvis = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/rating/?page=1&pageSize=5`
+        `${baseURl}/rating/?page=1&pageSize=5
+        ${profNom ? `&professeurName=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
+      setAvis(response.data?.ratings);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // change status of avis
+  const changeStatus = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/rating/${id}`,
+        data
+      );
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +57,7 @@ const Avis = () => {
 
   useEffect(() => {
     getAvis();
-  }, []);
+  }, [profNom, startDate, endDate]);
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">
@@ -87,22 +66,32 @@ const Avis = () => {
           <div className="radio_container">
             <label>Professeur</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+              <input type="text" onChange={(e) => setProfNom(e.target.value)} />
             </div>
           </div>
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  const date = e.target.value + "T00:00:00.000Z";
+                  setStartDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  const date = e.target.value + "T23:59:59.999Z";
+                  setEndDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
@@ -119,33 +108,69 @@ const Avis = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td onClick={() => Navigate("/admin/Profeseurs/edit")}>
-                  {row.professeur}
-                </td>
-                <td>{row.dateInscription}</td>
-                <td>{row.telephone}</td>
-                <td>{row.diplome}</td>
-                <td>{row.experience}</td>
-                <td>{row.note}</td>
-                <td className={row.etat}>
-                  {/* <div> */}
-                  <button className="btn cta green">Valider</button>
-                  <button className="btn cta red">Supprimer</button>
-                  <span>{row.etat}</span>
-                  {/* </div> */}
-                </td>
-                <td>
-                  <button className="btn btn-primary">
-                    <img
-                      src="../assets/aye.svg"
-                      onClick={() => setShowAvis(true)}
-                    />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {avis?.map((avi) => {
+              const { createdAt } = avi;
+              const dateObject = new Date(createdAt);
+              const year = dateObject.getUTCFullYear();
+              const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+              const day = dateObject.getUTCDate();
+
+              // Format the date as a string in "YYYY-MM-DD" format
+              const formattedDate = `${year}-${month
+                .toString()
+                .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+              return (
+                <tr key={avi.id}>
+                  <td onClick={() => Navigate("/admin/Profeseurs/edit")}>
+                    {avi.professeur.user.nom} {avi.professeur.user.prenom}
+                  </td>
+                  <td>
+                    {avi.user.nom} {avi.user.prenom}
+                  </td>
+                  <td>{avi.comment}</td>
+                  <td>{formattedDate}</td>
+                  <td>{avi.note}</td>
+                  <td className={avi.etat}>
+                    {avi?.status === "PENDING" ? (
+                      <>
+                        <button
+                          className="btn cta green"
+                          onClick={() => {
+                            changeStatus(avi.id, "VALIDE");
+                          }}
+                        >
+                          Valider
+                        </button>
+                        <button
+                          className="btn cta red"
+                          onClick={() => {
+                            changeStatus(avi.id, "SUPPRIME");
+                          }}
+                        >
+                          Supprimer
+                        </button>
+                      </>
+                    ) : null}
+                    {avi?.status !== "PENDING" && <span>{avi.status}</span>}
+                  </td>
+                  <td>
+                    <button className="btn btn-primary">
+                      <img
+                        src="../assets/aye.svg"
+                        onClick={() =>
+                          setShowAvis({
+                            note: avi.note,
+                            comment: avi.comment,
+                            nom : avi.user.nom,
+                            prenom : avi.user.prenom,
+                          })
+                        }
+                      />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="table_pagination_bar">
@@ -161,18 +186,6 @@ const Avis = () => {
             </button>
           </div>
         </div>
-        <ul
-          className="table_resume_bar"
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
-        </ul>
       </div>
 
       {showAvis && (
@@ -181,22 +194,16 @@ const Avis = () => {
             <div className="prof_edit_top avis">
               <img src="../assets/empty_avatar.png" />
               <div className="text">
-                <h2 className="user_name">Theresa Webb</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                  vulputate libero et
-                </p>
+                <h2 className="user_name">{showAvis.nom} {showAvis.prenom}</h2>
+                <p>{showAvis.comment}</p>
               </div>
             </div>
             <div className="avis_bottom">
               <div className="rating_starts">
-                <img src="../assets/admin_star.svg" />
-                <img src="../assets/admin_star.svg" />
-                <img src="../assets/admin_star.svg" />
-                <img src="../assets/admin_star.svg" />
-                <img src="../assets/admin_star.svg" />
+                {[...Array(showAvis.note)].map((index) => {
+                  return <img src="../assets/admin_star.svg" key={index} />;
+                })}
               </div>
-              <span>il y a 23h</span>
             </div>
             <img
               className="hide_btn"
