@@ -18,13 +18,10 @@ the upadte state
 
 professeurs : 
 the pop up of what prof do not linked yet 
-filters by date error from back
-
-eleves :
-edit eleve 
-
-Parents : 
-changing the data structure of the parent from the backend
 
 mails : 
 adding many receivers in the mail
+
+parents : 
+edit parent
+update status of enfant 
