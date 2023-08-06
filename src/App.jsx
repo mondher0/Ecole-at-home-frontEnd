@@ -95,7 +95,7 @@ const App = () => {
           <Route path="/admin/Parent/edit" element={<EditParent />} />
           <Route path="/admin/Eleve/edit/:id" element={<EditEleve />} />
           <Route path="/admin/Emails" element={<EmailsPage />} />
-          <Route path="/admin/Email/edit" element={<EditMail />} />
+          <Route path="/admin/Email/edit/:id" element={<EditMail />} />
           <Route path="/admin/abonnements" element={<Abonnements />} />
           <Route path="/admin/cours" element={<Cours />} />
           <Route path="/admin/paiment" element={<Paiment />} />

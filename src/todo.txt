@@ -23,6 +23,11 @@ filters by date error from back
 eleves :
 filter by date error from back
 edit eleve 
+
 Parents : 
 changing the data structure of the parent from the backend
+
+mails : 
+get mail by id 
+
 

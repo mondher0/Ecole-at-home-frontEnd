@@ -95,7 +95,7 @@ const EmailsPage = () => {
                   <button className="btn">
                     <img
                       src="../assets/admin_edit.svg"
-                      onClick={() => Navigate("/admin/email/edit")}
+                      onClick={() => Navigate(`/admin/email/edit/${mail.id}`)}
                     />
                   </button>
                   <button
