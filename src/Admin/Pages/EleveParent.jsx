@@ -9,6 +9,7 @@ const EleveParent = () => {
   let [tab, setTab] = useState("Eleve");
   let [showDelete, setShowDelete] = useState(false);
   const [students, setStudents] = useState();
+  const [parents, setParents] = useState();
   const [bloqueCount, setBloqueCount] = useState();
   const [confirmeCount, setConfirmeCount] = useState();
   const [inscritCount, setInscritCount] = useState();
@@ -45,9 +46,14 @@ const EleveParent = () => {
   const getParent = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/parent/admin/search?page=1&pageSize=5`
+        `${baseURl}/parent/admin/search?page=1&pageSize=5&${
+          etat2 ? `status=${etat2}` : ""
+        }${name ? `&parentName=${name}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
+      setParents(response.data?.items);
     } catch (error) {
       console.log(error);
     }
@@ -64,6 +70,41 @@ const EleveParent = () => {
         data
       );
       console.log(response);
+      getStudent();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update status of parent
+  const updateStatusParent = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/parent/admin/status/${id}`,
+        data
+      );
+      console.log(response);
+      getParent();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update status of enfant
+  const updateStatusEnfant = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/enfant/admin/status/${id}`,
+        data
+      );
+      console.log(response);
+      getParent();
     } catch (error) {
       console.log(error);
     }
@@ -91,10 +132,9 @@ const EleveParent = () => {
   }, [tab, name, startDate, endDate, etat2]);
 
   const columnsParent = [
-    "Parents",
+    "Parent",
     "Date d’inscription",
     "Email",
-    "Parent",
     "Etat Parent",
     "Enfant",
     "Email Enfant",
@@ -108,53 +148,6 @@ const EleveParent = () => {
     "Email",
     "Etat",
     "Action",
-  ];
-
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Bloqué",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Validé",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Inscrit",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Confirmé",
-    },
   ];
 
   return (
@@ -252,7 +245,6 @@ const EleveParent = () => {
                   const year = dateObject.getUTCFullYear();
                   const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
                   const day = dateObject.getUTCDate();
-
                   // Format the date as a string in "YYYY-MM-DD" format
                   const formattedDate = `${year}-${month
                     .toString()
@@ -315,44 +307,86 @@ const EleveParent = () => {
                     </tr>
                   );
                 })
-              : data.map((row) => (
-                  <tr key={row.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.professeur}
-                    </td>
-                    <td>{row.dateInscription}</td>
-                    <td>{row.email}</td>
-                    <td>{row.note}</td>
-                    <td>{row.note}</td>
-                    <td>{row.note}</td>
-                    <td>{row.note}</td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowProfEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <button className="btn btn-primary">
-                        <img
-                          src="../assets/aye.svg"
-                          onClick={() => Navigate(`/admin/${tab}/edit`)}
-                        />
-                      </button>
-                      <button className="btn btn-danger">
-                        <img
-                          src="../assets/admin_delete.svg"
-                          onClick={() => setShowDelete(true)}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              : parents?.map((parent) => {
+                  const { createdAt } = parent.user;
+                  const dateObject = new Date(createdAt);
+                  const year = dateObject.getUTCFullYear();
+                  const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+                  const day = dateObject.getUTCDate();
+                  // Format the date as a string in "YYYY-MM-DD" format
+                  const formattedDate = `${year}-${month
+                    .toString()
+                    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+                  {
+                    return parent.enfants.map((enfant) => {
+                      return (
+                        <tr key={enfant.id}>
+                          <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                            {parent.user.nom} {parent.user.prenom}
+                          </td>
+                          <td>{formattedDate}</td>
+                          <td>{parent.user.email}</td>
+                          <td className={parent.status}>
+                            <div>
+                              <button className="btn btn-danger">
+                                <img
+                                  src="../assets/admin_edit.svg"
+                                  onClick={() =>
+                                    setShowProfEtat({
+                                      id: parent.id,
+                                      role: parent.user.role,
+                                      nom: parent.user.nom,
+                                      prenom: parent.user.prenom,
+                                      etat: parent.status,
+                                    })
+                                  }
+                                />
+                              </button>
+                              <span>{parent.status}</span>
+                            </div>
+                          </td>
+                          <td>
+                            {enfant.nom} {enfant.prenom}
+                          </td>
+                          <td>{enfant.email}</td>
+                          <td className={enfant.status}>
+                            <div>
+                              <button className="btn btn-danger">
+                                <img
+                                  src="../assets/admin_edit.svg"
+                                  onClick={() =>
+                                    setShowProfEtat({
+                                      id: enfant.id,
+                                      role: "Enfant",
+                                      nom: enfant.nom,
+                                      prenom: enfant.prenom,
+                                      etat: enfant.status,
+                                    })
+                                  }
+                                />
+                              </button>
+                              <span>{enfant.status}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <button className="btn btn-primary">
+                              <img
+                                src="../assets/aye.svg"
+                                onClick={() => Navigate(`/admin/${tab}/edit`)}
+                              />
+                            </button>
+                            <button className="btn btn-danger">
+                              <img
+                                src="../assets/admin_delete.svg"
+                                onClick={() => setShowDelete(true)}
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    });
+                  }
+                })}
           </tbody>
         </table>
         <div className="table_pagination_bar">
@@ -432,7 +466,15 @@ const EleveParent = () => {
                 textAlign: "center",
               }}
               onClick={() => {
-                updateStatus(showProfEtat.id, etat);
+                if (tab === "Parent") {
+                  updateStatusParent(showProfEtat.id, etat);
+                }
+                if (tab === "Eleve") {
+                  updateStatus(showProfEtat.id, etat);
+                }
+                if (showProfEtat.role === "Enfant") {
+                  updateStatusEnfant(showProfEtat.id, etat);
+                }
                 setShowProfEtat(false);
               }}
             >
