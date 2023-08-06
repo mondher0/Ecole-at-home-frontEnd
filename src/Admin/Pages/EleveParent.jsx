@@ -41,6 +41,18 @@ const EleveParent = () => {
     }
   };
 
+  // get parent
+  const getParent = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/parent/admin/search?page=1&pageSize=5`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // update status of student
   const updateStatus = async (id, status) => {
     try {
@@ -72,6 +84,9 @@ const EleveParent = () => {
   useEffect(() => {
     if (tab === "Eleve") {
       getStudent();
+    }
+    if (tab === "Parent") {
+      getParent();
     }
   }, [tab, name, startDate, endDate, etat2]);
 
