@@ -332,9 +332,86 @@ const EleveParent = () => {
                     .toString()
                     .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
                   {
-                    return parent.enfants.map((enfant) => {
-                      return (
-                        <tr key={enfant.id}>
+                    return parent.enfants?.length > 0 ? (
+                      parent.enfants.map((enfant) => {
+                        return (
+                          <tr key={enfant.id}>
+                            <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                              {parent.user.nom} {parent.user.prenom}
+                            </td>
+                            <td>{formattedDate}</td>
+                            <td>{parent.user.email}</td>
+                            <td className={parent.status}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() =>
+                                      setShowProfEtat({
+                                        id: parent.id,
+                                        role: parent.user.role,
+                                        nom: parent.user.nom,
+                                        prenom: parent.user.prenom,
+                                        etat: parent.status,
+                                      })
+                                    }
+                                  />
+                                </button>
+                                <span>{parent.status}</span>
+                              </div>
+                            </td>
+                            <td>
+                              {enfant.nom} {enfant.prenom}
+                            </td>
+                            <td>{enfant.email}</td>
+                            <td className={enfant.status}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() =>
+                                      setShowProfEtat({
+                                        id: enfant.id,
+                                        role: "Enfant",
+                                        nom: enfant.nom,
+                                        prenom: enfant.prenom,
+                                        etat: enfant.status,
+                                      })
+                                    }
+                                  />
+                                </button>
+                                <span>{enfant.status}</span>
+                              </div>
+                            </td>
+                            <td>
+                              <button className="btn btn-primary">
+                                <img
+                                  src="../assets/aye.svg"
+                                  onClick={() =>
+                                    Navigate(`/admin/${tab}/edit/${parent.id}`)
+                                  }
+                                />
+                              </button>
+                              <button className="btn btn-danger">
+                                <img
+                                  src="../assets/admin_delete.svg"
+                                  onClick={() =>
+                                    setShowDelete({
+                                      id: parent.id,
+                                      role: parent.user.role,
+                                      nom: parent.user.nom,
+                                      prenom: parent.user.prenom,
+                                    })
+                                  }
+                                />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <tr key={parent.id}>
                           <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
                             {parent.user.nom} {parent.user.prenom}
                           </td>
@@ -359,34 +436,18 @@ const EleveParent = () => {
                               <span>{parent.status}</span>
                             </div>
                           </td>
-                          <td>
-                            {enfant.nom} {enfant.prenom}
-                          </td>
-                          <td>{enfant.email}</td>
-                          <td className={enfant.status}>
-                            <div>
-                              <button className="btn btn-danger">
-                                <img
-                                  src="../assets/admin_edit.svg"
-                                  onClick={() =>
-                                    setShowProfEtat({
-                                      id: enfant.id,
-                                      role: "Enfant",
-                                      nom: enfant.nom,
-                                      prenom: enfant.prenom,
-                                      etat: enfant.status,
-                                    })
-                                  }
-                                />
-                              </button>
-                              <span>{enfant.status}</span>
-                            </div>
+                          <td>-</td>
+                          <td>-</td>
+                          <td className="">
+                            <div>-</div>
                           </td>
                           <td>
                             <button className="btn btn-primary">
                               <img
                                 src="../assets/aye.svg"
-                                onClick={() => Navigate(`/admin/${tab}/edit`)}
+                                onClick={() =>
+                                  Navigate(`/admin/${tab}/edit/${parent.id}`)
+                                }
                               />
                             </button>
                             <button className="btn btn-danger">
@@ -404,8 +465,8 @@ const EleveParent = () => {
                             </button>
                           </td>
                         </tr>
-                      );
-                    });
+                      </>
+                    );
                   }
                 })}
           </tbody>

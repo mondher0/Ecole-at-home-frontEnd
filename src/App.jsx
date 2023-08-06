@@ -92,7 +92,7 @@ const App = () => {
           <Route path="/admin/board" element={<BoardPage />} />
           <Route path="/admin/professeurs" element={<Profeseurs />} />
           <Route path="/admin/eleve-parent" element={<EleveParent />} />
-          <Route path="/admin/Parent/edit" element={<EditParent />} />
+          <Route path="/admin/Parent/edit/:id" element={<EditParent />} />
           <Route path="/admin/Eleve/edit/:id" element={<EditEleve />} />
           <Route path="/admin/Emails" element={<EmailsPage />} />
           <Route path="/admin/Email/edit/:id" element={<EditMail />} />
