@@ -17,7 +17,7 @@ const Profeseurs = () => {
   const [inscritCount, setInscritCount] = useState();
   const [valideCount, setValideCount] = useState();
   const [etat, setEtat] = useState();
-  const [etat2 , setEtat2] = useState();
+  const [etat2, setEtat2] = useState();
   const [profNom, setProfNom] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -131,9 +131,13 @@ const Profeseurs = () => {
           <div className="radio_container">
             <label>Professeur</label>
             <div className="date_picker_container">
-              <input type="text" placeholder="Prenom" onChange={(e) => {
-                setProfNom(e.target.value)
-              }} />
+              <input
+                type="text"
+                placeholder="Prenom"
+                onChange={(e) => {
+                  setProfNom(e.target.value);
+                }}
+              />
             </div>
           </div>
           <div className="radio_container">
@@ -155,18 +159,27 @@ const Profeseurs = () => {
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" onChange={(e) => {
-                setStartDate(e.target.value)
-              }}/>
+              <input
+                type="date"
+                onChange={(e) => {
+                  const date = e.target.value + "T00:00:00.000Z";
+                  console.log(date);
+                  setStartDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" onChange={(e) => {
-                setEndDate(e.target.value)
-              }}/>
+              <input
+                type="date"
+                onChange={(e) => {
+                  const date = e.target.value + "T23:59:59.999Z";
+                  setEndDate(data);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>

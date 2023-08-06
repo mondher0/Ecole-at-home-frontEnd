@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +14,21 @@ const EleveParent = () => {
   const [inscritCount, setInscritCount] = useState();
   const [suspenduCount, setSuspenduCount] = useState();
   const [etat, setEtat] = useState("inscrit");
+  const [name, setName] = useState();
+  const [etat2, setEtat2] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   let Navigate = useNavigate();
 
   // get student
   const getStudent = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/eleve/admin/search?page=1&pageSize=5`
+        `${baseURl}/eleve/admin/search?page=1&pageSize=5&${
+          etat2 ? `status=${etat2}` : ""
+        }${name ? `&name=${name}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
       setStudents(response.data?.items);
@@ -58,13 +67,13 @@ const EleveParent = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     if (tab === "Eleve") {
       getStudent();
     }
-  }, [tab]);
+  }, [tab, name, startDate, endDate, etat2]);
 
   const columnsParent = [
     "Parents",
@@ -152,30 +161,59 @@ const EleveParent = () => {
         </h2>
         <div className="admin_time_filter">
           <div className="radio_container">
-            <label>Professeur</label>
+            <label>{tab === "Eleve" ? "Eleve" : "Parent"}</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+              <input
+                placeholder="Prenom"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
             </div>
           </div>
           <div className="radio_container">
             <label>Etat</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
+              <select
+                onChange={(e) => {
+                  setEtat2(e.target.value);
+                }}
+              >
+                <option value="">Choisir</option>
+                <option value="inscrit">Inscrit</option>
+                <option value="confirme">Confirmé</option>
+                <option value="valide">Validé</option>
+                <option value="bloque">Bloqué</option>
+                <option value="suspendu">Suspendu</option>
+                <option value="abonne">Abonné</option>
+                <option value="test">Test</option>
+                <option value="teste">Testé</option>
               </select>
             </div>
           </div>
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  const date = e.target.value + "T00:00:00.000Z";
+                  console.log(date);
+                  setStartDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  const date = e.target.value + "T23:59:59.999Z";
+                  setEndDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
@@ -240,18 +278,22 @@ const EleveParent = () => {
                         <button className="btn btn-primary">
                           <img
                             src="../assets/aye.svg"
-                            onClick={() => Navigate(`/admin/${tab}/edit/${student.id}`)}
+                            onClick={() =>
+                              Navigate(`/admin/${tab}/edit/${student.id}`)
+                            }
                           />
                         </button>
                         <button className="btn btn-danger">
                           <img
                             src="../assets/admin_delete.svg"
-                            onClick={() => setShowDelete({
-                              id: student.id,
-                              role: student.user.role,
-                              nom: student.user.nom,
-                              prenom: student.user.prenom,
-                            })}
+                            onClick={() =>
+                              setShowDelete({
+                                id: student.id,
+                                role: student.user.role,
+                                nom: student.user.nom,
+                                prenom: student.user.prenom,
+                              })
+                            }
                           />
                         </button>
                       </td>
@@ -399,14 +441,19 @@ const EleveParent = () => {
                 <img src="../assets/student.svg" />
               </div>
               <div className="text">
-                <h2 className="user_name">{showDelete.nom} {showDelete.prenom}</h2>
+                <h2 className="user_name">
+                  {showDelete.nom} {showDelete.prenom}
+                </h2>
                 <span>{showDelete.role}</span>
               </div>
             </div>
             <div className="edit_etat delete">
               <p className="delete_text">
                 Etes vous sûr de vouloir supprimer lélève{" "}
-                <span>{showDelete.nom} {showDelete.prenom}</span>?
+                <span>
+                  {showDelete.nom} {showDelete.prenom}
+                </span>
+                ?
               </p>
             </div>
             <button
