@@ -1,65 +1,59 @@
 // eslint-disable-next-line no-unused-vars
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance, { baseURl } from "../../utils/utils";
+import { useEffect } from "react";
 
 const EmailsPage = () => {
   const Navigate = useNavigate();
+  const [mails, setMails] = useState();
   const columns = [
     "ID",
     "Objet mail",
     "Contenu",
     "Destination",
-    "lantence",
+    // "lantence",
     "Action",
   ];
+  // get mails
+  const getMails = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/mail/?pageSize=5&page=1`
+      );
+      console.log(response);
+      setMails(response.data?.mails);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Bloqué",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Validé",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Inscrit",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Confirmé",
-    },
-    // More data objects here
-  ];
+  // delete mail
+  const deleteMail = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${baseURl}/mail/${id}`);
+      console.log(response);
+      getMails();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // send email
+  const sendEmail = async (id) => {
+    try {
+      const response = await axiosInstance.post(`${baseURl}/mail/${id}`);
+      console.log(response);
+      getMails();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getMails();
+  }, []);
+
   return (
     <div className="admin_section">
       <div className="admin_sections_header">
@@ -83,15 +77,19 @@ const EmailsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row.id}>
-                <td>{row.email}</td>
-                <td>{row.telephone}</td>
-                <td>{row.diplome}</td>
-                <td>{row.experience}</td>
-                <td>{row.note}</td>
+            {mails?.map((mail) => (
+              <tr key={mail.id}>
+                <td>{mail.id}</td>
+                <td>{mail.subject}</td>
+                <td dangerouslySetInnerHTML={{ __html: mail.bodyHtml }} />
+                <td>{mail.receivers[0]}</td>
                 <td>
-                  <button className="btn">
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      sendEmail(mail.id);
+                    }}
+                  >
                     <img src="../assets/paper_plane.svg" />
                   </button>
                   <button className="btn">
@@ -100,7 +98,12 @@ const EmailsPage = () => {
                       onClick={() => Navigate("/admin/email/edit")}
                     />
                   </button>
-                  <button className="btn">
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      deleteMail(mail.id);
+                    }}
+                  >
                     <img src="../assets/admin_delete.svg" />
                   </button>
                 </td>
