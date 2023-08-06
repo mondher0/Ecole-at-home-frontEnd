@@ -32,6 +32,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import NewPassword from "./Pages/NewPassword";
 import AdminProtectedRoute from "./Admin/Components/AdminProtectedRoute";
 import AdminLoginProtectedRoute from "./Admin/Components/AdminLoginProtectedRoute";
+import AddEmail from "./Admin/Pages/addEmail";
 
 const App = () => {
   return (
@@ -101,7 +102,11 @@ const App = () => {
           <Route path="/admin/avis" element={<Avis />} />
           <Route path="/admin/historique" element={<Historique />} />
           <Route path="/admin/parametres" element={<Settings />} />
-          <Route path="/admin/professeurs/edit/:id" element={<EditEntreprise />} />
+          <Route
+            path="/admin/professeurs/edit/:id"
+            element={<EditEntreprise />}
+          />
+          <Route path="/admin/ajouter-email" element={<AddEmail />} />
         </Route>
       </Routes>
     </BrowserRouter>

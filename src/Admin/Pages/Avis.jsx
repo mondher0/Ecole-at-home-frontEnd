@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/utils";
+import { baseURl } from "../../utils/utils";
+import { useEffect } from "react";
 
 const Avis = () => {
   let [showAvis, setShowAvis] = useState(false);
@@ -60,6 +63,22 @@ const Avis = () => {
       etat: "Confirmé",
     },
   ];
+
+  // get avis
+  const getAvis = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/rating/?page=1&pageSize=5`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAvis();
+  }, []);
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">

@@ -3,7 +3,7 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EmailsPage = () => {
-  let Navigate = useNavigate();
+  const Navigate = useNavigate();
   const columns = [
     "ID",
     "Objet mail",
@@ -64,7 +64,10 @@ const EmailsPage = () => {
     <div className="admin_section">
       <div className="admin_sections_header">
         <h2 className="admin_section_title">Emails</h2>
-        <button className="cta" onClick={() => Navigate("/admin/Email/edit")}>
+        <button
+          className="cta"
+          onClick={() => Navigate("/admin/ajouter-email")}
+        >
           <img src="../assets/email_model.svg" />
           <span>Ajouter un modèle</span>
         </button>
@@ -82,7 +85,6 @@ const EmailsPage = () => {
           <tbody>
             {data.map((row) => (
               <tr key={row.id}>
-   
                 <td>{row.email}</td>
                 <td>{row.telephone}</td>
                 <td>{row.diplome}</td>
