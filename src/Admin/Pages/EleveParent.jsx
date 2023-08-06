@@ -117,6 +117,20 @@ const EleveParent = () => {
         `${baseURl}/eleve/admin/${id}`
       );
       console.log(response);
+      getStudent();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // delete parent
+  const deleteParent = async (id) => {
+    try {
+      const response = await axiosInstance.delete(
+        `${baseURl}/parent/admin/${id}`
+      );
+      console.log(response);
+      getParent();
     } catch (error) {
       console.log(error);
     }
@@ -378,7 +392,14 @@ const EleveParent = () => {
                             <button className="btn btn-danger">
                               <img
                                 src="../assets/admin_delete.svg"
-                                onClick={() => setShowDelete(true)}
+                                onClick={() =>
+                                  setShowDelete({
+                                    id: parent.id,
+                                    role: parent.user.role,
+                                    nom: parent.user.nom,
+                                    prenom: parent.user.prenom,
+                                  })
+                                }
                               />
                             </button>
                           </td>
@@ -466,14 +487,16 @@ const EleveParent = () => {
                 textAlign: "center",
               }}
               onClick={() => {
+                if (showProfEtat.role === "Enfant") {
+                  updateStatusEnfant(showProfEtat.id, etat);
+                  setShowProfEtat(false);
+                  return;
+                }
                 if (tab === "Parent") {
                   updateStatusParent(showProfEtat.id, etat);
                 }
                 if (tab === "Eleve") {
                   updateStatus(showProfEtat.id, etat);
-                }
-                if (showProfEtat.role === "Enfant") {
-                  updateStatusEnfant(showProfEtat.id, etat);
                 }
                 setShowProfEtat(false);
               }}
@@ -506,7 +529,7 @@ const EleveParent = () => {
             </div>
             <div className="edit_etat delete">
               <p className="delete_text">
-                Etes vous sûr de vouloir supprimer lélève{" "}
+                Etes vous sûr de vouloir supprimer
                 <span>
                   {showDelete.nom} {showDelete.prenom}
                 </span>
@@ -526,7 +549,12 @@ const EleveParent = () => {
                 textAlign: "center",
               }}
               onClick={() => {
-                deleteStudent(showDelete.id);
+                if (tab === "Parent") {
+                  deleteParent(showDelete.id);
+                }
+                if (tab === "Eleve") {
+                  deleteStudent(showDelete.id);
+                }
                 setShowDelete(false);
               }}
             >

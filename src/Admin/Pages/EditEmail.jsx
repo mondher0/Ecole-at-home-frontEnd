@@ -1,14 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { RichTextEditor } from "@mantine/rte";
 import "../css/EditEmail.css";
 import { useState } from "react";
 import axiosInstance, { baseURl } from "../../utils/utils";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const EditMail = () => {
   const [recivers, setRecivers] = useState();
   const [object, setObject] = useState("");
   const [content, setContent] = useState();
   const { id } = useParams();
+
+  // get model info
+  const getModelInfo = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/mail/${id}`);
+      console.log(response);
+      setObject(response.data.subject);
+      setContent(response.data.bodyHtml);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // const send model
   const editModal = async (e) => {
@@ -26,6 +40,9 @@ const EditMail = () => {
     }
   };
 
+  useEffect(() => {
+    getModelInfo();
+  }, []);
   return (
     <>
       <div className="container">
@@ -77,6 +94,7 @@ const EditMail = () => {
                   borderRight: "none",
                   outline: "none",
                 }}
+                value={object}
                 onChange={(e) => setObject(e.target.value)}
               />
               <RichTextEditor

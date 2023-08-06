@@ -27,4 +27,4 @@ Parents :
 changing the data structure of the parent from the backend
 
 mails : 
-get mail by id 
+adding many receivers in the mail

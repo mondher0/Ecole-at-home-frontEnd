@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import { useEffect } from "react";
 
 const EditEleve = () => {
   const [pageAction, setPageAction] = useState("Modifier");
@@ -17,6 +19,23 @@ const EditEleve = () => {
   const [ville, setVille] = useState("");
 
   console.log(id);
+
+  // get eleve info
+  const getEleveInfo = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/eleve/admin/${id}`);
+      console.log(response);
+      setNom(response.data.user.nom);
+      setPrenom(response.data.user.prenom);
+      setTelephone(response.data.phoneNumber);
+      setEmail(response.data.user.email);
+      setAdresse(response.data.address);
+      setCodePostale(response.data.codePostal);
+      setVille(response.data.ville);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // update eleve info
   const updateEleve = async (e) => {
@@ -51,6 +70,10 @@ const EditEleve = () => {
       setInputsDisabled(true);
     }
   };
+
+  useEffect(() => {
+    getEleveInfo();
+  }, []);
   return (
     <div className="admin_edit_page">
       <h3 className="current_page">
@@ -69,6 +92,7 @@ const EditEleve = () => {
                 type="text"
                 placeholder="Patrick"
                 onChange={(e) => setNom(e.target.value)}
+                value={nom}
               />
             </div>
             <div className="input_container2 half">
@@ -79,6 +103,7 @@ const EditEleve = () => {
                 type="text"
                 placeholder="Nicholas"
                 onChange={(e) => setPrenom(e.target.value)}
+                value={prenom}
               />
             </div>
             <div className="input_container2 half">
@@ -89,6 +114,7 @@ const EditEleve = () => {
                 type="number"
                 placeholder="01124548870"
                 onChange={(e) => setTelephone(e.target.value)}
+                value={telephone}
               />
             </div>
             <div className="input_container2 half">
@@ -99,6 +125,7 @@ const EditEleve = () => {
                 type="email"
                 placeholder="imane@gmail.com"
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
             <div className="input_container2 half">
@@ -109,6 +136,7 @@ const EditEleve = () => {
                 type="text"
                 placeholder="test test"
                 onChange={(e) => setAdresse(e.target.value)}
+                value={adresse}
               />
             </div>
             <div className="input_container2 half">
@@ -119,6 +147,7 @@ const EditEleve = () => {
                 type="text"
                 placeholder="test"
                 onChange={(e) => setCodePostale(e.target.value)}
+                value={codePostale}
               />
             </div>
             <div className="input_container2 half">
@@ -129,6 +158,7 @@ const EditEleve = () => {
                 type="text"
                 placeholder="test test"
                 onChange={(e) => setVille(e.target.value)}
+                value={ville}
               />
             </div>
           </div>
