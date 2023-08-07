@@ -25,4 +25,3 @@ adding many receivers in the mail
 parents : 
 edit enfant 
 pop up in delete enfant
-update status of enfant 
