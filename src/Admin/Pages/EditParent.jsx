@@ -97,6 +97,12 @@ const EditParent = () => {
                 type="text"
                 placeholder="Patrick"
                 value={parentInfo?.user?.nom}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    user: { ...parentInfo?.user, nom: e.target.value },
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -106,6 +112,12 @@ const EditParent = () => {
                 type="text"
                 placeholder="Nicholas"
                 value={parentInfo?.user?.prenom}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    user: { ...parentInfo?.user, prenom: e.target.value },
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -115,6 +127,12 @@ const EditParent = () => {
                 type="number"
                 placeholder="01124548870"
                 value={parentInfo?.phoneNumber}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    phoneNumber: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -124,6 +142,12 @@ const EditParent = () => {
                 type="email"
                 placeholder="imane@gmail.com"
                 value={parentInfo?.user?.email}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    user: { ...parentInfo?.user, email: e.target.value },
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -133,6 +157,12 @@ const EditParent = () => {
                 type="text"
                 placeholder="test test"
                 value={parentInfo?.address}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    address: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -142,6 +172,12 @@ const EditParent = () => {
                 type="text"
                 placeholder="test"
                 value={parentInfo?.codePostal}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    codePostal: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="input_container2 half">
@@ -151,6 +187,12 @@ const EditParent = () => {
                 type="text"
                 placeholder="test test"
                 value={parentInfo?.ville}
+                onChange={(e) => {
+                  setParentInfo({
+                    ...parentInfo,
+                    ville: e.target.value,
+                  });
+                }}
               />
             </div>
           </div>
