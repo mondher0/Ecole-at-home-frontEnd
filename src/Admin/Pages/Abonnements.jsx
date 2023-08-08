@@ -4,6 +4,7 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Commun.css";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import axios from "axios";
 
 const Abonnements = () => {
   let [tab, setTab] = useState("Professeurs");
@@ -53,6 +54,17 @@ const Abonnements = () => {
         `${baseURl}/abonnement/admin/status/${id}`,
         updateData
       );
+      console.log(response);
+      getAbonnementInfo();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // delete abonnement
+  const deleteAbonnement = async (id) => {
+    try {
+      const response = await axios.delete(`${baseURl}/abonnement/${id}`);
       console.log(response);
       getAbonnementInfo();
     } catch (error) {
@@ -393,7 +405,18 @@ const Abonnements = () => {
                         </div>
                       </td>
                       <td>
-                        <button className="btn btn-danger">
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            setShowDeletePopup({
+                              id: abonnement.id,
+                              prof:
+                                abonnement.professeur.user.nom +
+                                " " +
+                                abonnement.professeur.user.prenom,
+                            });
+                          }}
+                        >
                           <img src="../assets/admin_delete.svg" />
                         </button>
                       </td>
@@ -540,7 +563,6 @@ const Abonnements = () => {
                     <td>Terminal</td>
                     <td>{row.professeur}</td>
                     <td>{row.email}</td>
-
                     <td className={row.etat}>
                       <div>
                         <button className="btn btn-danger">
@@ -773,18 +795,14 @@ const Abonnements = () => {
         <div className="pop_up_container">
           <div className="pop_up edit etat delete">
             <div className="prof_edit_top">
-              <div className="img_container">
-                <img src="../assets/student.svg" />
-              </div>
               <div className="text">
-                <h2 className="user_name">{idNiveauMatier}</h2>
-                <span>Elève</span>
+                <h2 className="user_name">{showDeletePopup.prof}</h2>
               </div>
             </div>
             <div className="edit_etat delete">
               <p className="delete_text">
-                Etes vous sûr de vouloir supprimer lélève{" "}
-                <span>Nicholas Patrick</span>?
+                Etes vous sûr de vouloir supprimer l{"'"}abonnment de{" "}
+                <span>{showDeletePopup.prof}</span>?
               </p>
             </div>
             <button
@@ -798,6 +816,10 @@ const Abonnements = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                deleteAbonnement(showDeletePopup.id);
+                setShowDeletePopup(false);
               }}
             >
               Confirmer
