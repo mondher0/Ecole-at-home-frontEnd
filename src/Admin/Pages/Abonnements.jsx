@@ -18,6 +18,7 @@ const Abonnements = () => {
   const [endDate, setEndDate] = useState();
   const [profNom, setProfNom] = useState();
   const [eleveNom, setEleveNom] = useState();
+  const [etat, setEtat] = useState();
   const [etat2, setEtat2] = useState();
   let Navigate = useNavigate();
 
@@ -37,6 +38,23 @@ const Abonnements = () => {
       setAbonnementInfo(response?.data.newResults);
       console.log(abonnementInfo);
       console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // change abonnement status
+  const changeAbonnementStatus = async (id, status) => {
+    try {
+      const updateData = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/abonnement/admin/status/${id}`,
+        updateData
+      );
+      console.log(response);
+      getAbonnementInfo();
     } catch (error) {
       console.log(error);
     }
@@ -353,7 +371,22 @@ const Abonnements = () => {
                           <button className="btn btn-danger">
                             <img
                               src="../assets/admin_edit.svg"
-                              onClick={() => setShowEtat(true)}
+                              onClick={() =>
+                                setShowEtat({
+                                  id: abonnement.id,
+                                  prof:
+                                    abonnement.professeur.user.nom +
+                                    " " +
+                                    abonnement.professeur.user.prenom,
+                                  etat: abonnement.status,
+                                  timing:
+                                    abonnement.abonnement.day +
+                                    " " +
+                                    abonnement.abonnement.timing.start_hour +
+                                    " - " +
+                                    abonnement.abonnement.timing.end_hour,
+                                })
+                              }
                             />
                           </button>
                           <span>{abonnement.status}</span>
@@ -421,7 +454,23 @@ const Abonnements = () => {
                                 <button className="btn btn-danger">
                                   <img
                                     src="../assets/admin_edit.svg"
-                                    onClick={() => setShowEtat(true)}
+                                    onClick={() =>
+                                      setShowEtat({
+                                        id: abonnement.id,
+                                        prof:
+                                          abonnement.professeur.user.nom +
+                                          " " +
+                                          abonnement.professeur.user.prenom,
+                                        etat: abonnement.status,
+                                        timing:
+                                          abonnement.abonnement.day +
+                                          " " +
+                                          abonnement.abonnement.timing
+                                            .start_hour +
+                                          " - " +
+                                          abonnement.abonnement.timing.end_hour,
+                                      })
+                                    }
                                   />
                                 </button>
                                 <span>{abonnement.status}</span>
@@ -456,7 +505,23 @@ const Abonnements = () => {
                                 <button className="btn btn-danger">
                                   <img
                                     src="../assets/admin_edit.svg"
-                                    onClick={() => setShowEtat(true)}
+                                    onClick={() =>
+                                      setShowEtat({
+                                        id: abonnement.id,
+                                        prof:
+                                          abonnement.professeur.user.nom +
+                                          " " +
+                                          abonnement.professeur.user.prenom,
+                                        etat: abonnement.status,
+                                        timing:
+                                          abonnement.abonnement.day +
+                                          " " +
+                                          abonnement.abonnement.timing
+                                            .start_hour +
+                                          " - " +
+                                          abonnement.abonnement.timing.end_hour,
+                                      })
+                                    }
                                   />
                                 </button>
                                 <span>{abonnement.status}</span>
@@ -604,25 +669,32 @@ const Abonnements = () => {
           <div className="pop_up edit etat abonnements">
             <div className="edit_etat">
               <label>
-                Abonnement: <span className="grey">{dat}</span>
+                Professeur: <span className="grey">{showEtat.prof}</span>
               </label>
               <label>
-                Professeur: <span className="grey">Guy Hawkins</span>
+                Date: <span className="grey">{showEtat.timing}</span>
               </label>
               <label>
-                Date: <span className="grey">Lundi 18:00-20:00</span>
-              </label>
-              <label>
-                Etat abonnement actuel: <span className="Validé">Abonné</span>
+                Etat abonnement actuel:{" "}
+                <span className="Validé">{showEtat.etat}</span>
               </label>
               <div className="radio_container">
                 <label>Etat à changer:</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Inscrit</option>
-                    <option>Confirmé</option>
-                    <option>Validé</option>
-                    <option>Bloqué</option>
+                  <select
+                    onChange={(e) => {
+                      setEtat(e.target.value);
+                    }}
+                  >
+                    <option>Tous</option>
+                    <option value="propose">Propose</option>
+                    <option value="valide">Valide</option>
+                    <option value="test">Test</option>
+                    <option value="teste">Testé</option>
+                    <option value="abonne">Abonné</option>
+                    <option value="suspendu">Suspendu</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="resilie">Resilie</option>
                   </select>
                 </div>
               </div>
@@ -639,6 +711,10 @@ const Abonnements = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                changeAbonnementStatus(showEtat.id, etat);
+                setShowEtat(false);
               }}
             >
               Confirmer
