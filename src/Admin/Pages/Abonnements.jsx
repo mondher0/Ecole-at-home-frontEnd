@@ -1,17 +1,50 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Commun.css";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const Abonnements = () => {
-  let [tab, setTab] = useState("Eleve");
+  let [tab, setTab] = useState("Professeurs");
   let [showEtatEn, setShowEtatEn] = useState(false);
   let [showEtat, setShowEtat] = useState(false);
   let [showAddLevel, setShowAddLevel] = useState(false);
   let [dat, setData] = useState("");
   let [showDeletePopup, setShowDeletePopup] = useState(false);
   const [idNiveauMatier, setIdNiveauMatier] = useState("");
+  const [abonnementInfo, setAbonnementInfo] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [profNom, setProfNom] = useState();
+  const [eleveNom, setEleveNom] = useState();
+  const [etat2, setEtat2] = useState();
   let Navigate = useNavigate();
+
+  // get abonnment info
+  const getAbonnementInfo = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/abonnement/admin/search?page=1&pageSize=5&${
+          etat2 ? `status=${etat2}` : ""
+        }${profNom ? `&professeurName=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          eleveNom ? `&abonneName=${eleveNom}` : ""
+        }
+        `
+      );
+      setAbonnementInfo(response?.data.newResults);
+      console.log(abonnementInfo);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAbonnementInfo();
+  }, [tab, startDate, endDate, eleveNom, profNom, etat2]);
 
   const columnsParent = [
     "ID",
@@ -49,7 +82,6 @@ const Abonnements = () => {
     "Niveau",
     "Elève",
     "Email",
-    "Etat Elève",
     "Etat Abonnement",
   ];
 
@@ -132,73 +164,111 @@ const Abonnements = () => {
           </span>
         </h2>
         <div className="admin_time_filter">
-          <div className="radio_container">
-            <label>Professeur</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+          {tab === "Professeurs" && (
+            <div className="radio_container">
+              <label>Professeur</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setProfNom(e.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setStartDate("");
+                    return;
+                  }
+                  const date = e.target.value + "T00:00:00.000Z";
+                  setStartDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setEndDate("");
+                    return;
+                  }
+                  const date = e.target.value + "T23:59:59.999Z";
+                  setEndDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Elève</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+              <input
+                type="text"
+                onChange={(e) => {
+                  setEleveNom(e.target.value);
+                }}
+              />
             </div>
           </div>
-          <div className="radio_container">
-            <label>Niveau</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+          {tab === "Niveaux&Matières" && (
+            <>
+              <div className="radio_container">
+                <label>Niveau</label>
+                <div className="date_picker_container">
+                  <select>
+                    <option>Tous</option>
+                  </select>
+                </div>
+              </div>
+              <div className="radio_container">
+                <label>Matière</label>
+                <div className="date_picker_container">
+                  <select>
+                    <option>Tous</option>
+                  </select>
+                </div>
+              </div>
+            </>
+          )}
+          {tab === "Parent" && (
+            <div className="radio_container">
+              <label>Parent</label>
+              <div className="date_picker_container">
+                <select>
+                  <option>Tous</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="radio_container">
-            <label>Matière</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Parent</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Abonnement</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
-            </div>
-          </div>
+          )}
           <div className="radio_container">
             <label>Etat</label>
             <div className="date_picker_container">
-              <select>
+              <select
+                onChange={(e) => {
+                  setEtat2(e.target.value);
+                }}
+              >
                 <option>Tous</option>
+                <option value="propose">Propose</option>
+                <option value="valide">Valide</option>
+                <option value="test">Test</option>
+                <option value="teste">Testé</option>
+                <option value="abonne">Abonné</option>
+                <option value="suspendu">Suspendu</option>
+                <option value="disponible">Disponible</option>
+                <option value="resilie">Resilie</option>
               </select>
             </div>
           </div>
@@ -241,55 +311,62 @@ const Abonnements = () => {
           </thead>
           <tbody>
             {tab === "Professeurs"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.professeur}
-                    </td>
-                    <td>{row.dateInscription}</td>
-                    <td>{row.email}</td>
-                    <td>{row.telephone}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.experience}</td>
-                    <td>
-                      mondher@gmail.com mondher@gmail.com mondher@gmail.com
-                      mondher@gmail.com
-                    </td>
-                    <td className={row.etat}>
-                      <div>
+              ? abonnementInfo?.map((abonnement) => {
+                  return (
+                    <tr key={abonnement.id}>
+                      <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                        {abonnement.id}
+                      </td>
+                      <td>
+                        {abonnement.professeur.user.nom +
+                          " " +
+                          abonnement.professeur.user.prenom}
+                      </td>
+                      <td>
+                        {abonnement.abonnement.day +
+                          " " +
+                          abonnement.abonnement.timing.start_hour +
+                          " - " +
+                          abonnement.abonnement.timing.end_hour}
+                      </td>
+                      <td>{abonnement.matiere.name}</td>
+                      <td>{abonnement.niveau.name}</td>
+                      <td>{abonnement.nbrEleve}</td>
+                      <td>
+                        {abonnement.abonnes.map((abonne) => {
+                          return <span key={abonne.id}>{abonne.email}</span>;
+                        })}
+                      </td>
+                      <td className={abonnement.etat}>
+                        <div>
+                          <button className="btn btn-danger">
+                            <img
+                              src="../assets/admin_edit.svg"
+                              onClick={() => setShowEtatEn(true)}
+                            />
+                          </button>
+                          <span>{abonnement.etat}</span>
+                        </div>
+                      </td>
+                      <td className={abonnement.status}>
+                        <div>
+                          <button className="btn btn-danger">
+                            <img
+                              src="../assets/admin_edit.svg"
+                              onClick={() => setShowEtat(true)}
+                            />
+                          </button>
+                          <span>{abonnement.status}</span>
+                        </div>
+                      </td>
+                      <td>
                         <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtatEn(true)}
-                          />
+                          <img src="../assets/admin_delete.svg" />
                         </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <button className="btn btn-primary">
-                        <img
-                          src="../assets/aye.svg"
-                          onClick={() => Navigate(`/admin/${tab}/edit`)}
-                        />
-                      </button>
-                      <button className="btn btn-danger">
-                        <img src="../assets/admin_delete.svg" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+                    </tr>
+                  );
+                })
               : tab === "Niveaux&Matières"
               ? data.map((row) => (
                   <tr key={row.id}>
@@ -316,40 +393,79 @@ const Abonnements = () => {
                   </tr>
                 ))
               : tab === "Eleve"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.id}</td>
-                    <td>{row.professeur}</td>
-                    <td>Lundi 18:00 - 20:00 </td>
-                    <td>Physique</td>
-                    <td>Terminal</td>
-                    <td>{row.professeur}</td>
-                    <td>{row.email}</td>
-
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+              ? abonnementInfo.map((abonnement) => {
+                  return abonnement?.abonnes?.length > 0
+                    ? abonnement.abonnes.map((abonne) => {
+                        console.log(abonne);
+                        return (
+                          <tr key={abonnement.id}>
+                            <td>{abonnement.id}</td>
+                            <td>
+                              {abonnement.professeur.user.nom +
+                                " " +
+                                abonnement.professeur.user.prenom}
+                            </td>
+                            <td>
+                              {abonnement.abonnement.day +
+                                " " +
+                                abonnement.abonnement.timing.start_hour +
+                                " - " +
+                                abonnement.abonnement.timing.end_hour}
+                            </td>
+                            <td>{abonnement.matiere.name}</td>
+                            <td>{abonnement.niveau.name}</td>
+                            <td>{abonne.email}</td>
+                            <td>{abonne.nom + " " + abonne.prenom}</td>
+                            <td className={abonnement.status}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() => setShowEtat(true)}
+                                  />
+                                </button>
+                                <span>{abonnement.status}</span>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    : (console.log("hello"),
+                      (
+                        <>
+                          <tr key={abonnement.id}>
+                            <td>{abonnement.id}</td>
+                            <td>
+                              {abonnement.professeur.user.nom +
+                                " " +
+                                abonnement.professeur.user.prenom}
+                            </td>
+                            <td>
+                              {abonnement.abonnement.day +
+                                " " +
+                                abonnement.abonnement.timing.start_hour +
+                                " - " +
+                                abonnement.abonnement.timing.end_hour}
+                            </td>
+                            <td>{abonnement.matiere.name}</td>
+                            <td>{abonnement.niveau.name}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td className={abonnement.status}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() => setShowEtat(true)}
+                                  />
+                                </button>
+                                <span>{abonnement.status}</span>
+                              </div>
+                            </td>
+                          </tr>
+                        </>
+                      ));
+                })
               : data.map((row) => (
                   <tr key={row.id}>
                     <td>{row.id}</td>

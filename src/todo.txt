@@ -25,3 +25,8 @@ adding many receivers in the mail
 parents : 
 edit enfant 
 pop up in delete enfant
+
+abonnements :
+linking timing 
+in eleves checking if there is parent 
+linking the parent
