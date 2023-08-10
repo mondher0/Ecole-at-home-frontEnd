@@ -21,6 +21,7 @@ const Abonnements = () => {
   const [eleveNom, setEleveNom] = useState();
   const [etat, setEtat] = useState();
   const [etat2, setEtat2] = useState();
+  const [enregistrementState, setEnregistrementState] = useState();
   let Navigate = useNavigate();
 
   // get abonnment info
@@ -72,6 +73,24 @@ const Abonnements = () => {
     }
   };
 
+  // chagne enregistrement status
+  const changeEnregistrementStatus = async (id, status) => {
+    console.log(status);
+    try {
+      const updateData = {
+        enregistrement: status === "true" ? true : false,
+      };
+      console.log(updateData);
+      const response = await axiosInstance.patch(
+        `${baseURl}/abonnement/admin/enregistrement/${id}`,
+        updateData
+      );
+      console.log(response);
+      getAbonnementInfo();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getAbonnementInfo();
   }, [tab, startDate, endDate, eleveNom, profNom, etat2]);
@@ -372,7 +391,24 @@ const Abonnements = () => {
                           <button className="btn btn-danger">
                             <img
                               src="../assets/admin_edit.svg"
-                              onClick={() => setShowEtatEn(true)}
+                              onClick={() =>
+                                setShowEtatEn({
+                                  id: abonnement.id,
+                                  prof:
+                                    abonnement.professeur.user.nom +
+                                    " " +
+                                    abonnement.professeur.user.prenom,
+                                  timing:
+                                    abonnement.abonnement.day +
+                                    " " +
+                                    abonnement.abonnement.timing.start_hour +
+                                    " - " +
+                                    abonnement.abonnement.timing.end_hour,
+                                  etat: abonnement.abonnement.enregistrement
+                                    ? "OUI"
+                                    : "NON",
+                                })
+                              }
                             />
                           </button>
                           <span>
@@ -641,26 +677,29 @@ const Abonnements = () => {
           <div className="pop_up edit etat abonnements">
             <div className="edit_etat">
               <label>
-                Abonnement: <span className="grey">#1</span>
+                Abonnement: <span className="grey">{"#" + showEtatEn.id}</span>
               </label>
               <label>
-                Professeur: <span className="grey">Guy Hawkins</span>
+                Professeur: <span className="grey">{showEtatEn.prof}</span>
               </label>
               <label>
-                Date: <span className="grey">Lundi 18:00-20:00</span>
+                Date: <span className="grey">{showEtatEn.timing}</span>
               </label>
               <label>
                 Etat enregistrement actuel:{" "}
-                <span style={{ color: "black" }}>Oui</span>
+                <span style={{ color: "black" }}>{showEtatEn.etat}</span>
               </label>
               <div className="radio_container">
                 <label>Etat à changer:</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Inscrit</option>
-                    <option>Confirmé</option>
-                    <option>Validé</option>
-                    <option>Bloqué</option>
+                  <select
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setEnregistrementState(e.target.value);
+                    }}
+                  >
+                    <option value={true}>OUI</option>
+                    <option value={false}>NON</option>
                   </select>
                 </div>
               </div>
@@ -677,6 +716,10 @@ const Abonnements = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={() => {
+                changeEnregistrementStatus(showEtatEn.id, enregistrementState);
+                setShowEtatEn(false);
               }}
             >
               Confirmer
