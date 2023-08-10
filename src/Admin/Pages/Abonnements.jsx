@@ -375,7 +375,11 @@ const Abonnements = () => {
                               onClick={() => setShowEtatEn(true)}
                             />
                           </button>
-                          <span>{abonnement.etat}</span>
+                          <span>
+                            {abonnement.abonnement.enregistrement
+                              ? "OUI"
+                              : "NON"}
+                          </span>
                         </div>
                       </td>
                       <td className={abonnement.status}>

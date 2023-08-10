@@ -29,6 +29,8 @@ pop up in delete enfant
 abonnements :
 in eleves checking if there is parent 
 linking the parent
-linking or display enregistrement
 edit enregistrement status
 error in delete abonnment 
+
+cours : 
+linking the parent

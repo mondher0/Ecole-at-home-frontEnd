@@ -1,12 +1,49 @@
 // eslint-disable-next-line no-unused-vars
-import { React, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/PopUp.css";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const Cours = () => {
-  let [tab, setTab] = useState("Eleve");
+  let [tab, setTab] = useState("Professeurs");
   let [showEtat, setShowEtat] = useState(false);
+  const [cours, setCours] = useState([]);
+  const [etat2, setEtat2] = useState("");
   let Navigate = useNavigate();
+
+  // get cours
+  const getCours = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/admin?page=1&pageSize=5`
+      );
+      console.log(response);
+      setCours(response.data?.newResults);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update cours
+  const updateCours = async (id, status) => {
+    try {
+      const data = {
+        status: status,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/cours/admin/status/${id}`,
+        data
+      );
+      console.log(response);
+      getCours();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCours();
+  }, [tab]);
 
   const columnsParent = [
     "ID",
@@ -21,38 +58,29 @@ const Cours = () => {
     "Etat Parent",
     "Elève",
     "Etat élève",
-    "Regarder",
     "Etat Cours",
   ];
 
   const columnsElève = [
     "ID",
-    "Cours",
-    "ID Abonnement",
     "Professeur",
     "Date",
     "Matière",
     "Niveau",
     "ID Paiement",
     "Elève",
-    "Email élève",
-    "Etat élève",
-    "Parent",
-    "Regarder",
+    "Email",
     "Etat Cours",
   ];
 
   const columnsProfesseur = [
     "ID",
-    "Cours",
-    "IDAbonnement",
     "Professeur",
     "Date",
     "Matière",
     "Niveau",
     "ID Paiment",
     "Eleve inscrits",
-    "Regarder",
     "Etat",
   ];
 
@@ -215,75 +243,168 @@ const Cours = () => {
           </thead>
           <tbody>
             {tab === "Professeurs"
-              ? data.map((row) => (
-                  <tr key={row.id}>
+              ? cours.map((course) => (
+                  <tr key={course.id}>
                     <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.id}
+                      {course.id}
                     </td>
-                    <td>{row.professeur}</td>
-                    <td>{row.id}</td>
-                    <td>{row.telephone}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.diplome}</td>
                     <td>
-                      mondher@gmail.com mondher@gmail.com mondher@gmail.com
-                      mondher@gmail.com
+                      {course.abonnement.professeur.user.prenom +
+                        " " +
+                        course.abonnement.professeur.user.nom}
                     </td>
-                    <td className={"Validé"}>
-                      <div>
-                        <span>Oui</span>
-                      </div>
+                    <td>
+                      {course.abonnement.day}{" "}
+                      {course.abonnement.timing.start_hour +
+                        "-" +
+                        course.abonnement.timing.end_hour}
                     </td>
-                    <td className={row.etat}>
+                    <td>{course.abonnement.matiere.name}</td>
+                    <td>{course.abonnement.niveau.name}</td>
+                    <td></td>
+                    <td>
+                      {course.abonnement.abonnes?.map((abonne) => (
+                        <span key={abonne.id}>{abonne.email}</span>
+                      ))}
+                    </td>
+                    <td className="">
                       <div>
                         <button className="btn btn-danger">
                           <img
                             src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
+                            onClick={() =>
+                              setShowEtat({
+                                id: course.id,
+                                profName:
+                                  course.abonnement.professeur.user.prenom +
+                                  " " +
+                                  course.abonnement.professeur.user.nom,
+                                timing:
+                                  course.abonnement.timing.start_hour +
+                                  "-" +
+                                  course.abonnement.timing.end_hour,
+                                etat: course.status,
+                              })
+                            }
                           />
                         </button>
-                        <span>{row.etat}</span>
+                        <span>{course.status}</span>
                       </div>
                     </td>
                   </tr>
                 ))
               : tab === "Eleve"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.id}
-                    </td>
-                    <td>{row.professeur}</td>
-                    <td>{row.id}</td>
-                    <td>{row.telephone}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td className={"Validé"}>
-                      <div>
-                        <span>Oui</span>
-                      </div>
-                    </td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+              ? cours.map((course) => {
+                  return course.abonnement?.abonnes?.length > 0
+                    ? course.abonnement?.abonnes?.map(
+                        (abonne) => (
+                          console.log(abonne),
+                          (
+                            <tr key={course.id}>
+                              <td
+                                onClick={() => Navigate(`/admin/${tab}/edit`)}
+                              >
+                                {course.id}
+                              </td>
+                              <td>
+                                {course.abonnement.professeur.user.prenom +
+                                  " " +
+                                  course.abonnement.professeur.user.nom}
+                              </td>
+                              <td>
+                                {course.abonnement.day}{" "}
+                                {course.abonnement.timing.start_hour +
+                                  "-" +
+                                  course.abonnement.timing.end_hour}
+                              </td>
+                              <td>{course.abonnement.matiere.name}</td>
+                              <td>{course.abonnement.niveau.name}</td>
+                              <td></td>
+                              <td>{abonne.nom + " " + abonne.prenom}</td>
+                              <td>{abonne.email}</td>
+                              <td className="">
+                                <div>
+                                  <button className="btn btn-danger">
+                                    <img
+                                      src="../assets/admin_edit.svg"
+                                      onClick={() =>
+                                        setShowEtat({
+                                          id: course.id,
+                                          profName:
+                                            course.abonnement.professeur.user
+                                              .prenom +
+                                            " " +
+                                            course.abonnement.professeur.user
+                                              .nom,
+                                          timing:
+                                            course.abonnement.timing
+                                              .start_hour +
+                                            "-" +
+                                            course.abonnement.timing.end_hour,
+                                          etat: course.status,
+                                        })
+                                      }
+                                    />
+                                  </button>
+                                  <span>{course.status}</span>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        )
+                      )
+                    : (console.log("no abonne"),
+                      (
+                        <>
+                          <tr key={course.id}>
+                            <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                              {course.id}
+                            </td>
+                            <td>
+                              {course.abonnement.professeur.user.prenom +
+                                " " +
+                                course.abonnement.professeur.user.nom}
+                            </td>
+                            <td>
+                              {course.abonnement.day}{" "}
+                              {course.abonnement.timing.start_hour +
+                                "-" +
+                                course.abonnement.timing.end_hour}
+                            </td>
+                            <td>{course.abonnement.matiere.name}</td>
+                            <td>{course.abonnement.niveau.name}</td>
+                            <td></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td className="">
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() =>
+                                      setShowEtat({
+                                        id: course.id,
+                                        profName:
+                                          course.abonnement.professeur.user
+                                            .prenom +
+                                          " " +
+                                          course.abonnement.professeur.user.nom,
+                                        timing:
+                                          course.abonnement.timing.start_hour +
+                                          "-" +
+                                          course.abonnement.timing.end_hour,
+                                        etat: course.status,
+                                      })
+                                    }
+                                  />
+                                </button>
+                                <span>{course.status}</span>
+                              </div>
+                            </td>
+                          </tr>
+                        </>
+                      ));
+                })
               : data.map((row) => (
                   <tr key={row.id}>
                     <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
@@ -351,23 +472,33 @@ const Cours = () => {
         <div className="pop_up_container">
           <div className="pop_up edit etat">
             <div className="edit_etat center">
-              <label>Professeur: Guy Hawkins</label>
-              <label>Date: Lundi 18:00-20:00</label>
+              <label>Professeur: {showEtat.profName}</label>
+              <label>Date: {showEtat.timing}</label>
               <label>
-                Etat cours actuel: <span className="grey">Programmé</span>
+                Etat cours actuel: <span className="grey">{showEtat.etat}</span>
               </label>
               <div className="radio_container">
                 <label>Etat à changer:</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Inscrit</option>
-                    <option>Confirmé</option>
-                    <option>Validé</option>
-                    <option>Bloqué</option>
+                  <select
+                    onChange={(e) => {
+                      setEtat2(e.target.value);
+                    }}
+                  >
+                    <option value="programme">Programmé</option>
+                    <option value="annule">Annulé</option>
+                    <option value="termine">Terminé</option>
                   </select>
                 </div>
               </div>
-              <button>Confirmer</button>
+              <button
+                onClick={() => {
+                  updateCours(showEtat.id, etat2);
+                  setShowEtat(false);
+                }}
+              >
+                Confirmer
+              </button>
             </div>
             <img
               className="hide_btn"
