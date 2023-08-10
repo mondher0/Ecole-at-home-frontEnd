@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,16 +10,52 @@ const Cours = () => {
   let [showEtat, setShowEtat] = useState(false);
   const [cours, setCours] = useState([]);
   const [etat2, setEtat2] = useState("");
+  const [niveaux, setNiveaux] = useState([]);
+  const [matieres, setMatieres] = useState([]);
+  const [niveau, setNiveau] = useState("");
+  const [matiere, setMatiere] = useState("");
+  const [etat, setEtat] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [profName, setProfName] = useState("");
   let Navigate = useNavigate();
 
   // get cours
   const getCours = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/cours/admin?page=1&pageSize=5`
+        `${baseURl}/cours/admin?page=1&pageSize=5&${
+          etat ? `status=${etat}` : ""
+        }${profName ? `&professeurName=${profName}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          matiere ? `&matiere=${matiere}` : ""
+        }${niveau ? `&niveau=${niveau}` : ""}`
       );
       console.log(response);
       setCours(response.data?.newResults);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get niveaux
+  const getNiveaux = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/niveau`);
+      console.log(response);
+      setNiveaux(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get matières
+  const getMatieres = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/matiere`);
+      console.log(response);
+      setMatieres(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -42,8 +79,13 @@ const Cours = () => {
   };
 
   useEffect(() => {
+    getNiveaux();
+    getMatieres();
+  }, []);
+
+  useEffect(() => {
     getCours();
-  }, [tab]);
+  }, [tab, etat, startDate, endDate, profName, matiere, niveau]);
 
   const columnsParent = [
     "ID",
@@ -158,70 +200,95 @@ const Cours = () => {
           <div className="radio_container">
             <label>Professeur</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+              <input
+                type="text"
+                placeholder="Prenom"
+                onChange={(e) => {
+                  setProfName(e.target.value);
+                }}
+              />
             </div>
           </div>
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  const data = e.target.value + "T00:00:00.000Z";
+                  setStartDate(data);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  const data = e.target.value + "T23:59:59.999Z";
+                  setEndDate(data);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Elève</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
             </div>
           </div>
           <div className="radio_container">
             <label>Niveau</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
+              <select
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setNiveau("");
+                    return;
+                  }
+                  setNiveau(e.target.value);
+                }}
+              >
+                <option value="">Tous</option>
+                {niveaux.map((niveau) => (
+                  <option key={niveau.id} value={niveau?.name}>
+                    {niveau?.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
           <div className="radio_container">
             <label>Matière</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Parent</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Abonnement</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
+              <select
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setMatiere("");
+                    return;
+                  }
+                  setMatiere(e.target.value);
+                }}
+              >
+                <option value="">Tous</option>
+                {matieres.map((matiere) => (
+                  <option key={matiere.id} value={matiere?.name}>
+                    {matiere?.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
           <div className="radio_container">
             <label>Etat</label>
             <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
+              <select
+                onChange={(e) => {
+                  setEtat(e.target.value);
+                }}
+              >
+                <option value="">Tous</option>
+                <option value="programme">Programmé</option>
+                <option value="annule">Annulé</option>
+                <option value="termine">Terminé</option>
               </select>
             </div>
           </div>
