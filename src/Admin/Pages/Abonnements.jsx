@@ -74,11 +74,11 @@ const Abonnements = () => {
   };
 
   // chagne enregistrement status
-  const changeEnregistrementStatus = async (id, status) => {
-    console.log(status);
+  const changeEnregistrementStatus = async (id, enregistrementState) => {
+    console.log(enregistrementState);
     try {
       const updateData = {
-        enregistrement: status === "true" ? true : false,
+        enregistrement: enregistrementState === "oui" ? true : false,
       };
       console.log(updateData);
       const response = await axiosInstance.patch(
@@ -412,9 +412,7 @@ const Abonnements = () => {
                             />
                           </button>
                           <span>
-                            {abonnement.enregistrement
-                              ? "OUI"
-                              : "NON"}
+                            {abonnement.enregistrement ? "OUI" : "NON"}
                           </span>
                         </div>
                       </td>
@@ -528,8 +526,7 @@ const Abonnements = () => {
                                         timing:
                                           abonnement.day +
                                           " " +
-                                          abonnement.timing
-                                            .start_hour +
+                                          abonnement.timing.start_hour +
                                           " - " +
                                           abonnement.timing.end_hour,
                                       })
@@ -698,8 +695,9 @@ const Abonnements = () => {
                       setEnregistrementState(e.target.value);
                     }}
                   >
-                    <option value={true}>OUI</option>
-                    <option value={false}>NON</option>
+                    <option value="">Choisir</option>
+                    <option value="oui">OUI</option>
+                    <option value="non">NON</option>
                   </select>
                 </div>
               </div>
@@ -718,6 +716,7 @@ const Abonnements = () => {
                 textAlign: "center",
               }}
               onClick={() => {
+                console.log(enregistrementState);
                 changeEnregistrementStatus(showEtatEn.id, enregistrementState);
                 setShowEtatEn(false);
               }}
