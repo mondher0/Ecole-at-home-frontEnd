@@ -372,14 +372,14 @@ const Abonnements = () => {
                           abonnement.professeur.user.prenom}
                       </td>
                       <td>
-                        {abonnement.abonnement.day +
+                        {abonnement.day +
                           " " +
-                          abonnement.abonnement.timing.start_hour +
+                          abonnement.timing.start_hour +
                           " - " +
-                          abonnement.abonnement.timing.end_hour}
+                          abonnement.timing.end_hour}
                       </td>
                       <td>{abonnement.matiere.name}</td>
-                      <td>{abonnement.niveau.name}</td>
+                      <td>{abonnement.matiere.niveau}</td>
                       <td>{abonnement.nbrEleve}</td>
                       <td>
                         {abonnement.abonnes.map((abonne) => {
@@ -399,12 +399,12 @@ const Abonnements = () => {
                                     " " +
                                     abonnement.professeur.user.prenom,
                                   timing:
-                                    abonnement.abonnement.day +
+                                    abonnement.day +
                                     " " +
-                                    abonnement.abonnement.timing.start_hour +
+                                    abonnement.timing.start_hour +
                                     " - " +
-                                    abonnement.abonnement.timing.end_hour,
-                                  etat: abonnement.abonnement.enregistrement
+                                    abonnement.timing.end_hour,
+                                  etat: abonnement.enregistrement
                                     ? "OUI"
                                     : "NON",
                                 })
@@ -412,7 +412,7 @@ const Abonnements = () => {
                             />
                           </button>
                           <span>
-                            {abonnement.abonnement.enregistrement
+                            {abonnement.enregistrement
                               ? "OUI"
                               : "NON"}
                           </span>
@@ -432,11 +432,11 @@ const Abonnements = () => {
                                     abonnement.professeur.user.prenom,
                                   etat: abonnement.status,
                                   timing:
-                                    abonnement.abonnement.day +
+                                    abonnement.day +
                                     " " +
-                                    abonnement.abonnement.timing.start_hour +
+                                    abonnement.timing.start_hour +
                                     " - " +
-                                    abonnement.abonnement.timing.end_hour,
+                                    abonnement.timing.end_hour,
                                 })
                               }
                             />
@@ -502,14 +502,14 @@ const Abonnements = () => {
                                 abonnement.professeur.user.prenom}
                             </td>
                             <td>
-                              {abonnement.abonnement.day +
+                              {abonnement.day +
                                 " " +
-                                abonnement.abonnement.timing.start_hour +
+                                abonnement.timing.start_hour +
                                 " - " +
-                                abonnement.abonnement.timing.end_hour}
+                                abonnement.timing.end_hour}
                             </td>
                             <td>{abonnement.matiere.name}</td>
-                            <td>{abonnement.niveau.name}</td>
+                            <td>{abonnement.matiere.niveau}</td>
                             <td>{abonne.email}</td>
                             <td>{abonne.nom + " " + abonne.prenom}</td>
                             <td className={abonnement.status}>
@@ -526,12 +526,12 @@ const Abonnements = () => {
                                           abonnement.professeur.user.prenom,
                                         etat: abonnement.status,
                                         timing:
-                                          abonnement.abonnement.day +
+                                          abonnement.day +
                                           " " +
-                                          abonnement.abonnement.timing
+                                          abonnement.timing
                                             .start_hour +
                                           " - " +
-                                          abonnement.abonnement.timing.end_hour,
+                                          abonnement.timing.end_hour,
                                       })
                                     }
                                   />
