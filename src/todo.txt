@@ -35,3 +35,7 @@ linking the parent
 
 historique :
 filter parent and enfant 
+
+settings : 
+bugs in edit entreprise and admin info
+in moderateur missing the phone number property

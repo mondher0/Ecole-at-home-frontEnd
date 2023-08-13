@@ -1,15 +1,39 @@
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const Settings = () => {
   let [tab, setTab] = useState("Mon profil");
   const [pageAction, setPageAction] = useState("Modifier");
+  const [pageAction2, setPageAction2] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showAddModer, setShowAddModer] = useState(false);
   const [showEditModer, setShowEditModer] = useState(false);
+  const [toggleSubmit, setToggleSubmit] = useState(false);
+  const [toggleSubmit2, setToggleSubmit2] = useState(false);
+
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [siret, setSiret] = useState(null);
+  const [entrepriseName, setEntrepriseName] = useState(null);
+  const [adresse, setAdresse] = useState(null);
+  const [emailEntreprise, setEmailEntreprise] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [pricePerHour, setPricePerHour] = useState(null);
+  const [dureeCours, setDureeCours] = useState(null);
+  const [maxEleve, setMaxEleve] = useState(null);
+  const [pourcentagePlatforme, setPourcentagePlatforme] = useState(null);
+  const [tva, setTva] = useState(null);
+  const [dureeAvantAnnulation, setDureeAvantAnnulation] = useState(null);
+  const [enregistrement, setEnregistrement] = useState(null);
+  const [mods, setMods] = useState(null);
 
   const columns = ["ID", "Modérateur", "Email", "Téléphone", "Profil", "Admin"];
 
@@ -49,6 +73,85 @@ const Settings = () => {
     // More data objects here
   ];
 
+  // get user info
+  const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/users/me`);
+      console.log(response);
+      setEmail(response.data.email);
+      setNom(response.data.nom);
+      setPrenom(response.data.prenom);
+      setTelephone(response.data.proffesseurProfile.phoneNumber);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update admin info
+  const updateAdmin = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        nom: nom,
+        prenom: prenom,
+        phone: telephone,
+        email: email,
+        password: password,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/users/update`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update entreprise info
+  const updateEntreprise = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        siret: siret,
+        entrepriseName: entrepriseName,
+        adresse: adresse,
+        email: emailEntreprise,
+        phoneNumber: phoneNumber,
+        pricePerHour: pricePerHour,
+        dureeCours: dureeCours,
+        maxEleve: maxEleve,
+        pourcentagePlatforme: pourcentagePlatforme,
+        tva: tva,
+        dureeAvantAnnulation: dureeAvantAnnulation,
+        enregistrement: enregistrement,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/entreprise/admin`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get mods
+  const getMods = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/admin`);
+      console.log(response);
+      setMods(response.data.admins);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+    getMods();
+  }, [tab]);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -56,8 +159,19 @@ const Settings = () => {
     if (pageAction === "Modifier") {
       setPageAction("Enregistrer");
       setInputsDisabled(false);
+      setToggleSubmit(true);
     } else {
       setPageAction("Modifier");
+      setInputsDisabled(true);
+    }
+  };
+  const handleModifierClick2 = () => {
+    if (pageAction2 === "Modifier") {
+      setPageAction2("Enregistrer");
+      setInputsDisabled(false);
+      setToggleSubmit2(true);
+    } else {
+      setPageAction2("Modifier");
       setInputsDisabled(true);
     }
   };
@@ -98,102 +212,188 @@ const Settings = () => {
             Modifier mes informrations personnelles
           </h4>
           <div className="admin_inputs_cards">
-            <div className="admin_inputs">
-              <div className="input_container2 half">
-                <label>Nom</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="Patrick"
-                />
-              </div>
-              <div className="input_container2 half">
-                <label>Prénom </label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="Nicholas"
-                />
-              </div>
-              <div className="input_container2 half">
-                <label>Téléphone</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="01124548870"
-                />
-              </div>
-              <div className="input_container2 half">
-                <label>Email</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="imane@gmail.com"
-                />
-              </div>
-              <div className="input_container2 half">
-                <label>Nouveau mot de passe</label>
-                <div className="password-input">
-                  <input type={showPassword ? "text" : "password"} />
+            <form onSubmit={updateAdmin}>
+              <div className="admin_inputs">
+                <div className="input_container2 half">
+                  <label>Nom</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="Patrick"
+                    value={nom}
+                    onChange={(e) => {
+                      setNom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Prénom </label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="Nicholas"
+                    value={prenom}
+                    onChange={(e) => {
+                      setPrenom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Téléphone</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="number"
+                    placeholder="01124548870"
+                    value={telephone}
+                    onChange={(e) => {
+                      setTelephone(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Email</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="imane@gmail.com"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Nouveau mot de passe</label>
+                  <div className="password-input">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+              {toggleSubmit && (
+                <button
+                  className="cta green"
+                  onClick={handleModifierClick}
+                  style={{
+                    margin: "12px auto",
+                  }}
+                >
+                  Enregistrer
+                </button>
+              )}
+            </form>
+            {!toggleSubmit && (
+              <button
+                className={pageAction === "Enregistrer" ? "cta green" : "cta"}
+                onClick={handleModifierClick}
+                style={{
+                  width: "200px",
+                  margin: "0",
+                }}
+              >
+                {pageAction}
+              </button>
+            )}
           </div>
 
           <h4 className="admin_edit_title">
             Modifier mes informrations entreprise
           </h4>
           <div className="admin_inputs_cards">
-            <div className="admin_inputs">
-              <div className="input_container2">
-                <label>Siret</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="12/85"
-                />
+            <form onSubmit={updateEntreprise}>
+              <div className="admin_inputs">
+                <div className="input_container2">
+                  <label>Siret</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="12/85"
+                    value={siret}
+                    onChange={(e) => {
+                      setSiret(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Nom entreprise</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="test test"
+                    value={entrepriseName}
+                    onChange={(e) => {
+                      setEntrepriseName(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Adresse de l’entreprise</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="10 rue paris 7501 Paris"
+                    value={adresse}
+                    onChange={(e) => {
+                      setAdresse(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Mail de l’entreprise</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="proviseuràecoleathome.com"
+                    value={emailEntreprise}
+                    onChange={(e) => {
+                      setEmailEntreprise(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Téléphone entreprise</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="number"
+                    placeholder="0324589678"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      setPhoneNumber(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
-              <div className="input_container2">
-                <label>Nom entreprise</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="test test"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Adresse de l’entreprise</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="10 rue paris 7501 Paris"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Mail de l’entreprise</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="proviseuràecoleathome.com"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Téléphone entreprise</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="0324589678"
-                />
-              </div>
-            </div>
+              {toggleSubmit2 && (
+                <button
+                  className={
+                    pageAction2 === "Enregistrer" ? "cta green" : "cta"
+                  }
+                  onClick={handleModifierClick2}
+                  style={{
+                    margin: "12px auto",
+                  }}
+                >
+                  {pageAction2}
+                </button>
+              )}
+            </form>
+            {!toggleSubmit2 && (
+              <button
+                className={pageAction2 === "Enregistrer" ? "cta green" : "cta"}
+                onClick={handleModifierClick2}
+                style={{
+                  width: "200px",
+                  margin: "0",
+                }}
+              >
+                {pageAction2}
+              </button>
+            )}
           </div>
-
-          <button
-            className={pageAction === "Enregistrer" ? "cta green" : "cta"}
-            onClick={handleModifierClick}
-          >
-            {pageAction}
-          </button>
         </>
       )}
 
@@ -208,13 +408,13 @@ const Settings = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((row) => (
-                <tr key={row.id}>
-                  <td>{row.id}</td>
-                  <td>{row.dateInscription}</td>
-                  <td>{row.email}</td>
-                  <td>{row.telephone}</td>
-                  <td>{row.telephone}</td>
+              {mods.map((mod) => (
+                <tr key={mod.id}>
+                  <td>{mod.id}</td>
+                  <td>{mod.nom} {mod.prenom}</td>
+                  <td>{mod.email}</td>
+                  <td>{mod.telephone}</td>
+                  <td>{mod.role}</td>
                   <td>
                     <button
                       className="btn btn-danger"

@@ -1,9 +1,25 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import { useEffect } from "react";
 import "../css/boardPage.css";
 import PaymentChart from "../Components/PaymentChart";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const BoardPage = () => {
+  // get data
+  const getData = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/log/admin/dashboard`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <div className="admin_section">
