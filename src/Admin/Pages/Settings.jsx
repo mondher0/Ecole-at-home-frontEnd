@@ -126,6 +126,7 @@ const Settings = () => {
         dureeAvantAnnulation: dureeAvantAnnulation,
         enregistrement: enregistrement,
       };
+      console.log(data);
       const response = await axiosInstance.patch(
         `${baseURl}/entreprise/admin`,
         data
@@ -135,6 +136,28 @@ const Settings = () => {
       console.log(error);
     }
   };
+
+  // get entreprise info
+  const getEntrepriseInfo = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/entreprise/admin`);
+      console.log(response);
+      setSiret(response.data.siret);
+      setEntrepriseName(response.data.entrepriseName);
+      setAdresse(response.data.adresse);
+      setEmailEntreprise(response.data.email);
+      setPhoneNumber(response.data.phoneNumber);
+      setPricePerHour(response.data.pricePerHour);
+      setDureeCours(response.data.dureeCours);
+      setMaxEleve(response.data.maxEleve);
+      setPourcentagePlatforme(response.data.pourcentagePlatforme);
+      setTva(response.data.tva);
+      setDureeAvantAnnulation(response.data.dureeAvantAnnulation);
+      setEnregistrement(response.data.enregistrement);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // get mods
   const getMods = async () => {
@@ -150,6 +173,7 @@ const Settings = () => {
   useEffect(() => {
     getUserInfo();
     getMods();
+    getEntrepriseInfo();
   }, [tab]);
 
   const togglePasswordVisibility = () => {
