@@ -43,3 +43,6 @@ bug in edit mod in email and phone number
 
 dashboard :
 linking the chart 
+
+admin : 
+forgot password ui and api
