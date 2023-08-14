@@ -8,12 +8,14 @@ const Settings = () => {
   let [tab, setTab] = useState("Mon profil");
   const [pageAction, setPageAction] = useState("Modifier");
   const [pageAction2, setPageAction2] = useState("Modifier");
+  const [pageAction3, setPageAction3] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showAddModer, setShowAddModer] = useState(false);
   const [showEditModer, setShowEditModer] = useState(false);
   const [toggleSubmit, setToggleSubmit] = useState(false);
   const [toggleSubmit2, setToggleSubmit2] = useState(false);
+  const [toggleSubmit3, setToggleSubmit3] = useState(false);
 
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -34,6 +36,13 @@ const Settings = () => {
   const [dureeAvantAnnulation, setDureeAvantAnnulation] = useState(null);
   const [enregistrement, setEnregistrement] = useState(null);
   const [mods, setMods] = useState(null);
+
+  const [modeNom, setModeNom] = useState("");
+  const [modePrenom, setModePrenom] = useState("");
+  const [modeEmail, setModeEmail] = useState("");
+  const [modePhone, setModePhone] = useState("");
+  const [modeProfil, setModeProfil] = useState("");
+  const [modePassword, setModePassword] = useState("");
 
   const columns = ["ID", "Modérateur", "Email", "Téléphone", "Profil", "Admin"];
 
@@ -118,6 +127,23 @@ const Settings = () => {
         adresse: adresse,
         email: emailEntreprise,
         phoneNumber: phoneNumber,
+      };
+      console.log(data);
+      const response = await axiosInstance.patch(
+        `${baseURl}/entreprise/admin`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update config info
+  const updateConfig = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
         pricePerHour: pricePerHour,
         dureeCours: dureeCours,
         maxEleve: maxEleve,
@@ -157,7 +183,7 @@ const Settings = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // get mods
   const getMods = async () => {
@@ -165,6 +191,78 @@ const Settings = () => {
       const response = await axiosInstance.get(`${baseURl}/admin`);
       console.log(response);
       setMods(response.data.admins);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // add mode
+  const addMode = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        nom: modeNom,
+        prenom: modePrenom,
+        email: modeEmail,
+        phoneNumber: modePhone,
+        password: modePassword,
+        role: modeProfil,
+      };
+      const response = await axiosInstance.post(`${baseURl}/admin`, data);
+      console.log(response);
+      setShowAddModer(false);
+      getMods();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // update mode
+  const updateMode = async (e, id) => {
+    e.preventDefault();
+    try {
+      const data = {
+        nom: modeNom,
+        prenom: modePrenom,
+        email: modeEmail,
+        password: modePassword,
+        role: modeProfil,
+        phoneNumber: modePhone,
+      };
+      console.log(data);
+      const response = await axiosInstance.patch(
+        `${baseURl}/admin/${id}`,
+        data
+      );
+      console.log(response);
+      setShowEditModer(false);
+      getMods();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get single mod
+  const getSingleMod = async (id) => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/admin/${id}`);
+      console.log(response);
+      setModeNom(response.data.admin.nom);
+      setModePrenom(response.data.admin.prenom);
+      setModeEmail(response.data.admin.email);
+      // setModePhone(response.data.admin.telephone);
+      setModeProfil(response.data.admin.role);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // delete mod
+  const deleteMod = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`${baseURl}/admin/${id}`);
+      console.log(response);
+      getMods();
     } catch (error) {
       console.log(error);
     }
@@ -196,6 +294,16 @@ const Settings = () => {
       setToggleSubmit2(true);
     } else {
       setPageAction2("Modifier");
+      setInputsDisabled(true);
+    }
+  };
+  const handleModifierClick3 = () => {
+    if (pageAction3 === "Modifier") {
+      setPageAction3("Enregistrer");
+      setInputsDisabled(false);
+      setToggleSubmit3(true);
+    } else {
+      setPageAction3("Modifier");
       setInputsDisabled(true);
     }
   };
@@ -435,7 +543,9 @@ const Settings = () => {
               {mods.map((mod) => (
                 <tr key={mod.id}>
                   <td>{mod.id}</td>
-                  <td>{mod.nom} {mod.prenom}</td>
+                  <td>
+                    {mod.nom} {mod.prenom}
+                  </td>
                   <td>{mod.email}</td>
                   <td>{mod.telephone}</td>
                   <td>{mod.role}</td>
@@ -443,12 +553,20 @@ const Settings = () => {
                     <button
                       className="btn btn-danger"
                       onClick={() => {
-                        setShowEditModer(true);
+                        getSingleMod(mod.id);
+                        setShowEditModer({
+                          id: mod.id,
+                        });
                       }}
                     >
                       <img src="../assets/admin_edit.svg" />
                     </button>
-                    <button className="btn btn-primary">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        deleteMod(mod.id);
+                      }}
+                    >
                       <img src="../assets/admin_delete.svg" />
                     </button>
                   </td>
@@ -476,37 +594,74 @@ const Settings = () => {
         <div className="pop_up_container">
           <div className="pop_up edit etat">
             <h5 className="input_pop_title">Nouveau modérateur</h5>
-            <div className="admin_inputs_pop_up">
-              <div className="input_container2 half">
-                <label>Nom</label>
-                <input type="text" placeholder="Patrick" />
-              </div>
-              <div className="input_container2 half">
-                <label>Prénom </label>
-                <input type="text" placeholder="Nicholas" />
-              </div>
-              <div className="input_container2 half">
-                <label>Téléphone</label>
-                <input type="text" placeholder="01124548870" />
-              </div>
-              <div className="input_container2 half">
-                <label>Email</label>
-                <input type="text" placeholder="imane@gmail.com" />
-              </div>
-              <div className="input_container2 half">
-                <label>Profil</label>
-                <select>
-                  <option>Admin</option>
-                </select>
-              </div>
-              <div className="input_container2 half">
-                <label>Nouveau mot de passe</label>
-                <div className="password-input">
-                  <input type={showPassword ? "text" : "password"} />
+            <form onSubmit={addMode}>
+              <div className="admin_inputs_pop_up">
+                <div className="input_container2 half">
+                  <label>Nom</label>
+                  <input
+                    type="text"
+                    placeholder="Patrick"
+                    onChange={(e) => {
+                      setModeNom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Prénom </label>
+                  <input
+                    type="text"
+                    placeholder="Nicholas"
+                    onChange={(e) => {
+                      setModePrenom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Téléphone</label>
+                  <input
+                    type="number"
+                    placeholder="01124548870"
+                    onChange={(e) => {
+                      setModePhone(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="imane@gmail.com"
+                    onChange={(e) => {
+                      setModeEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Profil</label>
+                  <select
+                    onChange={(e) => {
+                      setModeProfil(e.target.value);
+                    }}
+                  >
+                    <option value="">Choisir</option>
+                    <option value="admin">Admin</option>
+                    <option value="observer">Observateur</option>
+                  </select>
+                </div>
+                <div className="input_container2 half">
+                  <label>Nouveau mot de passe</label>
+                  <div className="password-input">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      onChange={(e) => {
+                        setModePassword(e.target.value);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <button className="cta">Ajouter</button>
+              <button className="cta">Ajouter</button>
+            </form>
             <img
               className="hide_btn"
               onClick={() => setShowAddModer(false)}
@@ -519,38 +674,79 @@ const Settings = () => {
       {showEditModer && (
         <div className="pop_up_container">
           <div className="pop_up edit etat">
-            <h5 className="input_pop_title">Nouveau modérateur</h5>
-            <div className="admin_inputs_pop_up">
-              <div className="input_container2 half">
-                <label>Nom</label>
-                <input type="text" placeholder="Patrick" />
-              </div>
-              <div className="input_container2 half">
-                <label>Prénom </label>
-                <input type="text" placeholder="Nicholas" />
-              </div>
-              <div className="input_container2 half">
-                <label>Téléphone</label>
-                <input type="text" placeholder="01124548870" />
-              </div>
-              <div className="input_container2 half">
-                <label>Email</label>
-                <input type="text" placeholder="imane@gmail.com" />
-              </div>
-              <div className="input_container2 half">
-                <label>Profil</label>
-                <select>
-                  <option>Admin</option>
-                </select>
-              </div>
-              <div className="input_container2 half">
-                <label>Nouveau mot de passe</label>
-                <div className="password-input">
-                  <input type={showPassword ? "text" : "password"} />
+            <h5 className="input_pop_title">Modifier modérateur</h5>
+            <form
+              onSubmit={(e) => {
+                updateMode(e, showEditModer.id);
+              }}
+            >
+              <div className="admin_inputs_pop_up">
+                <div className="input_container2 half">
+                  <label>Nom</label>
+                  <input
+                    type="text"
+                    placeholder="Patrick"
+                    value={modeNom}
+                    onChange={(e) => {
+                      setModeNom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Prénom </label>
+                  <input
+                    type="text"
+                    placeholder="Nicholas"
+                    value={modePrenom}
+                    onChange={(e) => {
+                      setModePrenom(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Téléphone</label>
+                  <input
+                    type="text"
+                    placeholder="01124548870"
+                    value={modePhone}
+                    onChange={(e) => {
+                      setModePhone(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="imane@gmail.com"
+                    value={modeEmail}
+                    onChange={(e) => {
+                      setModeEmail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2 half">
+                  <label>Profil</label>
+                  <select
+                    value={modeProfil}
+                    onChange={(e) => {
+                      setModeProfil(e.target.value);
+                    }}
+                  >
+                    <option value="">Choisir</option>
+                    <option value="admin">Admin</option>
+                    <option value="observer">Observateur</option>
+                  </select>
+                </div>
+                <div className="input_container2 half">
+                  <label>Nouveau mot de passe</label>
+                  <div className="password-input">
+                    <input type={showPassword ? "text" : "password"} />
+                  </div>
                 </div>
               </div>
-            </div>
-            <button className="cta">Modifier</button>
+              <button className="cta">Modifier</button>
+            </form>
             <img
               className="hide_btn"
               onClick={() => setShowEditModer(false)}
@@ -594,77 +790,129 @@ const Settings = () => {
           </div>
 
           <h4 className="admin_edit_title">Configuration générale</h4>
-
-          <div className="admin_inputs_cards settings">
-            <div className="admin_inputs">
-              <div className="input_container2">
-                <label>Prix par heure</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="Patrick"
-                />
+          <form onSubmit={updateConfig}>
+            <div className="admin_inputs_cards settings">
+              <div className="admin_inputs">
+                <div className="input_container2">
+                  <label>Prix par heure</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="Patrick"
+                    value={pricePerHour}
+                    onChange={(e) => {
+                      setPricePerHour(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Durée du cours hebdomadaire </label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="Nicholas"
+                    value={dureeCours}
+                    onChange={(e) => {
+                      setDureeCours(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Nombre d’élèves par classe</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="01124548870"
+                    value={maxEleve}
+                    onChange={(e) => {
+                      setMaxEleve(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Pencentage de la pltaforme</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="imane@gmail.com"
+                    value={pourcentagePlatforme}
+                    onChange={(e) => {
+                      setPourcentagePlatforme(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>TVA </label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="test test"
+                    value={tva}
+                    onChange={(e) => {
+                      setTva(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="input_container2">
+                  <label>Annuler le cous avant:</label>
+                  <input
+                    disabled={inputsDisabled}
+                    type="text"
+                    placeholder="test"
+                    value={dureeAvantAnnulation}
+                    onChange={(e) => {
+                      setDureeAvantAnnulation(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
-              <div className="input_container2">
-                <label>Durée du cours hebdomadaire </label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="Nicholas"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Nombre d’élèves par classe</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="01124548870"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Pencentage de la pltaforme</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="imane@gmail.com"
-                />
-              </div>
-              <div className="input_container2">
-                <label>TVA </label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="test test"
-                />
-              </div>
-              <div className="input_container2">
-                <label>Annuler le cous avant:</label>
-                <input
-                  disabled={inputsDisabled}
-                  type="text"
-                  placeholder="test"
-                />
+              <div className="Enregistrement_swich">
+                <h4>Enregistrement</h4>
+                <div>
+                  <input
+                    name="Enregistrement"
+                    value="Activé"
+                    type="radio"
+                    checked={enregistrement ? true : false}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setEnregistrement(true);
+                    }}
+                  />
+                  <label htmlFor="Enregistrement">Activé</label>
+                </div>
+                <div>
+                  <input
+                    name="Enregistrement"
+                    value="Désactivé"
+                    type="radio"
+                    checked={!enregistrement ? true : false}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setEnregistrement(false);
+                    }}
+                  />
+                  <label htmlFor="Enregistrement">Désactivé</label>
+                </div>
               </div>
             </div>
-            <div className="Enregistrement_swich">
-              <h4>Enregistrement</h4>
-              <div>
-                <input name="Enregistrement" value="Activé" type="radio" />
-                <label htmlFor="Enregistrement">Activé</label>
-              </div>
-              <div>
-                <input name="Enregistrement" value="Désactivé" type="radio" />
-                <label htmlFor="Enregistrement">Désactivé</label>
-              </div>
-            </div>
-          </div>
-
-          <button
-            className={pageAction === "Enregistrer" ? "cta green" : "cta"}
-            onClick={handleModifierClick}
-          >
-            {pageAction}
-          </button>
+            {toggleSubmit3 && (
+              <button className="cta green" onClick={handleModifierClick3}>
+                Enregistrer
+              </button>
+            )}
+          </form>
+          {!toggleSubmit3 && (
+            <button
+              className={pageAction3 === "Enregistrer" ? "cta green" : "cta"}
+              onClick={handleModifierClick3}
+              style={{
+                width: "200px",
+              }}
+            >
+              {pageAction3}
+            </button>
+          )}
         </div>
       )}
     </div>
