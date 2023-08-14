@@ -40,3 +40,6 @@ settings :
 missing api to edit admin info
 in moderateur missing the phone number property
 bug in edit mod in email and phone number
+
+dashboard :
+linking the chart 
