@@ -1,17 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../css/boardPage.css";
 import PaymentChart from "../Components/PaymentChart";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
 const BoardPage = () => {
+  const [startDate, setStartDate] = useState("2023-07-07T00:00:00.000Z");
+  const [endDate, setEndDate] = useState("2023-08-07T23:59:59.999Z");
+
+  const [data, setData] = useState({});
   // get data
   const getData = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/log/admin/dashboard`
+        `${baseURl}/log/admin/dashboard?startDate=${startDate}&endDate=${endDate}`
       );
       console.log(response);
+      setData(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -19,7 +25,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [startDate, endDate]);
   return (
     <>
       <div className="admin_section">
@@ -41,14 +47,26 @@ const BoardPage = () => {
             <div className="radio_container">
               <label>Du:</label>
               <div className="date_picker_container">
-                <input type="date" />
+                <input
+                  type="date"
+                  onChange={(e) => {
+                    const date = e.target.value + "T00:00:00.000Z";
+                    setStartDate(date);
+                  }}
+                />
                 <img src="../assets/clock_calender.svg" />
               </div>
             </div>
             <div className="radio_container">
               <label>Au:</label>
               <div className="date_picker_container">
-                <input type="date" />
+                <input
+                  type="date"
+                  onChange={(e) => {
+                    const date = e.target.value + "T23:59:59.999Z";
+                    setEndDate(date);
+                  }}
+                />
                 <img src="../assets/clock_calender.svg" />
               </div>
             </div>
@@ -66,7 +84,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.eleveSuspenduCount}</h3>
                 <img className="card_icon" src="../assets/suspendus.svg" />
               </div>
               <div className="card">
@@ -77,7 +95,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.eleveAnnuleCount}</h3>
                 <img className="card_icon" src="../assets/annulés.svg" />
               </div>
               <div className="card">
@@ -88,7 +106,7 @@ const BoardPage = () => {
                     +3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.eleveAbonneCount}</h3>
                 <img className="card_icon" src="../assets/Elèves_abonnés.svg" />
               </div>
             </div>
@@ -104,7 +122,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.profInscritCount}</h3>
                 <img
                   className="card_icon"
                   src="../assets/Proffesseur_inscrit.svg"
@@ -118,7 +136,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.profValideCount}</h3>
                 <img className="card_icon" src="../assets/validé.svg" />
               </div>
             </div>
@@ -145,7 +163,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.abonnementAbonnesCount}</h3>
                 <img
                   className="card_icon"
                   src="../assets/Abonnements_abonnés.svg"
@@ -159,7 +177,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.abonnementProposeCount}</h3>
                 <img
                   className="card_icon"
                   src="../assets/Abonnements_proposés.svg"
@@ -173,7 +191,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.abonnementValideCount}</h3>
                 <img className="card_icon" src="../assets/validé.svg" />
               </div>
             </div>
@@ -189,7 +207,7 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.coursTermineCount}</h3>
                 <img
                   className="card_icon"
                   src="../assets/Cours_termminés.svg"
@@ -203,71 +221,17 @@ const BoardPage = () => {
                     -3.5%
                   </span>
                 </div>
-                <h3 className="value">3</h3>
+                <h3 className="value">{data.coursAnnuleCount}</h3>
                 <img className="card_icon" src="../assets/annulés.svg" />
               </div>
             </div>
           </div>
-          <div className="admin_cards_list">
-            <h3 className="list_label">Cours</h3>
-            <div className="cards_container">
-              <div className="card">
-                <div className="text">
-                  <h4 className="title">Nombre de place</h4>
-                  <span className="def pos">
-                    <img src="../assets/up.svg" />
-                    -3.5%
-                  </span>
-                </div>
-                <h3 className="value">3</h3>
-                <img className="card_icon" src="../assets/chair_yallow.svg" />
-              </div>
-              <div className="card">
-                <div className="text">
-                  <h4 className="title">Nombre de place passé un cours</h4>
-                  <span className="def">
-                    <img src="../assets/down.svg" />
-                    -3.5%
-                  </span>
-                </div>
-                <h3 className="value">3</h3>
-                <img className="card_icon" src="../assets/chair_green.svg" />
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
       <div className="admin_section">
         <div className="admin_sections_header">
           <h2 className="admin_section_title">Statistique de paiement</h2>
-        </div>
-        <div className="admin_time_filter">
-          <div className="radio_container">
-            <input type="radio" name="date_range" value="Semaine" />
-            <label htmlFor="date_range">Semaine</label>
-          </div>
-          <div className="radio_container">
-            <input type="radio" name="date_range" value="Mois" />
-            <label htmlFor="date_range">Mois</label>
-          </div>
-          <div className="radio_container">
-            <input type="radio" name="date_range" value="Mois" />
-            <label htmlFor="date_range">Période</label>
-          </div>
-          <div className="radio_container">
-            <label>Du:</label>
-            <div className="date_picker_container">
-              <input type="date" />
-              <img src="../assets/clock_calender.svg" />
-            </div>
-          </div>
-          <div className="radio_container">
-            <label>Au:</label>
-            <div className="date_picker_container">
-              <input type="date" />
-              <img src="../assets/clock_calender.svg" />
-            </div>
-          </div>
         </div>
         <div className="paiment_section">
           <div className="paiment_chart_container">
@@ -298,7 +262,7 @@ const BoardPage = () => {
                     <img src="../assets/plus.svg" />
                   </button>
                 </h5>
-                <h2 className="the_value">9784.79 €</h2>
+                <h2 className="the_value">{data.balance} €</h2>
                 <img
                   className="the_card_illustraion"
                   src="../assets/IllustrationCard.png"
