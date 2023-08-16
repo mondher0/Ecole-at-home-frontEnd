@@ -6,7 +6,7 @@ import { useState } from "react";
 import axiosInstance from "../../utils/utils";
 import { baseURl } from "../../utils/utils";
 
-const CancelAbonnmentPopUp = ({ day, startUrl }) => {
+const CancelAbonnmentPopUp = ({ day, startUrl, text }) => {
   const [title, setTitle] = useState("");
 
   return (
@@ -41,7 +41,7 @@ const CancelAbonnmentPopUp = ({ day, startUrl }) => {
               marginBottom: "20px",
             }}
           >
-            Etre vous sur d’annluer le cours :
+           {text}
           </p>
           <p
             style={{

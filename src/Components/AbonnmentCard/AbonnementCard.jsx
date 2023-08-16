@@ -43,9 +43,9 @@ const AbonnementCard = ({ course, etat }) => {
       <img className="avatare" src="../assets/avatare.png" />
       <div className="info">
         <h4 className="bold">
-          {nom} {prenom}
+          missing from back 
         </h4>
-        <h4>{abonnement?.professeur?.diplome}</h4>
+        <h4>{course?.professeur?.diplome}</h4>
         <div
           className="avis"
           style={{
@@ -103,15 +103,15 @@ const AbonnementCard = ({ course, etat }) => {
         >
           <li>
             <img src="../assets/tag1.svg" />
-            {abonnement.matiere.name}
+            {course.matiere.name}
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            {abonnement.classe.name}
+            {course.matiere.niveau.name}
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />
-            {abonnement.day} 18:00 - 19:00
+            {course.day} 18:00 - 19:00
           </li>
         </ul>
         <div className="btns">
@@ -135,7 +135,8 @@ const AbonnementCard = ({ course, etat }) => {
       <dialog style={{ border: 0, borderRadius: "20px" }} id="demCours">
         <CancelAbonnmentPopUp
           startUrl={course.zoomMeetingStartUrl}
-          day={abonnement.day}
+          day={course.day}
+          text="Etre vous sur d’annluer l’abonnement :"
         />
       </dialog>
     </div>

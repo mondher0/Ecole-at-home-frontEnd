@@ -46,3 +46,11 @@ linking the chart
 
 admin : 
 forgot password ui and api
+
+-----------------------------------------------------------------------------------------------------------
+search : 
+rating in timing card 
+
+student : 
+cours avenir bug from backend
+missing nom et prenom of the prof in the abonnment 

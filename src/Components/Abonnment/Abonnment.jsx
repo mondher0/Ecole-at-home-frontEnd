@@ -10,7 +10,6 @@ import AbonnementCard from "../AbonnmentCard/AbonnementCard";
 
 const Abonnement = () => {
   const { userInfo } = useContext(GlobalContext);
-  console.log(userInfo);
   const { role } = userInfo;
   const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
   const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
@@ -39,12 +38,10 @@ const Abonnement = () => {
   const getUpComingCoursesForStudent = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.get(
-        `${baseURl}/cours/students/cours-avenir`
-      );
-      const upComingCourses = await response.data;
-      console.log(upComingCourses);
-      setUpComingCoursesStudent(upComingCourses);
+      const response = await axiosInstance.get(`${baseURl}/abonnement/user`);
+      console.log(response);
+
+      setUpComingCoursesStudent(response.data.abonnements);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
