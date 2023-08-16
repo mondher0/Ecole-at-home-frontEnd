@@ -12,8 +12,10 @@ import { baseURl } from "../../utils/utils";
 const TimingCard = ({ item }) => {
   const navigate = useNavigate();
   const { userInfo } = useContext(GlobalContext);
+  const { role } = userInfo;
   const { isLogged } = useContext(AuthContext);
   const { eleveProfile } = userInfo;
+  const { parentProfile } = userInfo;
   const [timings, setTimings] = useState([]);
   const days = [
     "Sunday",
@@ -43,8 +45,8 @@ const TimingCard = ({ item }) => {
 
   // Subscribe in a course
   const handleSubscribe = async (id) => {
-    console.log(userInfo); 
-     console.log(eleveProfile);
+    console.log(userInfo);
+    console.log(eleveProfile);
     try {
       if (!isLogged) {
         navigate("/login");
@@ -58,6 +60,31 @@ const TimingCard = ({ item }) => {
       } else {
         navigate(`/payment/${id}`);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // subscribe in a course of parent
+  const handleSubscribeParent = async (id) => {
+    try {
+      if (!isLogged) {
+        navigate("/login");
+        return;
+      }
+      if (parentProfile?.status === "test") {
+        navigate(`/payment/${id}`);
+        return;
+      }
+      const data = {
+        enfantId: 7,
+      };
+      const response = await axiosInstance.patch(
+        `${baseURl}/abonnement/subscribe-abonnement/parent/${id}`,
+        data
+      );
+      console.log(response);
+      alert("Vous êtes inscrit dans ce cours");
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +127,11 @@ const TimingCard = ({ item }) => {
           <div
             className="time_blocks"
             onClick={() => {
-              handleSubscribe(item.id);
+              if (role === "student") {
+                handleSubscribe(item.id);
+              } else {
+                handleSubscribeParent(item.id);
+              }
             }}
           >
             <>

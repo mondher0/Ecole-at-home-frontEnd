@@ -42,9 +42,7 @@ const AbonnementCard = ({ course, etat }) => {
     <div className="cours_card">
       <img className="avatare" src="../assets/avatare.png" />
       <div className="info">
-        <h4 className="bold">
-          missing from back 
-        </h4>
+        <h4 className="bold">missing from back</h4>
         <h4>{course?.professeur?.diplome}</h4>
         <div
           className="avis"
@@ -103,11 +101,11 @@ const AbonnementCard = ({ course, etat }) => {
         >
           <li>
             <img src="../assets/tag1.svg" />
-            {course.matiere.name}
+            missing from backend
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            {course.matiere.niveau.name}
+            missing from backend
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />

@@ -327,7 +327,7 @@ const Cours = () => {
                         course.abonnement.timing.end_hour}
                     </td>
                     <td>{course.abonnement.matiere.name}</td>
-                    <td>{course.abonnement.matiere.niveau}</td>
+                    <td>{course.abonnement.matiere.niveau.name}</td>
                     <td></td>
                     <td>
                       {course.abonnement.abonnes?.map((abonne) => (

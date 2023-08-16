@@ -13,23 +13,21 @@ const Abonnement = () => {
   const { role } = userInfo;
   const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
   const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
+  const [abonnmentsEnfant, setAbonnmentsEnfant] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [enfants, setEnfants] = useState();
+  const [enfant, setEnfant] = useState();
 
-  // Get upComing Courses of the teacher
-  const getUpComingCoursesForTeacher = async () => {
+  // Get abonnement of the enfant
+  const getAbonnment = async (id) => {
     try {
-      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/cours/professeurs/cours-avenir`
+        `${baseURl}/abonnement/enfant/${id}`
       );
-      const upComingCourses = await response.data;
-      console.log(upComingCourses);
-      setUpComingCoursesTeacher(upComingCourses);
-      setIsLoading(false);
+      console.log(response);
+      setAbonnmentsEnfant(response.data.abonnements);
     } catch (error) {
-      setIsLoading(false);
-      setIsError(true);
       console.log(error);
     }
   };
@@ -49,13 +47,27 @@ const Abonnement = () => {
   };
 
   useEffect(() => {
-    if (role === "teacher") {
-      getUpComingCoursesForTeacher();
-    }
+    // if (role === "teacher") {
+    //   getUpComingCoursesForTeacher();
+    // }
     if (role === "student") {
       getUpComingCoursesForStudent();
     }
+    if (role === "parent") {
+      getEnfants();
+    }
   }, []);
+
+  // get enfants of the parent
+  const getEnfants = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/enfant`);
+      console.log(response);
+      setEnfants(response.data.enfants);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -77,8 +89,20 @@ const Abonnement = () => {
           {role === "parent" ? (
             <div className="select_child">
               <label>Enfant:</label>
-              <select>
+              <select
+                onChange={(e) => {
+                  setEnfant(e.target.value);
+                  getAbonnment(e.target.value);
+                }}
+              >
                 <option>Séléctioner</option>
+                {enfants?.map((enfant) => {
+                  return (
+                    <option key={enfant.id} value={enfant.id}>
+                      {enfant.nom} {enfant.prenom}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           ) : role === "student" ? (
@@ -108,7 +132,18 @@ const Abonnement = () => {
               })}
             </div>
           ) : null}
-          <div className="courses_cards"></div>
+          <div className="courses_cards">
+            {role === "parent" &&
+              abonnmentsEnfant?.map((course) => {
+                return (
+                  <AbonnementCard
+                    key={course.id}
+                    course={course}
+                    etat="venir"
+                  />
+                );
+              })}
+          </div>
         </div>
       )}
       {isError && (

@@ -127,7 +127,6 @@
     position: relative;    
     min-height: 217px;
     height: auto;
-    flex-wrap: wrap;
     height: auto;   
     gap: 22px; 
     padding: 18px;

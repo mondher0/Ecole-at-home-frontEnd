@@ -379,7 +379,7 @@ const Abonnements = () => {
                           abonnement.timing.end_hour}
                       </td>
                       <td>{abonnement.matiere.name}</td>
-                      <td>{abonnement.matiere.niveau}</td>
+                      <td>{abonnement.matiere.niveau.name}</td>
                       <td>{abonnement.nbrEleve}</td>
                       <td>
                         {abonnement.abonnes.map((abonne) => {
