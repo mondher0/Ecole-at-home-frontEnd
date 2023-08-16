@@ -12,7 +12,9 @@ const GlobalProvider = ({ children }) => {
   // Get User Info
   const getUserInfo = async () => {
     try {
-      console.log("getUserInfo");
+      const response = await axiosInstance.get(`${baseURl}/users/me`);
+      setUserInfo(response.data);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

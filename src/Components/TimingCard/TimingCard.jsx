@@ -43,15 +43,17 @@ const TimingCard = ({ item }) => {
 
   // Subscribe in a course
   const handleSubscribe = async (id) => {
+    console.log(userInfo); 
+     console.log(eleveProfile);
     try {
       if (!isLogged) {
         navigate("/login");
+        return;
       }
-      if (eleveProfile.status !== "test") {
+      if (eleveProfile?.status !== "test") {
         const response = await axiosInstance.patch(
           `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
         );
-        const data = await response.data;
         alert("Vous êtes inscrit dans ce cours");
       } else {
         navigate(`/payment/${id}`);
@@ -95,7 +97,12 @@ const TimingCard = ({ item }) => {
       <div className="days_section">
         <div className="day">
           <h5 className="day_name">{item.day}</h5>
-          <div className="time_blocks">
+          <div
+            className="time_blocks"
+            onClick={() => {
+              handleSubscribe(item.id);
+            }}
+          >
             <>
               <h3 className="the_time">
                 {item.timing.start_hour} - {item.timing.end_hour}
