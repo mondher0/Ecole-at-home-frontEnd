@@ -196,6 +196,9 @@ const AuthProvider = ({ children }) => {
         isLogged,
         isLoading,
         error,
+        nomEnfant,
+        prenomEnfant,
+        emailEnfant,
       }}
     >
       {children}

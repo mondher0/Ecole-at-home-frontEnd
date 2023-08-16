@@ -1,14 +1,39 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
-const AddingEnfantForm = () => {
+const AddingEnfantForm = ({ cas, setEnfantState }) => {
   const [isChecked, setIsChecked] = useState(false);
   const {
     handleRegisterParent,
     setNomEnfant,
     setPrenomEnfant,
     setEmailEnfant,
+    nomEnfant,
+    prenomEnfant,
+    emailEnfant,
   } = useContext(AuthContext);
+
+  // create a new enfant
+  const handleCreateEnfant = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        nom: nomEnfant,
+        prenom: prenomEnfant,
+        email: emailEnfant,
+      };
+      const response = await axiosInstance.post(`${baseURl}/enfant`, data);
+      console.log(response);
+      setEnfantState(response.data);
+      document.getElementById("demCours").close();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="pop_up_container">
       <div className="pop_up parent_sign_up p_s_kid">
@@ -25,7 +50,7 @@ const AddingEnfantForm = () => {
             boxShadow: "none",
           }}
         >
-          <form onSubmit={handleRegisterParent}>
+          <form onSubmit={cas ? handleCreateEnfant : handleRegisterParent}>
             <h2 className="form_subtitle">
               Je renseigne les informations de mon&nbsp;<span>enfant</span>
               &nbsp;à inscrire{" "}
