@@ -161,7 +161,6 @@ h4 {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    height: calc(280px - 30px);
     justify-content: space-between;
     padding-bottom: 6px;
 }

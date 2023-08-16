@@ -15,6 +15,8 @@ const Home = () => {
     selectedMatiere,
     setSelectedMatiere,
     handleSearch,
+    getMatiereByNiveau,
+    setMatiere,
   } = useContext(SearchContext);
 
   const handleNiveauChange = (e) => {
@@ -50,7 +52,7 @@ const Home = () => {
                 Mini classe de 5 élèves
               </span>
             </h2>
-            <img src="assets/hero_img.png" className="hero_img" />
+
             <div className="hero_form">
               <h3 className="hero_form_title">Trouvez votre professeur</h3>
               <form
@@ -65,16 +67,24 @@ const Home = () => {
                   <select
                     className="left"
                     value={selectedNiveau}
-                    onChange={handleNiveauChange}
+                    onChange={(e) => {
+                      setSelectedNiveau(e.target.value);
+                      console.log(e.target.value);
+                      if (e.target.value === "") {
+                        setSelectedMatiere("");
+                        setMatiere();
+                        return;
+                      }
+                      getMatiereByNiveau(e.target.value);
+                      console.log("hello");
+                    }}
                   >
                     <option value="">Séléctioner</option>
-                    {niveau.map((level) =>
-                      level.classes.map((classe) => (
-                        <option key={classe.id} value={classe.name}>
-                          {level.name} - {classe.name}
-                        </option>
-                      ))
-                    )}
+                    {niveau.map((level) => (
+                      <option key={level.id} value={level.id}>
+                        {level.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="hero_input">
@@ -84,9 +94,14 @@ const Home = () => {
                     value={selectedMatiere}
                     onChange={handleMatiereChange}
                   >
-                    <option value="">Séléctioner</option>
-                    {matiere.map((mat) => (
-                      <option key={mat.id} value={mat.name}>
+                    <option value="">
+                      {selectedNiveau === ""
+                        ? "Séléctioner le niveau d'abord"
+                        : "Séléctioner"}
+                    </option>
+
+                    {matiere?.map((mat) => (
+                      <option key={mat.id} value={mat.id}>
                         {mat.name}
                       </option>
                     ))}

@@ -71,66 +71,39 @@ const TimingCard = ({ item }) => {
         <img className="avatare" src="./assets/avatare.png" />
         <div className="text_section">
           <h3>
-            {item.user.nom} {item.user.prenom}
+            {item.professeur.user.nom} {item.professeur.user.prenom}
           </h3>
-          <h4>{item.user.role}</h4>
+          <h4>{item.professeur.diplome}</h4>
           <ul>
             <li>
               <img src="./assets/Star.svg" />
               4.8
             </li>
-            <li>112 avis</li>
           </ul>
-          <p>
-            <span>Expériences</span> : 80 éleves , 50 heures
-          </p>
           <ul className="tags">
             <li>
               <img src="./assets/tag1.svg" />
-              {item.abonnements[0]?.matiere?.name ?? ""}
+              {item?.matiere?.name ?? ""}
             </li>
             <li>
               <img src="./assets/tag2.svg" />
-              {item.abonnements[0]?.classe?.name ?? ""}
+              {item.matiere.niveau.name ?? ""}
             </li>
           </ul>
         </div>
       </div>
       <div className="days_section">
-        {days.map((day) => (
-          <div className="day" key={day}>
-            <h5 className="day_name">{jours[day]}</h5>
-            {item.abonnements.map((abonnement) =>
-              abonnement.day === day ? (
-                <div className="time_blocks" key={abonnement?.id}>
-                  {timings.map((timing) =>
-                    abonnement.timing.start_hour === timing.start_hour ? (
-                      <>
-                        <h3
-                          className="the_time"
-                          key={timing.start_hour}
-                          onClick={() => {
-                            handleSubscribe(abonnement.id);
-                          }}
-                        >
-                          {abonnement.timing.start_hour}-{" "}
-                          {abonnement.timing.end_hour}
-                        </h3>
-                        <h5 className="places" key={timing.end_hour}>
-                          5places
-                        </h5>
-                      </>
-                    ) : (
-                      ""
-                    )
-                  )}
-                </div>
-              ) : (
-                ""
-              )
-            )}
+        <div className="day">
+          <h5 className="day_name">{item.day}</h5>
+          <div className="time_blocks">
+            <>
+              <h3 className="the_time">
+                {item.timing.start_hour} - {item.timing.end_hour}
+              </h3>
+              <h5 className="places">{item.nbrEleve}places</h5>
+            </>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

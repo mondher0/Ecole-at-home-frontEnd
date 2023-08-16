@@ -19,8 +19,9 @@ const ChercherUnCours = () => {
     isLoading,
     message,
     result,
+    getMatiereByNiveau,
+    setMatiere,
   } = useContext(SearchContext);
-
 
   const handleNiveauChange = (e) => {
     setSelectedNiveau(e.target.value);
@@ -37,16 +38,24 @@ const ChercherUnCours = () => {
           <select
             className="left"
             value={selectedNiveau}
-            onChange={handleNiveauChange}
+            onChange={(e) => {
+              setSelectedNiveau(e.target.value);
+              console.log(e.target.value);
+              if (e.target.value === "") {
+                setSelectedMatiere("");
+                setMatiere();
+                return;
+              }
+              getMatiereByNiveau(e.target.value);
+              console.log("hello");
+            }}
           >
             <option value="">Séléctioner</option>
-            {niveau.map((level) =>
-              level.classes.map((classe) => (
-                <option key={classe.id} value={classe.name}>
-                  {level.name} - {classe.name}
-                </option>
-              ))
-            )}
+            {niveau.map((level) => (
+              <option key={level.id} value={level.id}>
+                {level.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="hero_input">
@@ -56,9 +65,13 @@ const ChercherUnCours = () => {
             value={selectedMatiere}
             onChange={handleMatiereChange}
           >
-            <option value="">Séléctioner</option>
-            {matiere.map((mat) => (
-              <option key={mat.id} value={mat.name}>
+            <option value="">
+              {selectedNiveau === ""
+                ? "Séléctioner le niveau d'abord"
+                : "Séléctioner"}
+            </option>
+            {matiere?.map((mat) => (
+              <option key={mat.id} value={mat.id}>
                 {mat.name}
               </option>
             ))}
@@ -83,7 +96,9 @@ const ChercherUnCours = () => {
               textAlign: "center",
               marginTop: "50px",
             }}
-          >  {message && "Veuillez séléctioner un niveau et une matière"}
+          >
+            {" "}
+            {message && "Veuillez séléctioner un niveau et une matière"}
             {isLoading && "Chargement..."}
             {result && "Aucun résultat trouvé"}
           </h1>

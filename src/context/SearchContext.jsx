@@ -3,6 +3,7 @@
 import { createContext } from "react";
 import { useState, useEffect } from "react";
 import { baseURl } from "../utils/utils";
+import axios from "axios";
 
 export const SearchContext = createContext();
 
@@ -14,17 +15,28 @@ const SearchProvider = ({ children }) => {
   const [selectedMatiere, setSelectedMatiere] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(false);
-  const[result, setResult] = useState(false);
+  const [result, setResult] = useState(false);
 
   //Get Niveau and Matiere
   const getMatiereAndNiveau = async () => {
     try {
       const niveauResponse = await fetch(`${baseURl}/niveau`);
-      const matiereResponse = await fetch(`${baseURl}/matiere`);
       const niveauData = await niveauResponse.json();
-      const matiereData = await matiereResponse.json();
       setNiveau(niveauData);
-      setMatiere(matiereData);
+      console.log(niveauData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get matiere by niveau id
+  const getMatiereByNiveau = async (id) => {
+    try {
+      const response = await axios.get(
+        `${baseURl}/matiere/find-by-niveau/${id}`
+      );
+      setMatiere(response.data);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -32,6 +44,7 @@ const SearchProvider = ({ children }) => {
 
   //Search
   const handleSearch = async (e) => {
+    console.log(selectedMatiere, selectedNiveau);
     e.preventDefault();
     if (!selectedMatiere || !selectedNiveau) {
       setMessage(true);
@@ -40,14 +53,15 @@ const SearchProvider = ({ children }) => {
     try {
       setMessage(false);
       setIsLoading(true);
-      const response = await fetch(
-        `${baseURl}/professeurs?page=1&pageSize=10&classe=${selectedNiveau}&matiere=${selectedMatiere}`
+      console.log(selectedMatiere, selectedNiveau);
+      const response = await axios.get(
+        `${baseURl}/abonnement/search/${selectedMatiere}`
       );
-      const professeurs = await response.json();
-      if (professeurs.items.length === 0) {
+      console.log(response);
+      setProfesseurs(response.data);
+      if (professeurs?.length === 0) {
         setResult(true);
       }
-      setProfesseurs(professeurs.items);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -63,6 +77,7 @@ const SearchProvider = ({ children }) => {
       value={{
         niveau,
         matiere,
+        getMatiereByNiveau,
         handleSearch,
         professeurs,
         setProfesseurs,
@@ -73,6 +88,7 @@ const SearchProvider = ({ children }) => {
         isLoading,
         message,
         result,
+        setMatiere,
       }}
     >
       {children}
