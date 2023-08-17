@@ -27,7 +27,7 @@ const Settings = () => {
       ? userInfo.parentProfileEntity.address
       : role === "teacher"
       ? userInfo.proffesseurProfile.address
-      : userInfo.eleveProfile.adresse
+      : userInfo.eleveProfile.address
   );
   const [ville, setVille] = useState(
     role === "parent"
