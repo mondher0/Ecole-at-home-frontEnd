@@ -41,9 +41,14 @@ const AbonnementCard = ({ course, etat, id }) => {
 
   return (
     <div className="cours_card">
-      <img className="avatare" src={`${baseURl}${course?.professeur?.imgUrl}`} />
+      <img
+        className="avatare"
+        src={`${baseURl}${course?.professeur?.imgUrl}`}
+      />
       <div className="info">
-        <h4 className="bold">missing from back</h4>
+        <h4 className="bold">
+          {course?.professeur?.user.nom} {course?.professeur?.user.prenom}
+        </h4>
         <h4>{course?.professeur?.diplome}</h4>
         <div
           className="avis"
@@ -71,7 +76,7 @@ const AbonnementCard = ({ course, etat, id }) => {
                 fontSize: "14px",
               }}
             >
-              4.8
+              {course?.professeur?.note ? course?.professeur?.note : 0}
             </p>
           </div>
 
@@ -102,11 +107,11 @@ const AbonnementCard = ({ course, etat, id }) => {
         >
           <li>
             <img src="../assets/tag1.svg" />
-            missing from backend
+            {course.matiere.name}
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            missing from backend
+            {course.matiere.niveau.name}
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />

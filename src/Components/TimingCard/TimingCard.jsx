@@ -106,7 +106,7 @@ const TimingCard = ({ item }) => {
           <ul>
             <li>
               <img src="./assets/Star.svg" />
-              4.8
+              {item.professeur.note ? item.professeur.note.toFixed(1) : "0.0"}
             </li>
           </ul>
           <ul className="tags">

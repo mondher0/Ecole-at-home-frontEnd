@@ -385,7 +385,7 @@ const Cours = () => {
                                   course.abonnement.timing.end_hour}
                               </td>
                               <td>{course.abonnement.matiere.name}</td>
-                              <td>{course.abonnement.matiere.niveau}</td>
+                              <td>{course.abonnement.matiere.niveau.name}</td>
                               <td></td>
                               <td>{abonne.nom + " " + abonne.prenom}</td>
                               <td>{abonne.email}</td>
@@ -439,7 +439,7 @@ const Cours = () => {
                                 course.abonnement.timing.end_hour}
                             </td>
                             <td>{course.abonnement.matiere.name}</td>
-                            <td>{course.abonnement.matiere.niveau}</td>
+                            <td>{course.abonnement.matiere.niveau.name}</td>
                             <td></td>
                             <td>-</td>
                             <td>-</td>

@@ -399,7 +399,7 @@ const Abonnements = () => {
                                     " " +
                                     abonnement.professeur.user.prenom,
                                   timing:
-                                    abonnement.day +
+                                    abonnement?.day +
                                     " " +
                                     abonnement.timing.start_hour +
                                     " - " +
@@ -507,9 +507,9 @@ const Abonnements = () => {
                                 abonnement.timing.end_hour}
                             </td>
                             <td>{abonnement.matiere.name}</td>
-                            <td>{abonnement.matiere.niveau}</td>
-                            <td>{abonne.email}</td>
+                            <td>{abonnement.matiere.niveau.name}</td>
                             <td>{abonne.nom + " " + abonne.prenom}</td>
+                            <td>{abonne.email}</td>
                             <td className={abonnement.status}>
                               <div>
                                 <button className="btn btn-danger">
@@ -550,14 +550,14 @@ const Abonnements = () => {
                                 abonnement.professeur.user.prenom}
                             </td>
                             <td>
-                              {abonnement.abonnement.day +
+                              {abonnement.day +
                                 " " +
-                                abonnement.abonnement.timing.start_hour +
+                                abonnement.timing.start_hour +
                                 " - " +
-                                abonnement.abonnement.timing.end_hour}
+                                abonnement.timing.end_hour}
                             </td>
                             <td>{abonnement.matiere.name}</td>
-                            <td>{abonnement.niveau.name}</td>
+                            <td>{abonnement.matiere.niveau.name}</td>
                             <td>-</td>
                             <td>-</td>
                             <td className={abonnement.status}>
