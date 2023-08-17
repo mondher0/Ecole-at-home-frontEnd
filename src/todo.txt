@@ -52,8 +52,7 @@ search :
 rating in timing card 
 
 student : 
-cours avenir:
-missing niveau
+cours avenir: missing niveau cancel cours avenir and Assiter cours avenir functions
 
 parent :
 cours avenir :not linking yet 
