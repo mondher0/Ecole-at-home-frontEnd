@@ -58,4 +58,3 @@ bug from backend
 abonnment: 
 missing nom et prenom of the prof in the abonnment 
 missing nom et prenom et matier et niveau in the abonnment of enfant
-adding cancel abonnement function
