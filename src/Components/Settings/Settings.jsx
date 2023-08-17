@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Parent } from "../../assets/index";
+import { Parent, img } from "../../assets/index";
 import AddingEnfantForm from "../AddingEnfantForm/AddingEnfantForm";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
@@ -17,27 +17,41 @@ const Settings = () => {
   const [telephone, setTelephone] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.phoneNumber
+      : role === "teacher"
+      ? userInfo.proffesseurProfile.phoneNumber
       : userInfo.eleveProfile.phoneNumber
   );
+  console.log(telephone);
   const [adresse, setAdresse] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.address
+      : role === "teacher"
+      ? userInfo.proffesseurProfile.address
       : userInfo.eleveProfile.adresse
   );
   const [ville, setVille] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.ville
+      : role === "teacher"
+      ? userInfo.proffesseurProfile.ville
       : userInfo.eleveProfile.ville
   );
   const [codePostal, setCodePostal] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.codePostal
+      : role === "teacher"
+      ? userInfo.proffesseurProfile.codePostal
       : userInfo.eleveProfile.codePostal
   );
   const [password, setPassword] = useState("");
 
   const [enfants, setEnfants] = useState();
   const [enfantState, setEnfantState] = useState();
+
+  const [nomEntreprise, setNomEntreprise] = useState(
+    userInfo?.proffesseurProfile?.nomEntreprise
+  );
+  const [siret, setSiret] = useState(userInfo?.proffesseurProfile?.siret);
 
   // update student
   const updateStudent = async (e) => {
@@ -65,6 +79,49 @@ const Settings = () => {
     }
   };
 
+  // update professeur
+  const updateProfesseur = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        email: email,
+        prenom: prenom,
+        nom: nom,
+        phoneNumber: telephone,
+        adresse: adresse,
+        ville: ville,
+        codePostal: codePostal,
+        siret: siret,
+        nomEntreprise: nomEntreprise,
+      };
+      if (password) {
+        data.password = password;
+      }
+      const response = await axiosInstance.patch(
+        `${baseURl}/users/update-professeur`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // upload image of professeur
+  const uploadImage = async (e) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      const response = await axiosInstance.post(
+        `${baseURl}/professeurs/profile-image`,
+        formData
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // get enfants of the parent
   const getEnfants = async () => {
     if (role !== "parent") return;
@@ -84,7 +141,7 @@ const Settings = () => {
   return (
     <div className="Settings">
       <fieldset>
-        <form onSubmit={updateStudent}>
+        <form onSubmit={role === "teacher" ? updateProfesseur : updateStudent}>
           <div className="input_container half">
             <label htmlFor="Nom">Nom</label>
             <input
@@ -140,14 +197,14 @@ const Settings = () => {
                 color: "black",
                 fontWeight: "bold",
               }}
-              placeholder="kk"
-              type={"number"}
+              placeholder="Telephone"
+              type={"text"}
               name="email"
               value={telephone}
               onChange={(e) => {
                 setTelephone(e.target.value);
               }}
-            ></input>
+            />
           </div>
           <div className="input_container half">
             <label htmlFor="email">Adresse</label>
@@ -212,6 +269,42 @@ const Settings = () => {
               }}
             ></input>
           </div>
+          {role === "teacher" && (
+            <>
+              <div className="input_container half">
+                <label htmlFor="email">Siret</label>
+                <input
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                  placeholder="Siret"
+                  type={"text"}
+                  name="email"
+                  value={siret}
+                  onChange={(e) => {
+                    setSiret(e.target.value);
+                  }}
+                ></input>
+              </div>
+              <div className="input_container half">
+                <label htmlFor="email">Nom entreprise</label>
+                <input
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                  placeholder="Nom entreprise"
+                  type={"text"}
+                  name="email"
+                  value={nomEntreprise}
+                  onChange={(e) => {
+                    setNomEntreprise(e.target.value);
+                  }}
+                ></input>
+              </div>
+            </>
+          )}
           <button
             style={{
               width: "200px",
@@ -222,6 +315,65 @@ const Settings = () => {
           </button>
         </form>
       </fieldset>
+      {role === "teacher" && (
+        <div
+          className="media"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            borderRadius: "12px",
+            border: " 1px solid #ddd",
+            outline: "none",
+            width: "80%",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <div
+            className="image"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              borderRadius: "12px",
+              border: "1px solid #ddd",
+              outline: "none",
+              width: "30%",
+              margin: "20px",
+              height: "200px",
+              position: "relative",
+            }}
+          >
+            <input
+              type="file"
+              id="image"
+              name="image"
+              size="60px"
+              style={{
+                opacity: "0",
+                marginLeft: "200px",
+                position: "absolute",
+                top: "40px",
+              }}
+              onChange={(e) => {
+                uploadImage(e);
+              }}
+            />
+            <img
+              src={img}
+              alt="image"
+              style={{
+                width: "50px",
+                margin: "0",
+              }}
+            />
+            <p className="photo">Modifier la photo</p>
+          </div>
+        </div>
+      )}
       {role === "parent" && (
         <>
           <h1

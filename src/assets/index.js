@@ -28,6 +28,7 @@ import Parent from "./student.svg";
 import edit from "./edite.svg";
 import eye from "./eye.svg";
 import succe from "./Vector (2).svg";
+import img from "./img.svg";
 
 export {
   A,
@@ -60,4 +61,5 @@ export {
   edit,
   eye,
   succe,
+  img,
 };

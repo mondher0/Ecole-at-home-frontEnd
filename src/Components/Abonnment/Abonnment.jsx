@@ -140,6 +140,7 @@ const Abonnement = () => {
                     key={course.id}
                     course={course}
                     etat="venir"
+                    id={enfant}
                   />
                 );
               })}

@@ -4,8 +4,9 @@ import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import CancelAbonnmentPopUp from "../CancelAbonnmentPopUP/CancelAbonnmentPopUp";
+import { baseURl } from "../../utils/utils";
 
-const AbonnementCard = ({ course, etat }) => {
+const AbonnementCard = ({ course, etat, id }) => {
   console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
@@ -40,7 +41,7 @@ const AbonnementCard = ({ course, etat }) => {
 
   return (
     <div className="cours_card">
-      <img className="avatare" src="../assets/avatare.png" />
+      <img className="avatare" src={`${baseURl}${course?.professeur?.imgUrl}`} />
       <div className="info">
         <h4 className="bold">missing from back</h4>
         <h4>{course?.professeur?.diplome}</h4>
@@ -135,6 +136,8 @@ const AbonnementCard = ({ course, etat }) => {
           startUrl={course.zoomMeetingStartUrl}
           day={course.day}
           text="Etre vous sur d’annluer l’abonnement :"
+          info={course}
+          id={id}
         />
       </dialog>
     </div>

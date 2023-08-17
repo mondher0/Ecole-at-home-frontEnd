@@ -6,8 +6,42 @@ import { useState } from "react";
 import axiosInstance from "../../utils/utils";
 import { baseURl } from "../../utils/utils";
 
-const CancelAbonnmentPopUp = ({ day, startUrl, text }) => {
+const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
   const [title, setTitle] = useState("");
+  console.log(id);
+  console.log(info);
+  console.log(day);
+
+  // Cancel abonnement for student
+  const cancelAbonnmentStudent = async () => {
+    try {
+      console.log(info.id);
+      const response = await axiosInstance.patch(
+        `${baseURl}/eleve/abonnement/cancel/${info.id}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Cancel abonnement for enfant
+  const cancelAbonnmentEnfant = async () => {
+    try {
+      console.log(id);
+      const data = {
+        enfantId: parseInt(id),
+      };
+      console.log(data);
+      const response = await axiosInstance.patch(
+        `${baseURl}/parent/abonnement/cancel/${info.id}`,
+        data
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="pop_up_container">
@@ -41,16 +75,18 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text }) => {
               marginBottom: "20px",
             }}
           >
-           {text}
+            {text}
           </p>
           <p
             style={{
               marginBottom: "20px",
             }}
           >
-            Guy Hawkins Math
+            missing from backend
           </p>
-          <p>{day} 18:00 - 20:00 </p>
+          <p>
+            {day} {info.timing.start_hour}-{info.timing.end_hour}{" "}
+          </p>
         </div>
         <div className="btns">
           <button
@@ -69,7 +105,16 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text }) => {
             style={{
               backgroundColor: "#0078D4",
               boxShadow: "none",
-             
+            }}
+            onClick={() => {
+              if (!id) {
+                cancelAbonnmentStudent();
+                document.getElementById("demCours").close();
+              }
+              if (id) {
+                cancelAbonnmentEnfant();
+                document.getElementById("demCours").close();
+              }
             }}
           >
             Oui
