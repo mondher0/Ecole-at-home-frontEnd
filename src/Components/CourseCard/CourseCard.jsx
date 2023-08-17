@@ -4,6 +4,7 @@ import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
+import { baseURl } from "../../utils/utils";
 
 const CourseCard = ({ course, etat }) => {
   console.log(etat);
@@ -40,26 +41,33 @@ const CourseCard = ({ course, etat }) => {
 
   return (
     <div className="cours_card">
-      <img className="avatare" src="../assets/avatare.png" />
+      <img
+        className="avatare"
+        src={`${baseURl}${abonnement.professeur.imgUrl}`}
+      />
       <div className="info">
         <h4 className="bold">
           {nom} {prenom}
         </h4>
         <h4>{abonnement?.professeur?.diplome}</h4>
-        <ul className="tags" style={{
-          marginTop: "10px"
-        }}>
+        <ul
+          className="tags"
+          style={{
+            marginTop: "10px",
+          }}
+        >
           <li>
             <img src="../assets/tag1.svg" />
             {abonnement.matiere.name}
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            {abonnement.classe.name}
+            missing from back
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />
-            {abonnement.day} 18:00 - 19:00
+            {abonnement.day} {abonnement.timing.start_hour} -{" "}
+            {abonnement.timing.end_hour}
           </li>
         </ul>
         <div className="btns">

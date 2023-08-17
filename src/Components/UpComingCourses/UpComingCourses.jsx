@@ -41,9 +41,8 @@ const UpComingCourses = () => {
       const response = await axiosInstance.get(
         `${baseURl}/cours/students/cours-avenir`
       );
-      const upComingCourses = await response.data;
-      console.log(upComingCourses);
-      setUpComingCoursesStudent(upComingCourses);
+      console.log(response);
+      setUpComingCoursesStudent(response.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
