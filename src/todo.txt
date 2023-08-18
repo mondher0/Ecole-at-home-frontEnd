@@ -87,3 +87,6 @@ cours-passe : not link yet voir cours passe
 paiement : not link yet paiement
 notification : not link yet notification
 status : not link yet status
+
+payment page :
+missing some data in the abonnment by id from backend
