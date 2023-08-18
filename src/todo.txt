@@ -56,6 +56,7 @@ not linking yet
 search : 
 rating in timing card 
 adding pop up whene essay gratuit
+adding pop up to choose enfant
 
 client (parent, student) :
 not linkig rating yet 
@@ -64,20 +65,19 @@ a propos :
 not coding yet
 
 student : 
-cours avenir:  cancel cours avenir and Assiter cours avenir functions
+cours avenir: Assiter cours avenir functions
 cours passe : voir cours passe not linking yet
-paiement : not linking yet
 facutre : not linking yet
 notification : not linking yet
 
 parent :
 cours avenir :not linking yet 
 cours passe : not linking yet
-paiement : not linking yet
 notification : not linking yet
 facture : not linking yet
 
 teacher :
+adding the niveau and the matiere in the inscription
 dispoonibility : not linking yet get dispo
 cours-avenir : not link yet demmarer cours avenir
 cours-passe : not link yet voir cours passe

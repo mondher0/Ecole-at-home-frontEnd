@@ -6,7 +6,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
-const CourseCard = ({ course, etat }) => {
+const CourseCard = ({ course, etat, rol }) => {
   console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
@@ -107,14 +107,16 @@ const CourseCard = ({ course, etat }) => {
                   Assiter au cours
                 </a>
               )}
-              <button
-                className="red"
-                onClick={() => {
-                  cancelCourse();
-                }}
-              >
-                Annuler
-              </button>
+              {rol === "teacher" && (
+                <button
+                  className="red"
+                  onClick={() => {
+                    cancelCourse();
+                  }}
+                >
+                  Annuler
+                </button>
+              )}
             </>
           ) : (
             <button

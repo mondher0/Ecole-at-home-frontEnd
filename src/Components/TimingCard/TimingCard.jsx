@@ -45,21 +45,26 @@ const TimingCard = ({ item }) => {
 
   // Subscribe in a course
   const handleSubscribe = async (id) => {
-    console.log(userInfo);
-    console.log(eleveProfile);
     try {
       if (!isLogged) {
         navigate("/login");
         return;
       }
-      if (eleveProfile?.status !== "test") {
-        const response = await axiosInstance.patch(
-          `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
+      if (eleveProfile?.status == "test") {
+        const res = await axiosInstance.get(
+          `${baseURl}/payment/get-payment-methods`
         );
-        alert("Vous êtes inscrit dans ce cours");
-      } else {
-        navigate(`/payment/${id}`);
+        console.log(res);
+        if (res.data.data?.length === 0) {
+          navigate(`/payment/${id}`);
+          return;
+        }
       }
+      const response = await axiosInstance.patch(
+        `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
+      );
+      console.log(response);
+      alert("Vous êtes inscrit dans ce cours");
     } catch (error) {
       console.log(error);
     }
@@ -72,13 +77,19 @@ const TimingCard = ({ item }) => {
         navigate("/login");
         return;
       }
-      if (parentProfile?.status === "test") {
-        navigate(`/payment/${id}`);
-        return;
-      }
       const data = {
         enfantId: 7,
       };
+      if (parentProfile?.status == "test") {
+        const res = await axiosInstance.get(
+          `${baseURl}/payment/get-payment-methods`
+        );
+        console.log(res);
+        if (res.data.data?.length === 0) {
+          navigate(`/payment/${id}`);
+          return;
+        }
+      }
       const response = await axiosInstance.patch(
         `${baseURl}/abonnement/subscribe-abonnement/parent/${id}`,
         data

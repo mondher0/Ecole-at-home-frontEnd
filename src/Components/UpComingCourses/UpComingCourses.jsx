@@ -100,7 +100,12 @@ const UpComingCourses = () => {
               {upComingCoursesTeacher.map((course) => {
                 console.log(course);
                 return (
-                  <CourseCard key={course.id} course={course} etat="venir" />
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    etat="venir"
+                    rol="teacher"
+                  />
                 );
               })}
             </div>
