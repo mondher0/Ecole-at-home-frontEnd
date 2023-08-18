@@ -4,7 +4,7 @@ import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
-import { baseURl } from "../../utils/utils";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const CourseCard = ({ course, etat }) => {
   console.log(etat);
@@ -38,6 +38,18 @@ const CourseCard = ({ course, etat }) => {
   console.log(abonnement);
   console.log(userInfo);
   console.log(role);
+
+  // cancel course
+  const cancelCourse = async () => {
+    try {
+      const response = await axiosInstance.patch(
+        `${baseURl}/cours/cancel/${course.id}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="cours_card">
@@ -95,7 +107,14 @@ const CourseCard = ({ course, etat }) => {
                   Assiter au cours
                 </a>
               )}
-              <button className="red">Annuler</button>
+              <button
+                className="red"
+                onClick={() => {
+                  cancelCourse();
+                }}
+              >
+                Annuler
+              </button>
             </>
           ) : (
             <button

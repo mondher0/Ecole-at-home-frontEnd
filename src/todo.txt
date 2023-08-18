@@ -58,4 +58,4 @@ cours avenir :not linking yet
 
 teacher :
 dispoonibility : not linking yet get dispo
-cours avenir : not linking yet
+cours-avenir 
