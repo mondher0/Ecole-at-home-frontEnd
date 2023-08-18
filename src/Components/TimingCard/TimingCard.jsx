@@ -108,7 +108,7 @@ const TimingCard = ({ item }) => {
   return (
     <div className="time_card">
       <div className="info_section">
-        <img className="avatare" src="./assets/avatare.png" />
+        <img className="avatare" src={`${baseURl}${item.professeur.imgUrl}`} />
         <div className="text_section">
           <h3>
             {item.professeur.user.nom} {item.professeur.user.prenom}
