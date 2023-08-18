@@ -23,8 +23,10 @@ const UpComingCourses = () => {
       const response = await axiosInstance.get(
         `${baseURl}/cours/professeurs/cours-avenir`
       );
+      console.log(response);
       const upComingCourses = await response.data;
       console.log(upComingCourses);
+
       setUpComingCoursesTeacher(upComingCourses);
       setIsLoading(false);
     } catch (error) {

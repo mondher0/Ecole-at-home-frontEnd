@@ -162,7 +162,6 @@ const DisponiblitéForm = () => {
             >
               <option value="">Séléctioner</option>
               {timing?.map((item) => {
-                console.log(item.start_hour + 2.0);
                 return (
                   <option value={JSON.stringify(item)} key={item.label}>
                     {item.start_hour} - {item.end_hour}

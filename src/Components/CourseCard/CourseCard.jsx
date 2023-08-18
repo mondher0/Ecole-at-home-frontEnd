@@ -62,7 +62,7 @@ const CourseCard = ({ course, etat }) => {
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            missing from back
+            {abonnement.matiere.niveau.name}
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />
