@@ -82,7 +82,7 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
               marginBottom: "20px",
             }}
           >
-            missing from backend
+          {info.professeur.user.nom} {info.professeur.user.prenom}
           </p>
           <p>
             {day} {info.timing.start_hour}-{info.timing.end_hour}{" "}
