@@ -141,6 +141,7 @@ const DisponiblitéForm = () => {
                 setDay(e.target.value);
               }}
             >
+              <option value="">Séléctioner</option>
               <option value="Sunday">dimanche</option>
               <option value="Monday">lundi</option>
               <option value="Tuesday">mardi</option>

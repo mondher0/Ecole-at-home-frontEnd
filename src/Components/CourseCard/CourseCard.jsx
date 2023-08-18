@@ -62,13 +62,15 @@ const CourseCard = ({ course, etat }) => {
           </li>
           <li>
             <img src="../assets/tag2.svg" />
-            {abonnement.matiere.niveau.name}
+            {abonnement.matiere?.niveau?.name}
           </li>
-          <li>
-            <img src="../assets/clock_calender_bg.svg" />
-            {abonnement.day} {abonnement.timing.start_hour} -{" "}
-            {abonnement.timing.end_hour}
-          </li>
+          {etat === "venir" && (
+            <li>
+              <img src="../assets/clock_calender_bg.svg" />
+              {abonnement.day} {abonnement.timing.start_hour} -{" "}
+              {abonnement.timing.end_hour}
+            </li>
+          )}
         </ul>
         <div className="btns">
           {etat === "venir" ? (
@@ -100,9 +102,10 @@ const CourseCard = ({ course, etat }) => {
               className="green"
               style={{
                 width: "100%",
+                padding: "5px",
               }}
             >
-              Voir lenregistrement{" "}
+              Voir l{"'"}enregistrement
             </button>
           )}
         </div>

@@ -18,9 +18,9 @@ const PastCourse = () => {
   const getPastCoursesForTeacher = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/cours/professeurs/cours-passe`
+        `${baseURl}/cours/professeurs/cours-passe?page=1&pageSize=10        `
       );
-      const pastCourses = await response.data;
+      const pastCourses = await response.data.items;
       console.log(pastCourses);
       setPastCoursesTeacher(pastCourses);
     } catch (error) {
@@ -32,9 +32,10 @@ const PastCourse = () => {
   const getPastCoursesForStudent = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/cours/students/cours-avenir`
+        `${baseURl}/cours/students/cours-passe?page=1&pageSize=10        `
       );
-      const pastCourses = await response.data;
+      console.log(response);
+      const pastCourses = await response.data.items;
       console.log(pastCourses);
       setPastCoursesStudent(pastCourses);
     } catch (error) {
@@ -66,7 +67,6 @@ const PastCourse = () => {
             console.log(course);
             return <CourseCard key={course.id} course={course} />;
           })}
-          <div>Student</div>
         </div>
       ) : role === "teacher" ? (
         <div className="courses_cards">
@@ -74,7 +74,6 @@ const PastCourse = () => {
             console.log(course);
             return <CourseCard key={course.id} course={course} etat="passe" />;
           })}
-          <div>teacher</div>
         </div>
       ) : null}
 
