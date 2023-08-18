@@ -47,15 +47,40 @@ admin :
 forgot password ui and api
 
 -----------------------------------------------------------------------------------------------------------
+confirming the email :
+not linking yet
+
+forgot password :
+not linking yet
+
 search : 
 rating in timing card 
+adding pop up whene essay gratuit
+
+client (parent, student) :
+not linkig rating yet 
+
+a propos :
+not coding yet
 
 student : 
-cours avenir: missing niveau cancel cours avenir and Assiter cours avenir functions
+cours avenir:  cancel cours avenir and Assiter cours avenir functions
+cours passe : voir cours passe not linking yet
+paiement : not linking yet
+facutre : not linking yet
+notification : not linking yet
 
 parent :
 cours avenir :not linking yet 
+cours passe : not linking yet
+paiement : not linking yet
+notification : not linking yet
+facture : not linking yet
 
 teacher :
 dispoonibility : not linking yet get dispo
-cours-avenir 
+cours-avenir : not link yet demmarer cours avenir
+cours-passe : not link yet voir cours passe
+paiement : not link yet paiement
+notification : not link yet notification
+status : not link yet status
