@@ -33,6 +33,7 @@ import NewPassword from "./Pages/NewPassword";
 import AdminProtectedRoute from "./Admin/Components/AdminProtectedRoute";
 import AdminLoginProtectedRoute from "./Admin/Components/AdminLoginProtectedRoute";
 import AddEmail from "./Admin/Pages/addEmail";
+import EmailConfirmation from "./Pages/EmailConfirmation";
 
 const App = () => {
   return (
@@ -69,8 +70,30 @@ const App = () => {
             }
           />
           <Route path="/a-propos" element={<h1>a propos</h1>} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/new-password" element={<NewPassword />} />
+          <Route
+            path="/forgot-password"
+            element={
+              <LoginProtectedRoute>
+                <ForgotPassword />
+              </LoginProtectedRoute>
+            }
+          />
+          <Route
+            path="/new-password"
+            element={
+              <LoginProtectedRoute>
+                <NewPassword />
+              </LoginProtectedRoute>
+            }
+          />
+          <Route
+            path="/verify-email"
+            element={
+              <LoginProtectedRoute>
+                <EmailConfirmation />
+              </LoginProtectedRoute>
+            }
+          />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
         <Route

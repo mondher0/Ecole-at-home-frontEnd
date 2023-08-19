@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/register-eleve`, data);
       console.log(response);
+      // window.location.href = "/verify-email";
     } catch (error) {
       console.log(error);
     }
