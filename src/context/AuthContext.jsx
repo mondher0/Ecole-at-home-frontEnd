@@ -110,7 +110,6 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.access_token);
       window.location.href = "/";
       checkUserLoggedIn();
-      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       setError(error.response.data.message);

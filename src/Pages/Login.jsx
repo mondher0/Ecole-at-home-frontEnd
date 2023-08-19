@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import "../css/loader.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,7 +40,13 @@ const Login = () => {
             </h5>
             {error && <h5 className="form_error">{error}</h5>}
             <button className="login_btn">
-              {isLoading ? "Loading..." : "Connexion"}
+              {isLoading ? (
+                <div className="spinner-container">
+                  <div className="loading-spinner"></div>
+                </div>
+              ) : (
+                "Connexion"
+              )}
             </button>
           </form>
         </fieldset>
