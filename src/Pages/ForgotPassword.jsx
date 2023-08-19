@@ -21,10 +21,11 @@ const ForgotPassword = () => {
     try {
       setIsLoaded(true);
       const data = {
+        email: email,
         otp: code,
         password: password,
-        confirmPassword: confirmPassword,
       };
+      console.log(data);
       const response = await axios.post(`${baseURl}/auth/reset-password`, data);
       console.log(response);
       setIsLoaded(false);
@@ -224,7 +225,14 @@ const ForgotPassword = () => {
                     }}
                   >
                     <label htmlFor="new">Nouveau mot de passe</label>
-                    <input type={"password"} name="new" required></input>
+                    <input
+                      type={"password"}
+                      name="new"
+                      required
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    ></input>
                   </div>
                   <div
                     className="input_container"
@@ -235,7 +243,14 @@ const ForgotPassword = () => {
                     }}
                   >
                     <label htmlFor="conf">Confirmer le mot de passe</label>
-                    <input type={"password"} name="conf" required></input>
+                    <input
+                      type={"password"}
+                      name="conf"
+                      required
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
+                    ></input>
                   </div>
 
                   <button
