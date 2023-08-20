@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/register-eleve`, data);
       console.log(response);
-      // window.location.href = "/verify-email";
+      window.location.href = "/verify-email";
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +67,7 @@ const AuthProvider = ({ children }) => {
         data
       );
       console.log(response);
+      window.location.href = "/verify-email";
     } catch (error) {
       console.log(error);
     }
@@ -92,6 +93,7 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/register-parent`, data);
       console.log(response);
+      window.location.href = "/verify-email";
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +109,7 @@ const AuthProvider = ({ children }) => {
         password: password,
       };
       const response = await axios.post(`${baseURlAuth}/login`, data);
+      console.log(response);
       localStorage.setItem("token", response.data.access_token);
       window.location.href = "/";
       checkUserLoggedIn();

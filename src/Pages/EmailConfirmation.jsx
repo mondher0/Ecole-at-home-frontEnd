@@ -1,20 +1,68 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSearchParams } from "react-router-dom";
 import "../css/NoResult.css";
+import { baseURl } from "../utils/utils";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "../css/loader.css";
 
 const EmailConfirmation = () => {
   const [params, setParams] = useSearchParams();
-  console.log(params);
+  const token = params.get("token");
+  const [verify, setVerify] = useState(false);
+  const [loading, setLoading] = useState(false);
+  console.log(token);
+
+  // verify email
+  const verifyEmail = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${baseURl}/auth/confirm-email?token=${token}`
+      );
+      console.log(response);
+      setVerify(true);
+      setLoading(false);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    verifyEmail();
+  }, []);
   return (
     <div className="card-container">
       <fieldset className="card">
-        <legend>Confirmez votre adresse e-mail </legend>
-        <div className="card-content">
-          <p className="not-found-message">
-            Vous y êtes presque ! Cliquez sur le lien de confirmation que nous
-            avons envoyé à votre adresse email Confirmez votre adresse e-mail et
-            vous pourrez commencer votre cours
-          </p>
-        </div>
+        {loading ? (
+          <div
+            className="spinner-container"
+            style={{
+              marginTop: "20px",
+            }}
+          >
+            <div className="loading-spinner"></div>
+          </div>
+        ) : (
+          <>
+            <legend>
+              {verify
+                ? "Votre email a été vérifié avec succès"
+                : "Vérification de votre email"}{" "}
+            </legend>
+            <div className="card-content">
+              <p className="not-found-message">
+                {verify
+                  ? "Votre adresse e-mail est maintenant confirmée. Profitez pleinement de votre cours !"
+                  : "  Vous y êtes presque ! Cliquez sur le lien de confirmation quenous avons envoyé à votre adresse email Confirmez votre adresse-mail et vous pourrez commencer votre cours"}
+              </p>
+            </div>
+          </>
+        )}
       </fieldset>
     </div>
   );

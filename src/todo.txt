@@ -48,10 +48,7 @@ forgot password ui and api
 
 -----------------------------------------------------------------------------------------------------------
 confirming the email :
-not linking yet
-
-forgot password :
-linking but ther is a bug in the api whene i change the password it did not change
+when the user is not confirming his email when he do login redirct him to confirm page
 
 404 error page : 
 coding the page
