@@ -16,19 +16,21 @@ const EmailConfirmation = () => {
 
   // verify email
   const verifyEmail = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `${baseURl}/auth/confirm-email?token=${token}`
-      );
-      console.log(response);
-      setVerify(true);
-      setLoading(false);
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 3000);
-    } catch (error) {
-      console.log(error);
+    if (token) {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `${baseURl}/auth/confirm-email?token=${token}`
+        );
+        console.log(response);
+        setVerify(true);
+        setLoading(false);
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
