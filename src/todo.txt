@@ -72,13 +72,13 @@ notification : not linking yet
 
 parent :
 cours avenir :Assiter cours avenir functions
-cours passe : not linking yet
+cours passe : voir cours passe not linking yet
 notification : not linking yet
 facture : not linking yet
 
 teacher :
 adding the niveau and the matiere in the inscription
-dispoonibility : not linking yet get dispo
+dispoonibility : not linking yet get dispo and adding pop up in add dispo
 cours-avenir : not link yet demmarer cours avenir
 cours-passe : not link yet voir cours passe
 paiement : not link yet paiement
