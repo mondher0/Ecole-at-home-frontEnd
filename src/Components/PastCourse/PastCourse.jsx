@@ -13,6 +13,11 @@ const PastCourse = () => {
   const { role } = userInfo;
   const [pastCoursesTeacher, setPastCoursesTeacher] = useState([]);
   const [pastCoursesStudent, setPastCoursesStudent] = useState([]);
+  const [pastCoursesEnfant, setPastCoursesEnfant] = useState([]);
+  const [enfants, setEnfants] = useState();
+  const [enfant, setEnfant] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   // get past courses of the teacher
   const getPastCoursesForTeacher = async () => {
@@ -43,6 +48,34 @@ const PastCourse = () => {
     }
   };
 
+  // get enfants of the parent
+  const getEnfants = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/enfant`);
+      console.log(response);
+      setEnfants(response.data.enfants);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get âst courses of an enfant
+  const getPastCoursesForEnfant = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/parents/cours-passe?enfantId=${id}`
+      );
+      console.log(response);
+      setPastCoursesEnfant(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (role === "teacher") {
       getPastCoursesForTeacher();
@@ -50,35 +83,91 @@ const PastCourse = () => {
     if (role === "student") {
       getPastCoursesForStudent();
     }
+    if (role === "parent") {
+      getEnfants();
+    }
   }, []);
   return (
-    <div className="up_coming_courses">
-      <h3 className="green_title">Cours à venir de la semaine</h3>
-      {role === "parent" ? (
-        <div className="select_child">
-          <label>Enfant:</label>
-          <select>
-            <option>Séléctioner</option>
-          </select>
-        </div>
-      ) : role === "student" ? (
-        <div className="courses_cards">
-          {pastCoursesStudent.map((course) => {
-            console.log(course);
-            return <CourseCard key={course.id} course={course} />;
-          })}
-        </div>
-      ) : role === "teacher" ? (
-        <div className="courses_cards">
-          {pastCoursesTeacher.map((course) => {
-            console.log(course);
-            return <CourseCard key={course.id} course={course} etat="passe" />;
-          })}
-        </div>
-      ) : null}
+    <>
+      {isLoading ? (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            fontSize: "3rem",
+            color: "black",
+          }}
+        >
+          Loading...
+        </h1>
+      ) : (
+        <div className="up_coming_courses">
+          <h3 className="green_title">Cours à venir de la semaine</h3>
+          {role === "parent" ? (
+            <div className="select_child">
+              <label>Enfant:</label>
+              <select
+                onChange={(e) => {
+                  setEnfant(e.target.value);
+                  getPastCoursesForEnfant(e.target.value);
+                }}
+              >
+                <option>Séléctioner</option>
+                {enfants?.map((enfant) => {
+                  return (
+                    <option key={enfant.id} value={enfant.id}>
+                      {enfant.nom} {enfant.prenom}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          ) : role === "student" ? (
+            <div className="courses_cards">
+              {pastCoursesStudent.map((course) => {
+                console.log(course);
+                return <CourseCard key={course.id} course={course} />;
+              })}
+            </div>
+          ) : role === "teacher" ? (
+            <div className="courses_cards">
+              {pastCoursesTeacher.map((course) => {
+                console.log(course);
+                return (
+                  <CourseCard key={course.id} course={course} etat="passe" />
+                );
+              })}
+            </div>
+          ) : null}
 
-      <div className="courses_cards"></div>
-    </div>
+          <div className="courses_cards">
+            {role === "parent" &&
+              pastCoursesEnfant?.map((course) => {
+                console.log("hello");
+                return (
+                  <CourseCard key={course.id} course={course} etat="passe" />
+                );
+              })}
+          </div>
+        </div>
+      )}
+      {isError && (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+            fontSize: "3rem",
+            color: "black",
+          }}
+        >
+          Something went wrong -_-
+        </h1>
+      )}
+    </>
   );
 };
 
