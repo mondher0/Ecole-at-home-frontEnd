@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { baseURl } from "../../utils/utils";
 import axiosInstance from "../../utils/utils";
 
-const DisponiblitéForm = () => {
+const EditDispoForm = ({ dispo, setShowedit }) => {
   const [niveaux, setNiveaux] = useState([]);
   const [niveau, setNiveau] = useState("");
   const [matieres, setMatieres] = useState([]);
@@ -12,6 +13,7 @@ const DisponiblitéForm = () => {
   const [day, setDay] = useState("");
   const [timing, setTiming] = useState([]);
   const [timingItem, setTimingItem] = useState("");
+  console.log(dispo);
 
   // get niveaux
   const getNiveaux = async () => {
@@ -66,9 +68,12 @@ const DisponiblitéForm = () => {
         },
       };
       console.log(data);
-      const response = await axiosInstance.post(`${baseURl}/abonnement`, data);
+      const response = await axiosInstance.patch(
+        `${baseURl}/abonnement/${dispo.id}`,
+        data
+      );
       console.log(response);
-      document.getElementById("favDialog").close();
+      setShowedit(false);
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +90,7 @@ const DisponiblitéForm = () => {
           className="hide_btn"
           src="../assets/x.svg"
           onClick={() => {
-            document.getElementById("favDialog").close();
+            setShowedit(false);
           }}
         />
         <form className="dispo_form" onSubmit={submitDispo}>
@@ -172,11 +177,11 @@ const DisponiblitéForm = () => {
               })}
             </select>
           </div>
-          <button className="submit_btn">Envoyer une demande</button>
+          <button className="submit_btn">Modifier</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default DisponiblitéForm;
+export default EditDispoForm;

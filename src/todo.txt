@@ -66,13 +66,13 @@ not coding yet
 
 student : 
 cours avenir: Assiter cours avenir functions
-cours passe : voir cours passe not linking yet
+cours passe : voir cours passe not linking yet and pagination 
 facutre : not linking yet
 notification : not linking yet
 
 parent :
 cours avenir :Assiter cours avenir functions
-cours passe : voir cours passe not linking yet
+cours passe : voir cours passe not linking yet and pagination 
 notification : not linking yet
 facture : not linking yet
 

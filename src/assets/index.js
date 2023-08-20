@@ -29,6 +29,8 @@ import edit from "./edite.svg";
 import eye from "./eye.svg";
 import succe from "./Vector (2).svg";
 import img from "./img.svg";
+import editDispo from "./edit-dispo.svg";
+import deleteDispo from "./delete-dispo.svg";
 
 export {
   A,
@@ -62,4 +64,6 @@ export {
   eye,
   succe,
   img,
+  editDispo,
+  deleteDispo,
 };
