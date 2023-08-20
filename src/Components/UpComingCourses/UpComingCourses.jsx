@@ -70,12 +70,16 @@ const UpComingCourses = () => {
   // get cours avenir of an enfant
   const getUpComingCoursesForEnfant = async (id) => {
     try {
+      setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/cours/parents/cours-avenir?enfantId=${id}`
       );
       console.log(response);
       setUpComingCoursesEnfant(response.data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
