@@ -59,7 +59,7 @@ const CourseCard = ({ course, etat, rol }) => {
       />
       <div className="info">
         <h4 className="bold">
-          {nom} {prenom}
+          {abonnement.professeur.user.nom} {abonnement.professeur.user.prenom}
         </h4>
         <h4>{abonnement?.professeur?.diplome}</h4>
         <ul

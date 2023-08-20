@@ -78,7 +78,7 @@ const TimingCard = ({ item }) => {
         return;
       }
       const data = {
-        enfantId: 7,
+        enfantId: 12,
       };
       if (parentProfile?.status == "test") {
         const res = await axiosInstance.get(

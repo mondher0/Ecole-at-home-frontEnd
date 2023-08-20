@@ -13,6 +13,9 @@ const UpComingCourses = () => {
   const { role } = userInfo;
   const [upComingCoursesTeacher, setUpComingCoursesTeacher] = useState([]);
   const [upComingCoursesStudent, setUpComingCoursesStudent] = useState([]);
+  const [upComingCoursesEnfant, setUpComingCoursesEnfant] = useState([]);
+  const [enfants, setEnfants] = useState();
+  const [enfant, setEnfant] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -53,12 +56,39 @@ const UpComingCourses = () => {
     }
   };
 
+  // get enfants of the parent
+  const getEnfants = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/enfant`);
+      console.log(response);
+      setEnfants(response.data.enfants);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get cours avenir of an enfant
+  const getUpComingCoursesForEnfant = async (id) => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/parents/cours-avenir?enfantId=${id}`
+      );
+      console.log(response);
+      setUpComingCoursesEnfant(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (role === "teacher") {
       getUpComingCoursesForTeacher();
     }
     if (role === "student") {
       getUpComingCoursesForStudent();
+    }
+    if (role === "parent") {
+      getEnfants();
     }
   }, []);
   return (
@@ -82,8 +112,20 @@ const UpComingCourses = () => {
           {role === "parent" ? (
             <div className="select_child">
               <label>Enfant:</label>
-              <select>
+              <select
+                onChange={(e) => {
+                  setEnfant(e.target.value);
+                  getUpComingCoursesForEnfant(e.target.value);
+                }}
+              >
                 <option>Séléctioner</option>
+                {enfants?.map((enfant) => {
+                  return (
+                    <option key={enfant.id} value={enfant.id}>
+                      {enfant.nom} {enfant.prenom}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           ) : role === "student" ? (
@@ -110,7 +152,15 @@ const UpComingCourses = () => {
               })}
             </div>
           ) : null}
-          <div className="courses_cards"></div>
+          <div className="courses_cards">
+            {role === "parent" &&
+              upComingCoursesEnfant?.map((course) => {
+                console.log("hello");
+                return (
+                  <CourseCard key={course.id} course={course} etat="venir" />
+                );
+              })}
+          </div>
         </div>
       )}
       {isError && (
