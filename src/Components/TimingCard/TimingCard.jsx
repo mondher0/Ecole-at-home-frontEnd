@@ -50,7 +50,7 @@ const TimingCard = ({ item }) => {
         navigate("/login");
         return;
       }
-      if (eleveProfile?.status == "test") {
+      if (eleveProfile?.status === "test") {
         const res = await axiosInstance.get(
           `${baseURl}/payment/get-payment-methods`
         );

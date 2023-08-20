@@ -71,7 +71,10 @@ const SubscriptionDetails = ({ id }) => {
         <fieldset className="payment_fs">
           <legend>Détails de l’abonnement</legend>
           <div className="avatar_nextC">
-            <img className="avatar" src="../assets/avatare.png" />
+            <img
+              className="avatar"
+              src={`${baseURl}${professeur?.professeur.imgUrl}`}
+            />
             <h3 className="next_cours">
               <img src="../assets/clock_calender.svg" />
               Prochain cours : {professeur?.day} {}
@@ -80,8 +83,11 @@ const SubscriptionDetails = ({ id }) => {
           </div>
           <div className="the_details">
             <div className="text_section left">
-              <h3>missing from l back</h3>
-              <h4>missing from back</h4>
+              <h3>
+                {professeur?.professeur.user.nom}{" "}
+                {professeur?.professeur.user.prenom}
+              </h3>
+              <h4>{professeur?.professeur.diplome}</h4>
               <ul
                 style={{
                   marginBottom: "1rem",
@@ -89,7 +95,9 @@ const SubscriptionDetails = ({ id }) => {
               >
                 <li>
                   <img src="../assets/Star.svg" />
-                  missing from back
+                  {professeur?.professeur.note
+                    ? professeur?.professeur.note.toFixed(1)
+                    : "0.0"}
                 </li>
                 <li>112 avis</li>
               </ul>
@@ -104,11 +112,11 @@ const SubscriptionDetails = ({ id }) => {
               >
                 <li>
                   <img src="../assets/tag1.svg" />
-                  missing from back
+                  {professeur?.matiere.name}
                 </li>
                 <li>
                   <img src="../assets/tag2.svg" />
-                  missing from back
+                  {professeur?.matiere.niveau.name}
                 </li>
               </ul>
               <div

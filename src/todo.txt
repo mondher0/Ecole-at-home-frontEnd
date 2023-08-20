@@ -78,7 +78,6 @@ facture : not linking yet
 
 teacher :
 adding the niveau and the matiere in the inscription
-dispoonibility : not linking yet get dispo and adding pop up in add dispo
 cours-avenir : not link yet demmarer cours avenir
 cours-passe : not link yet voir cours passe
 paiement : not link yet paiement
