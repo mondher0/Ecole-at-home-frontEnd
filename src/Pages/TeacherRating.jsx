@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AbonnementCard from "../Components/AbonnmentCard/AbonnementCard";
-import { baseURl } from "../utils/utils";
-import { useEffect, useState } from "react";
+import axiosInstance, { baseURl } from "../utils/utils";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "../css/TeacherRating.css";
 import RatingContainer from "../Components/RatingContainer/RatingContainer";
 import "../css/loader.css";
+import { notColoredStar } from "../assets";
+import { AuthContext } from "../context/AuthContext";
 
 const TeacherRating = () => {
   const { id } = useParams();
@@ -16,7 +18,15 @@ const TeacherRating = () => {
   const [rating, setRating] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  console.log(id);
+  const [firstNote, setFirstNote] = useState(false);
+  const [secondNote, setSecondNote] = useState(false);
+  const [thirdNote, setThirdNote] = useState(false);
+  const [fourthNote, setFourthNote] = useState(false);
+  const [fifthNote, setFifthNote] = useState(false);
+  const [note, setNote] = useState(0);
+  const [comment, setComment] = useState("");
+  const { isLogged } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // get abonnement by id
   const getAbonnement = async () => {
@@ -30,10 +40,32 @@ const TeacherRating = () => {
       console.log(res);
       setCourse(response.data);
       setRating(res.data.ratings);
+      setProfId(response.data.professeur?.id);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(true);
+      console.log(error);
+    }
+  };
+
+  // send rating
+  const sendRating = async (e) => {
+    e.preventDefault();
+    try {
+      if (!isLogged) {
+        navigate("/login");
+        return;
+      }
+      const data = {
+        note: note,
+        comment: comment,
+        professeurId: profId,
+      };
+      console.log(data);
+      const response = await axiosInstance.post(`${baseURl}/rating`, data);
+      console.log(response);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -70,6 +102,135 @@ const TeacherRating = () => {
                   <RatingContainer rating={rate} key={rate.id} />
                 )
             )}
+          </div>
+          <div className="rating-input">
+            <form onSubmit={sendRating}>
+              <div
+                className="input_container"
+                style={{
+                  borderRadius: "23px",
+                  border: "1px solid rgba(45, 57, 76, 0.3)",
+                }}
+              >
+                <input
+                  type={"text"}
+                  name="email"
+                  placeholder="Ajouter un commentaire"
+                  onChange={(e) => {
+                    setComment(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="btns">
+                <div className="stars">
+                  {firstNote ? (
+                    <img
+                      src="../assets/Star.svg"
+                      className="cmnt"
+                      onClick={() => {
+                        setFifthNote(false);
+                        setFourthNote(false);
+                        setThirdNote(false);
+                        setSecondNote(false);
+                        setNote(1);
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={notColoredStar}
+                      className="cmnt"
+                      onClick={() => {
+                        setFirstNote(true);
+                        setNote(1);
+                      }}
+                    />
+                  )}
+                  {secondNote ? (
+                    <img
+                      src="../assets/Star.svg"
+                      className="cmnt"
+                      onClick={() => {
+                        setFifthNote(false);
+                        setFourthNote(false);
+                        setThirdNote(false);
+                        setNote(2);
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={notColoredStar}
+                      className="cmnt"
+                      onClick={() => {
+                        setFirstNote(true);
+                        setSecondNote(true);
+                        setNote(2);
+                      }}
+                    />
+                  )}
+                  {thirdNote ? (
+                    <img
+                      src="../assets/Star.svg"
+                      className="cmnt"
+                      onClick={() => {
+                        setFifthNote(false);
+                        setFourthNote(false);
+                        setNote(3);
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={notColoredStar}
+                      className="cmnt"
+                      onClick={() => {
+                        setFirstNote(true);
+                        setSecondNote(true);
+                        setThirdNote(true);
+                        setNote(3);
+                      }}
+                    />
+                  )}
+                  {fourthNote ? (
+                    <img
+                      src="../assets/Star.svg"
+                      className="cmnt"
+                      onClick={() => {
+                        setFifthNote(false);
+                        setNote(4);
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={notColoredStar}
+                      className="cmnt"
+                      onClick={() => {
+                        setFirstNote(true);
+                        setSecondNote(true);
+                        setThirdNote(true);
+                        setFourthNote(true);
+                        setNote(4);
+                      }}
+                    />
+                  )}
+                  {fifthNote ? (
+                    <img src="../assets/Star.svg" className="cmnt" />
+                  ) : (
+                    <img
+                      src={notColoredStar}
+                      className="cmnt"
+                      onClick={() => {
+                        setFirstNote(true);
+                        setSecondNote(true);
+                        setThirdNote(true);
+                        setFourthNote(true);
+                        setFifthNote(true);
+                        setNote(5);
+                      }}
+                    />
+                  )}
+                </div>
+                <button className="rating_btn">Envoyer</button>
+              </div>
+            </form>
           </div>
         </>
       )}

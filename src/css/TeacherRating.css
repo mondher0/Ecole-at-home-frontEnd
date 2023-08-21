@@ -16,10 +16,46 @@
   margin-top: 20px;
 }
 
-.rating-cards {
+.rating-cards,
+.rating-input {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 35px;
   gap: 20px;
+}
+
+.rating-controll {
+  border-radius: 23px;
+  border: 1px solid rgba(45, 57, 76, 0.1);
+}
+.rating-controll input {
+  border: none;
+}
+.stars {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px;
+}
+.stars .cmnt {
+  width: 30px;
+  height: 30px;
+}
+.btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px;
+}
+.btns button {
+  width: 244px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 32.5px;
+  background: #0078d4;
+  border:  none;
+  color: white;
+  font-weight: bold;
 }

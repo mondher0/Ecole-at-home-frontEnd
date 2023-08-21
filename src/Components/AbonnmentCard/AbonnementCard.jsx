@@ -113,7 +113,8 @@ const AbonnementCard = ({ course, etat, id, cas }) => {
           </li>
           <li>
             <img src="../assets/clock_calender_bg.svg" />
-            {course?.day} 18:00 - 19:00
+            {course?.day} {course?.timing?.start_hour} -{" "}
+            {course?.timing?.end_hour}
           </li>
         </ul>
         <div className="btns">
