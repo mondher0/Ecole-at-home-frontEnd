@@ -1,20 +1,15 @@
+/* eslint-disable react/prop-types */
 import "./RatingContainer.css";
 
-const RatingContainer = () => {
+const RatingContainer = ({ rating }) => {
   return (
     <div className="rate_cont">
-      <h4>mondher mameri</h4>
-      <p className="description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate
-        libero et velit interdum, ac aliquet odio mattis. Class aptent taciti
-        sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate
-        libero et velit interdum, ac aliquet odio mattis. Class aptent taciti
-        sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-      </p>
+      <h4>missing ffrom l back</h4>
+      <p className="description">{rating?.comment}</p>
       <div className="stars">
-        <img src="../assets/Star.svg" />
-        <img src="../assets/Star.svg" />
+        {[...Array(rating.note)].map((star, i) => {
+          return <img src="../assets/Star.svg" key={i} />;
+        })}
       </div>
     </div>
   );
