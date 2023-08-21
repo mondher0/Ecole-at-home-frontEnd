@@ -82,10 +82,10 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
               marginBottom: "20px",
             }}
           >
-          {info.professeur.user.nom} {info.professeur.user.prenom}
+          {info?.professeur.user.nom} {info?.professeur.user.prenom}
           </p>
           <p>
-            {day} {info.timing.start_hour}-{info.timing.end_hour}{" "}
+            {day} {info?.timing.start_hour}-{info?.timing.end_hour}{" "}
           </p>
         </div>
         <div className="btns">

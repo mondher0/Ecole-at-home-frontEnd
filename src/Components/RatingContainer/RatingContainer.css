@@ -1,0 +1,20 @@
+.rate_cont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rate_cont h4,
+.rate_cont p {
+  margin: 0;
+}
+.rate_cont h4 {
+  color: #385898;
+}
+.rate_cont p {
+  color: #797d8c;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px; /* 166.667% */
+}

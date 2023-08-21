@@ -11,6 +11,7 @@ import { baseURl } from "../../utils/utils";
 
 const TimingCard = ({ item }) => {
   const navigate = useNavigate();
+  const { id } = item;
   const { userInfo } = useContext(GlobalContext);
   const { role } = userInfo;
   const { isLogged } = useContext(AuthContext);
@@ -107,7 +108,12 @@ const TimingCard = ({ item }) => {
 
   return (
     <div className="time_card">
-      <div className="info_section">
+      <div
+        className="info_section"
+        onClick={() => {
+          navigate(`/rating/${id}`);
+        }}
+      >
         <img className="avatare" src={`${baseURl}${item.professeur.imgUrl}`} />
         <div className="text_section">
           <h3>

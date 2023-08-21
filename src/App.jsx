@@ -34,6 +34,7 @@ import AdminProtectedRoute from "./Admin/Components/AdminProtectedRoute";
 import AdminLoginProtectedRoute from "./Admin/Components/AdminLoginProtectedRoute";
 import AddEmail from "./Admin/Pages/addEmail";
 import EmailConfirmation from "./Pages/EmailConfirmation";
+import TeacherRating from "./Pages/TeacherRating";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/" element={<NavBar />}>
           <Route index element={<Home />} />
           <Route path="/chercher-un-cours" element={<ChercherUnCours />} />
+          <Route path="/rating/:id" element={<TeacherRating />} />
           <Route path="/choose_user_type" element={<ChooseUserType />} />
           <Route path="/inscription/:userType" element={<Insecription />} />
           <Route path="/choose-your-kid" element={<ChooseKids />} />
