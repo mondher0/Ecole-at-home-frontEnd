@@ -54,7 +54,6 @@ when the user is not confirming his email when he do login redirct him to confir
 coding the page
 
 search : 
-rating in timing card 
 adding pop up whene essay gratuit
 adding pop up to choose enfant
 
