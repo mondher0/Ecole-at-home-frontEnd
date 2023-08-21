@@ -59,7 +59,7 @@ adding pop up whene essay gratuit
 adding pop up to choose enfant
 
 client (parent, student) :
-not linkig rating yet 
+missing soma data in rating from l back end
 
 a propos :
 not coding yet
