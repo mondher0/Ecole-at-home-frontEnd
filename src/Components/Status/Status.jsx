@@ -6,22 +6,29 @@ import axios from "axios";
 import { baseURl } from "../../utils/utils";
 import ProfCard from "./ProfCard";
 import RatingContainer from "../RatingContainer/RatingContainer";
+import "../../css/loader.css";
 
 const Status = () => {
   const { userInfo } = useContext(GlobalContext);
   const { proffesseurProfile } = userInfo;
   const { id } = proffesseurProfile;
   const [ratings, setRating] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // get prof ratings
   const getProfRatings = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${baseURl}/rating/professeur/${id}?page=1&pageSize=10`
       );
       console.log(response);
       setRating(response.data?.ratings);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -47,6 +54,20 @@ const Status = () => {
       >
         Tous les avis{" "}
       </p>
+      {loading && (
+        <div className="spinner-container">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
+      {error && (
+        <h2
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Erreur de chargement
+        </h2>
+      )}
       {ratings?.map(
         (rate) =>
           rate.status !== "PENDING" && (
