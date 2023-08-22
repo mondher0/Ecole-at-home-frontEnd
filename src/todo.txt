@@ -15,6 +15,7 @@ all project:
 adding loading and error handdling
 pagination 
 the upadte state 
+the hover effect 
 
 professeurs : 
 the pop up of what prof do not linked yet 
