@@ -63,14 +63,14 @@ not coding yet
 student : 
 cours avenir: Assiter cours avenir functions
 cours passe : voir cours passe not linking yet and pagination 
-facutre : not linking yet
+facture : not tested yet 
 notification : not linking yet
 
 parent :
 cours avenir :Assiter cours avenir functions
 cours passe : voir cours passe not linking yet and pagination 
 notification : not linking yet
-facture : not linking yet
+facture : not tested yet 
 
 teacher :
 waiting page of the admin
