@@ -83,4 +83,3 @@ cours-avenir : not link yet demmarer cours avenir
 cours-passe : not link yet voir cours passe
 paiement : not link yet paiement
 notification : not link yet notification
-status : not link yet status
