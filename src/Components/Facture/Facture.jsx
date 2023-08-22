@@ -1,11 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const Facture = () => {
   const { userInfo } = useContext(GlobalContext);
   const { role } = userInfo;
+
+  // get student facture
+  const getStudentFacture = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/payment/eleve`);
+      console.log(response);
+    } catch (error) {
+    }
+  };
+
+  useEffect(() => {
+    // if (role === "teacher") {
+    //   getUpComingCoursesForTeacher();
+    // }
+    if (role === "student") {
+      getStudentFacture();
+    }
+    // if (role === "parent") {
+    //   getEnfants();
+    // }
+  }, []);
   return (
     <div className="invoices_page">
       <h3 className="main_title">Mes factures</h3>
