@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -16,9 +17,12 @@ const TimingCard = ({ item }) => {
   const { role } = userInfo;
   const { isLogged } = useContext(AuthContext);
   const { eleveProfile } = userInfo;
-  const { parentProfile } = userInfo;
+  const { parentProfileEntity } = userInfo;
   const [timings, setTimings] = useState([]);
+  const [enfants, setEnfants] = useState();
+  const [enfant, setEnfant] = useState();
   const [showEssaiePopUp, setShowEssaiePopUp] = useState();
+  const [showChooseEnfantPoPup, setShowChooseEnfantPopUp] = useState(false);
   const days = [
     "Sunday",
     "Monday",
@@ -76,15 +80,17 @@ const TimingCard = ({ item }) => {
 
   // subscribe in a course of parent
   const handleSubscribeParent = async (id) => {
+    setShowChooseEnfantPopUp(false);
+    console.log(enfant);
     try {
       if (!isLogged) {
         navigate("/login");
         return;
       }
       const data = {
-        enfantId: 12,
+        enfantId: parseInt(enfant),
       };
-      if (parentProfile?.status == "test") {
+      if (parentProfileEntity?.status == "test") {
         const res = await axiosInstance.get(
           `${baseURl}/payment/get-payment-methods`
         );
@@ -99,7 +105,20 @@ const TimingCard = ({ item }) => {
         data
       );
       console.log(response);
-      alert("Vous êtes inscrit dans ce cours");
+      if (parentProfileEntity?.status === "inscrit") {
+        setShowEssaiePopUp(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get enfants of the parent
+  const getEnfants = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/enfant`);
+      console.log(response);
+      setEnfants(response.data.enfants);
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +126,9 @@ const TimingCard = ({ item }) => {
 
   useEffect(() => {
     getTiming();
+    if (role === "parent") {
+      getEnfants();
+    }
   }, []);
 
   return (
@@ -153,8 +175,13 @@ const TimingCard = ({ item }) => {
               onClick={() => {
                 if (role === "student") {
                   handleSubscribe(item.id);
+                }
+                if (role === "parent") {
+                  setShowChooseEnfantPopUp({
+                    id: item.id,
+                  });
                 } else {
-                  handleSubscribeParent(item.id);
+                  return;
                 }
               }}
             >
@@ -204,6 +231,60 @@ const TimingCard = ({ item }) => {
               src="../assets/x.svg"
               onClick={() => {
                 setShowEssaiePopUp(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {showChooseEnfantPoPup && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2>Choissisier un enfant</h2>
+              </div>
+            </div>
+            <div className="input_container">
+              <label htmlFor="Matière">Enfant</label>
+              <select
+                name="Matière"
+                onChange={(e) => {
+                  setEnfant(e.target.value);
+                }}
+              >
+                <option value="">Séléctioner un enfant</option>
+                {enfants?.map((enfant) => {
+                  return (
+                    <option key={enfant.id} value={enfant.id}>
+                      {enfant.nom} {enfant.prenom}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                handleSubscribeParent(showChooseEnfantPoPup.id);
+              }}
+            >
+              Continuer
+            </button>
+            <img
+              className="hide_btn"
+              src="../assets/x.svg"
+              onClick={() => {
+                setShowChooseEnfantPopUp(false);
               }}
             />
           </div>
