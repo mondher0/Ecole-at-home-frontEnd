@@ -48,6 +48,9 @@ admin :
 forgot password ui and api
 
 -----------------------------------------------------------------------------------------------------------
+confirm email :
+na7i commentaire mn login function
+
 404 error page : 
 coding the page
 

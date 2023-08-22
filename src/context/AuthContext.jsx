@@ -110,10 +110,10 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/login`, data);
       console.log(response);
-      if (!response.data.isEmailVerified) {
-        window.location.href = "/verify-email";
-        return;
-      }
+      // if (!response.data.isEmailVerified) {
+      //   window.location.href = "/verify-email";
+      //   return;
+      // }
       localStorage.setItem("token", response.data.access_token);
       window.location.href = "/";
       checkUserLoggedIn();
