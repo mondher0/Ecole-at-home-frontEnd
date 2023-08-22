@@ -15,6 +15,7 @@ const Facture = () => {
       const response = await axiosInstance.get(`${baseURl}/payment/eleve`);
       console.log(response);
     } catch (error) {
+      console.log(error);
     }
   };
 
