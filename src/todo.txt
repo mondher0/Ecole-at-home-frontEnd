@@ -54,10 +54,6 @@ na7i commentaire mn login function
 404 error page : 
 coding the page
 
-search : 
-adding pop up whene essay gratuit
-adding pop up to choose enfant
-
 client (parent, student) :
 missing soma data in rating from l back end
 
