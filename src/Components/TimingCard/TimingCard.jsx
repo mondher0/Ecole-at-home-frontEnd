@@ -18,6 +18,7 @@ const TimingCard = ({ item }) => {
   const { eleveProfile } = userInfo;
   const { parentProfile } = userInfo;
   const [timings, setTimings] = useState([]);
+  const [showEssaiePopUp, setShowEssaiePopUp] = useState();
   const days = [
     "Sunday",
     "Monday",
@@ -65,7 +66,9 @@ const TimingCard = ({ item }) => {
         `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
       );
       console.log(response);
-      alert("Vous êtes inscrit dans ce cours");
+      if (eleveProfile?.status === "inscrit") {
+        setShowEssaiePopUp(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -107,60 +110,106 @@ const TimingCard = ({ item }) => {
   }, []);
 
   return (
-    <div className="time_card">
-      <div
-        className="info_section"
-        onClick={() => {
-          navigate(`/rating/${id}`);
-        }}
-      >
-        <img className="avatare" src={`${baseURl}${item.professeur.imgUrl}`} />
-        <div className="text_section">
-          <h3>
-            {item.professeur.user.nom} {item.professeur.user.prenom}
-          </h3>
-          <h4>{item.professeur.diplome}</h4>
-          <ul>
-            <li>
-              <img src="./assets/Star.svg" />
-              {item.professeur.note ? item.professeur.note.toFixed(1) : "0.0"}
-            </li>
-          </ul>
-          <ul className="tags">
-            <li>
-              <img src="./assets/tag1.svg" />
-              {item?.matiere?.name ?? ""}
-            </li>
-            <li>
-              <img src="./assets/tag2.svg" />
-              {item.matiere.niveau.name ?? ""}
-            </li>
-          </ul>
+    <>
+      <div className="time_card">
+        <div
+          className="info_section"
+          onClick={() => {
+            navigate(`/rating/${id}`);
+          }}
+        >
+          <img
+            className="avatare"
+            src={`${baseURl}${item.professeur.imgUrl}`}
+          />
+          <div className="text_section">
+            <h3>
+              {item.professeur.user.nom} {item.professeur.user.prenom}
+            </h3>
+            <h4>{item.professeur.diplome}</h4>
+            <ul>
+              <li>
+                <img src="./assets/Star.svg" />
+                {item.professeur.note ? item.professeur.note.toFixed(1) : "0.0"}
+              </li>
+            </ul>
+            <ul className="tags">
+              <li>
+                <img src="./assets/tag1.svg" />
+                {item?.matiere?.name ?? ""}
+              </li>
+              <li>
+                <img src="./assets/tag2.svg" />
+                {item.matiere.niveau.name ?? ""}
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div className="days_section">
-        <div className="day">
-          <h5 className="day_name">{item.day}</h5>
-          <div
-            className="time_blocks"
-            onClick={() => {
-              if (role === "student") {
-                handleSubscribe(item.id);
-              } else {
-                handleSubscribeParent(item.id);
-              }
-            }}
-          >
-            <>
-              <h3 className="the_time">
-                {item.timing.start_hour} - {item.timing.end_hour}
-              </h3>
-              <h5 className="places">{item.nbrEleve}places</h5>
-            </>
+        <div className="days_section">
+          <div className="day">
+            <h5 className="day_name">{item.day}</h5>
+            <div
+              className="time_blocks"
+              onClick={() => {
+                if (role === "student") {
+                  handleSubscribe(item.id);
+                } else {
+                  handleSubscribeParent(item.id);
+                }
+              }}
+            >
+              <>
+                <h3 className="the_time">
+                  {item.timing.start_hour} - {item.timing.end_hour}
+                </h3>
+                <h5 className="places">{item.nbrEleve}places</h5>
+              </>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {showEssaiePopUp && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2>Essai gratuit!</h2>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">
+                Profitez de 2 heures de cours gratuites
+              </p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                setShowEssaiePopUp(false);
+              }}
+            >
+              Continuer
+            </button>
+            <img
+              className="hide_btn"
+              src="../assets/x.svg"
+              onClick={() => {
+                setShowEssaiePopUp(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
