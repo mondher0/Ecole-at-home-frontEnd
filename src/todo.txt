@@ -48,9 +48,6 @@ admin :
 forgot password ui and api
 
 -----------------------------------------------------------------------------------------------------------
-confirming the email :
-when the user is not confirming his email when he do login redirct him to confirm page
-
 404 error page : 
 coding the page
 
