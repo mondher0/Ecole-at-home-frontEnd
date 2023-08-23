@@ -37,10 +37,6 @@ linking the parent
 historique :
 filter parent and enfant 
 
-settings : 
-missing api to edit admin info
-bug in edit mod in email (email exist)
-
 dashboard :
 linking the chart 
 
