@@ -90,7 +90,7 @@ const Settings = () => {
       setEmail(response.data.email);
       setNom(response.data.nom);
       setPrenom(response.data.prenom);
-      setTelephone(response.data.proffesseurProfile.phoneNumber);
+      setTelephone(response.data.phoneNumber);
     } catch (error) {
       console.log(error);
     }
@@ -103,12 +103,14 @@ const Settings = () => {
       const data = {
         nom: nom,
         prenom: prenom,
-        phone: telephone,
+        phoneNumber: telephone,
         email: email,
-        password: password,
       };
+      if (password) {
+        data.password = password;
+      }
       const response = await axiosInstance.patch(
-        `${baseURl}/users/update`,
+        `${baseURl}/users/update-admin`,
         data
       );
       console.log(response);
