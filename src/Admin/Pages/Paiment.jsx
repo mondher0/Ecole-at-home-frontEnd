@@ -1,10 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
 const Paiment = () => {
-  let [tab, setTab] = useState("Eleve");
-  let Navigate = useNavigate();
+  let [tab, setTab] = useState("Professeurs");
+  const [profPayment, setProfPayment] = useState([]);
+  const [elevePayment, setElevePayment] = useState([]);
+  const [parentPayment, setParentPayment] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [etat, setEtat] = useState("");
+  const [profNom, setProfNom] = useState("");
+  const [eleveName, setEleveName] = useState("");
+  const [parentName, setParentName] = useState("");
+  const [coursId, setCoursId] = useState("");
+  const [paymentId, setPaymentId] = useState("");
+
+  let navigate = useNavigate();
 
   const columnsParent = [
     "IDPaiment",
@@ -12,10 +26,8 @@ const Paiment = () => {
     "DatePaiement",
     "Parent",
     "EmailParent",
-    "EtatParent",
     "Enfant",
     "EmailEnfant",
-    "EtatEnfant",
     "Montant",
     "EtatPaiment",
     "Facture",
@@ -33,60 +45,95 @@ const Paiment = () => {
     "Facture",
   ];
 
-  const data = [
-    {
-      idPayment: 1,
-      idCours: 1,
-      datePaiement: "12-12-2022",
-      parent: "Nicholas Patrick",
-      emailParent: "mondher@gmail.com",
-      etatParent: "Validé",
-      enfant: "Nicholas Patrick",
-      emailEnfant: "mpndher@gmail.com",
-      etatEnfant: "Validé",
-      montant: "1000 DT",
-      etatPaiement: "Validé",
-    },
-    {
-      idPayment: 1,
-      idCours: 1,
-      datePaiement: "12-12-2022",
-      parent: "Nicholas Patrick",
-      emailParent: "mondher@gmail.com",
-      etatParent: "Validé",
-      enfant: "Nicholas Patrick",
-      emailEnfant: "mpndher@gmail.com",
-      etatEnfant: "Validé",
-      montant: "1000 DT",
-      etatPaiement: "Validé",
-    },
-    {
-      idPayment: 1,
-      idCours: 1,
-      datePaiement: "12-12-2022",
-      parent: "Nicholas Patrick",
-      emailParent: "mondher@gmail.com",
-      etatParent: "Validé",
-      enfant: "Nicholas Patrick",
-      emailEnfant: "mpndher@gmail.com",
-      etatEnfant: "Validé",
-      montant: "1000 DT",
-      etatPaiement: "Validé",
-    },
-    {
-      idPayment: 1,
-      idCours: 1,
-      datePaiement: "12-12-2022",
-      parent: "Nicholas Patrick",
-      emailParent: "mondher@gmail.com",
-      etatParent: "Validé",
-      enfant: "Nicholas Patrick",
-      emailEnfant: "mpndher@gmail.com",
-      etatEnfant: "Validé",
-      montant: "1000 DT",
-      etatPaiement: "Validé",
-    },
+  const columnsProfesseur = [
+    "IDPaiment",
+    "IDCours",
+    "DatePaiement",
+    "Professeur",
+    "EmailProfesseur",
+    "EtatProfesseur",
+    "Montant",
+    "EtatPaiment",
+    "Facture",
   ];
+
+  // get all prof payment
+  const getProfPayment = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/payment/admin/professeur?page=1&pageSize=10&${
+          etat ? `status=${etat}` : ""
+        }${profNom ? `&professeurName=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
+      );
+      console.log(response);
+      setParentPayment(response.data?.payments);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get all eleve payment
+  const getElevePayment = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/payment/admin/eleve?page=1&pageSize=10&${
+          etat ? `status=${etat}` : ""
+        }${eleveName ? `&eleveName=${eleveName}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          coursId ? `&coursId=${coursId}` : ""
+        }${paymentId ? `&paymentId=${paymentId}` : ""}`
+      );
+      console.log(response);
+      setElevePayment(response.data?.payments);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get all parent payment
+  const getParentPayment = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/payment/admin/parent?page=1&pageSize=10&${
+          etat ? `status=${etat}` : ""
+        }${parentName ? `&parentName=${parentName}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          coursId ? `&coursId=${coursId}` : ""
+        }${paymentId ? `&paymentId=${paymentId}` : ""}`
+      );
+      console.log(response);
+      setParentPayment(response.data?.payments);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (tab === "Professeurs") {
+      getProfPayment();
+    }
+    if (tab === "Eleve") {
+      getElevePayment();
+    }
+    if (tab === "Parent") {
+      getParentPayment();
+    }
+  }, [
+    tab,
+    profNom,
+    etat,
+    startDate,
+    endDate,
+    eleveName,
+    parentName,
+    coursId,
+    paymentId,
+  ]);
+
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">
@@ -111,49 +158,119 @@ const Paiment = () => {
           </span>
         </h2>
         <div className="admin_time_filter">
-          <div className="radio_container">
-            <label>Professeur</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+          {tab === "Professeurs" && (
+            <div className="radio_container">
+              <label>Professeur</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setProfNom(e.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {tab === "Eleve" && (
+            <div className="radio_container">
+              <label>Elève</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setEleveName(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {tab === "Parent" && (
+            <div className="radio_container">
+              <label>Parent</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setParentName(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
           <div className="radio_container">
             <label>Du:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setStartDate("");
+                    return;
+                  }
+                  const date = e.target.value + "T00:00:00.000Z";
+                  setStartDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
           <div className="radio_container">
             <label>Au:</label>
             <div className="date_picker_container">
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => {
+                  if (e.target.value === "") {
+                    setEndDate("");
+                    return;
+                  }
+                  const date = e.target.value + "T23:59:59.999Z";
+                  setEndDate(date);
+                }}
+              />
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
-          <div className="radio_container">
-            <label>Elève</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+          {tab !== "Professeurs" && (
+            <div className="radio_container">
+              <label>Id Cours</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setCoursId(e.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          <div className="radio_container">
-            <label>Niveau</label>
-            <div className="date_picker_container">
-              <select>
-                <option>Tous</option>
-              </select>
+          )}
+          {tab !== "Professeurs" && (
+            <div className="radio_container">
+              <label>Id Paiement</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setPaymentId(e.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
           <div className="radio_container">
-            <label>Matière</label>
+            <label>Etat paiement</label>
             <div className="date_picker_container">
-              <select>
+              <select
+                onChange={(e) => {
+                  setEtat(e.target.value);
+                }}
+              >
                 <option>Tous</option>
+                <option value="En attente">En attente</option>
+                <option value="Complete">Complete</option>
+                <option value="Echec">Echec</option>
               </select>
             </div>
           </div>
@@ -166,21 +283,28 @@ const Paiment = () => {
             <tr>
               {tab === "Eleve"
                 ? columnsElève.map((column) => <th key={column}>{column}</th>)
+                : tab === "Professeurs"
+                ? columnsProfesseur.map((column) => (
+                    <th key={column}>{column}</th>
+                  ))
                 : columnsParent.map((column) => <th key={column}>{column}</th>)}
             </tr>
           </thead>
           <tbody>
             {tab === "Eleve"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.idPayment}</td>
-                    <td>{row.idCours}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
+              ? elevePayment?.map((eleve) => (
+                  <tr key={eleve?.id}>
+                    <td>{eleve?.id}</td>
+                    <td>{eleve?.cours.id}</td>
+                    <td>date</td>
+                    <td>
+                      {eleve?.eleve?.user.nom}
+                      {eleve?.eleve?.user.prenom}
+                    </td>
+                    <td>{eleve?.eleve?.user.email}</td>
+                    <td>{eleve?.eleve.status}</td>
+                    <td>{eleve.amount}</td>
+                    <td>{eleve.status}</td>
                     <td>
                       <button type="button">
                         <img src="../assets/admin_download.svg" />
@@ -188,23 +312,43 @@ const Paiment = () => {
                     </td>
                   </tr>
                 ))
-              : data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.idPayment}</td>
-                    <td>{row.idCours}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td>{row.datePaiement}</td>
-                    <td className={"Validé"}>
-                      <div>
-                        <span>Oui</span>
-                      </div>
+              : tab === "Professeurs"
+              ? profPayment?.map((prof) => (
+                  <tr key={prof?.id}>
+                    <td>{prof?.id}</td>
+                    <td>{prof?.cours.id}</td>
+                    <td>date</td>
+                    <td>
+                      {prof?.prof?.user.nom}
+                      {prof?.prof?.user.prenom}
                     </td>
+                    <td>{prof?.prof?.user.email}</td>
+                    <td>{prof?.prof.status}</td>
+                    <td>{prof.amount}</td>
+                    <td>{prof.status}</td>
+                    <td>
+                      <button type="button">
+                        <img src="../assets/admin_download.svg" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              : parentPayment?.map((parent) => (
+                  <tr key={parent?.id}>
+                    <td>{parent?.id}</td>
+                    <td>{parent?.cours.id}</td>
+                    <td>date</td>
+                    <td>
+                      {parent?.enfant?.parent?.user.nom}
+                      {parent?.enfant.parent?.user.prenom}
+                    </td>
+                    <td>{parent?.enfant?.parent?.user.email}</td>
+                    <td>
+                      {parent?.enfant.nom} {parent?.enfant.prenom}
+                    </td>
+                    <td>{parent?.enfant.email}</td>
+                    <td>{parent?.amount}</td>
+                    <td>{parent?.status}</td>
                     <td>
                       <button type="button">
                         <img src="../assets/admin_download.svg" />
@@ -233,11 +377,10 @@ const Paiment = () => {
             marginTop: "20px",
           }}
         >
-          <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
+          <li style={{ color: "#0078D4" }}>Paiement::</li>
+          <li style={{ color: "#38B6FF" }}>Complété: 3</li>
+          <li style={{ color: "#004AAD" }}>En attente: 0</li>
+          <li style={{ color: "#4DC643" }}>ERROR: 1</li>
         </ul>
       </div>
     </div>

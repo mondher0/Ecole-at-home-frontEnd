@@ -37,7 +37,7 @@ const Profeseurs = () => {
   const getPronfesseurs = async () => {
     try {
       const response = await axiosInstance.get(
-        `${baseURl}/professeurs/admin/search?pageSize=5&page=1&${
+        `${baseURl}/professeurs/admin/search?pageSize=10&page=1&${
           etat2 ? `status=${etat2}` : ""
         }${profNom ? `&name=${profNom}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
