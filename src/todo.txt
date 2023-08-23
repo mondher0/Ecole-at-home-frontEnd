@@ -25,7 +25,6 @@ adding many receivers in the mail
 
 parents : 
 edit enfant 
-pop up in delete enfant
 
 abonnements :
 in eleves checking if there is parent 
