@@ -7,6 +7,7 @@ import "../Components/AdminContainer/AdminContainer.css";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/utils";
 import { baseURl } from "../../utils/utils";
+import "../../css/loader.css";
 
 const Profeseurs = () => {
   let [showProfInfo, setShowProfInfo] = useState(false);
@@ -21,6 +22,11 @@ const Profeseurs = () => {
   const [profNom, setProfNom] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(0);
 
   let Navigate = useNavigate();
   const columns = [
@@ -36,8 +42,11 @@ const Profeseurs = () => {
   // get professeurs
   const getPronfesseurs = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/professeurs/admin/search?pageSize=10&page=1&${
+        `${baseURl}/professeurs/admin/search?pageSize=5&page=${currentPage}&${
           etat2 ? `status=${etat2}` : ""
         }${profNom ? `&name=${profNom}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -45,13 +54,20 @@ const Profeseurs = () => {
       );
       console.log(response);
       setProfesseurs(response.data?.items);
+      setPages(response.data?.totalCount);
+      if (response.data?.items.length === 0) {
+        setIsEmpy(true);
+      }
       setBloqueCount(response.data?.bloqueCount);
       setConfirmeCount(response.data?.confirmeCount);
       setInscritCount(response.data?.inscritCount);
       setValideCount(response.data?.valideCount);
       console.log(response.data.items);
       console.log(professeurs);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -66,15 +82,26 @@ const Profeseurs = () => {
         `${baseURl}/professeurs/admin/status/${id}`,
         data
       );
+      getPronfesseurs();
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
   useEffect(() => {
     getPronfesseurs();
-  }, [etat, startDate, endDate, profNom, etat2]);
-
+  }, [etat, startDate, endDate, profNom, etat2, currentPage]);
 
   return (
     <div className="admin_section">
@@ -155,7 +182,6 @@ const Profeseurs = () => {
               const year = dateObject.getUTCFullYear();
               const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
               const day = dateObject.getUTCDate();
-
               // Format the date as a string in "YYYY-MM-DD" format
               const formattedDate = `${year}-${month
                 .toString()
@@ -229,16 +255,63 @@ const Profeseurs = () => {
             })}
           </tbody>
         </table>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Aucun professeur trouvé
+          </h1>
+        )}
         <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              disabled={currentPage == Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
           </div>
         </div>

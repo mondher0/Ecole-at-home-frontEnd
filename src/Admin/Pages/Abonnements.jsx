@@ -383,7 +383,16 @@ const Abonnements = () => {
                       <td>{abonnement.nbrEleve}</td>
                       <td>
                         {abonnement.abonnes.map((abonne) => {
-                          return <span key={abonne.id}>{abonne.email}</span>;
+                          return (
+                            <span
+                              key={abonne.id}
+                              style={{
+                                display: "block",
+                              }}
+                            >
+                              {abonne.email}
+                            </span>
+                          );
                         })}
                       </td>
                       <td className={abonnement.etat}>
@@ -490,7 +499,7 @@ const Abonnements = () => {
               ? abonnementInfo.map((abonnement) => {
                   return abonnement?.abonnes?.length > 0
                     ? abonnement.abonnes.map((abonne) => {
-                        console.log(abonne);
+                        console.log(abonne.role);
                         return (
                           <tr key={abonnement.id}>
                             <td>{abonnement.id}</td>

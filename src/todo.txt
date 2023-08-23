@@ -28,6 +28,9 @@ abonnements :
 in eleves checking if there is parent 
 linking the parent
 
+enfants :
+check if the enfant is deleted
+
 cours : 
 linking the parent
 

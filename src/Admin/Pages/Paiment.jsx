@@ -17,6 +17,15 @@ const Paiment = () => {
   const [parentName, setParentName] = useState("");
   const [coursId, setCoursId] = useState("");
   const [paymentId, setPaymentId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageParent, setCurrentPageParent] = useState(1);
+  const [currentPageStudent, setCurrentPageStudent] = useState(1);
+  const [pages, setPages] = useState(0);
+  const [pagesParent, setPagesParent] = useState(0);
+  const [pagesStudent, setPagesStudent] = useState(0);
 
   let navigate = useNavigate();
 
@@ -60,8 +69,11 @@ const Paiment = () => {
   // get all prof payment
   const getProfPayment = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/payment/admin/professeur?page=1&pageSize=10&${
+        `${baseURl}/payment/admin/professeur?page=${currentPage}&pageSize=5&${
           etat ? `status=${etat}` : ""
         }${profNom ? `&professeurName=${profNom}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -69,7 +81,14 @@ const Paiment = () => {
       );
       console.log(response);
       setParentPayment(response.data?.payments);
+      if (response.data?.payments?.length === 0) {
+        setIsEmpy(true);
+      }
+      setPages(response.data?.count);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -77,8 +96,11 @@ const Paiment = () => {
   // get all eleve payment
   const getElevePayment = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/payment/admin/eleve?page=1&pageSize=10&${
+        `${baseURl}/payment/admin/eleve?page=${currentPageStudent}&pageSize=5&${
           etat ? `status=${etat}` : ""
         }${eleveName ? `&eleveName=${eleveName}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -87,8 +109,15 @@ const Paiment = () => {
         }${paymentId ? `&paymentId=${paymentId}` : ""}`
       );
       console.log(response);
+      if (response.data?.payments.length === 0) {
+        setIsEmpy(true);
+      }
+      setPagesStudent(response.data?.count);
       setElevePayment(response.data?.payments);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -96,8 +125,11 @@ const Paiment = () => {
   // get all parent payment
   const getParentPayment = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/payment/admin/parent?page=1&pageSize=10&${
+        `${baseURl}/payment/admin/parent?page=${currentPageParent}&pageSize=5&${
           etat ? `status=${etat}` : ""
         }${parentName ? `&parentName=${parentName}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -106,10 +138,46 @@ const Paiment = () => {
         }${paymentId ? `&paymentId=${paymentId}` : ""}`
       );
       console.log(response);
+      if (response.data?.payments.length === 0) {
+        setIsEmpy(true);
+      }
+      setPagesParent(response.data?.count);
       setParentPayment(response.data?.payments);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
+  };
+
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    if (tab === "Eleve") {
+      setCurrentPageStudent((prevPage) => prevPage - 1);
+    }
+    if (tab === "Parent") {
+      setCurrentPageParent((prevPage) => prevPage - 1);
+    }
+    if (tab === "Professeurs") {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (tab === "Eleve") {
+      setCurrentPageStudent((prevPage) => prevPage + 1);
+    }
+    if (tab === "Parent") {
+      setCurrentPageParent((prevPage) => prevPage + 1);
+    }
+    if (tab === "Professeurs") {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+    setCurrentPageStudent;
   };
 
   useEffect(() => {
@@ -132,6 +200,9 @@ const Paiment = () => {
     parentName,
     coursId,
     paymentId,
+    currentPage,
+    currentPageParent,
+    currentPageStudent,
   ]);
 
   return (
@@ -358,19 +429,146 @@ const Paiment = () => {
                 ))}
           </tbody>
         </table>
-        <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
-            </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
-            </button>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
           </div>
-        </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Aucun payment trouvé
+          </h1>
+        )}
+        {tab === "Eleve" ? (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPageStudent === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">
+                {currentPageStudent}
+              </button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                disabled={pagesStudent === 0 ? 1 : Math.ceil(pagesStudent / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        ) : tab === "Parent" ? (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPageParent === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">
+                {currentPageParent}
+              </button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                disabled={
+                  pagesParent === 0
+                    ? 1
+                    : currentPageParent == Math.ceil(pagesParent / 5)
+                }
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                disabled={pages === 0 ? 1 : currentPage == Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        )}
         <ul
           className="table_resume_bar"
           style={{

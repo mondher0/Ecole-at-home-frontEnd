@@ -19,13 +19,22 @@ const EleveParent = () => {
   const [etat2, setEtat2] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageParent, setCurrentPageParent] = useState(1);
+  const [pages, setPages] = useState(0);
   let Navigate = useNavigate();
 
   // get student
   const getStudent = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/eleve/admin/search?page=1&pageSize=5&${
+        `${baseURl}/eleve/admin/search?page=${currentPage}&pageSize=5&${
           etat2 ? `status=${etat2}` : ""
         }${name ? `&name=${name}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -33,11 +42,18 @@ const EleveParent = () => {
       );
       console.log(response);
       setStudents(response.data?.items);
+      setPages(response.data?.totalCount);
+      if (response.data?.items.length === 0) {
+        setIsEmpy(true);
+      }
       setBloqueCount(response.data?.bloqueCount);
       setConfirmeCount(response.data?.confirmeCount);
       setInscritCount(response.data?.inscritCount);
       setSuspenduCount(response.data?.suspenduCount);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -45,16 +61,26 @@ const EleveParent = () => {
   // get parent
   const getParent = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/parent/admin/search?page=1&pageSize=5&${
+        `${baseURl}/parent/admin/search?page=${currentPageParent}&pageSize=5&${
           etat2 ? `status=${etat2}` : ""
         }${name ? `&parentName=${name}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
         }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
+      if (response.data?.items.length === 0) {
+        setIsEmpy(true);
+      }
       setParents(response.data?.items);
+      setPages(response.data?.totalCount);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -136,6 +162,28 @@ const EleveParent = () => {
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    if (tab === "Eleve") {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+    if (tab === "Parent") {
+      setCurrentPageParent((prevPage) => prevPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (tab === "Eleve") {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+    if (tab === "Parent") {
+      setCurrentPageParent((prevPage) => prevPage + 1);
+    }
+  };
+
   useEffect(() => {
     if (tab === "Eleve") {
       getStudent();
@@ -143,7 +191,7 @@ const EleveParent = () => {
     if (tab === "Parent") {
       getParent();
     }
-  }, [tab, name, startDate, endDate, etat2]);
+  }, [tab, name, startDate, endDate, etat2, currentPage, currentPageParent]);
 
   const columnsParent = [
     "Parent",
@@ -471,19 +519,104 @@ const EleveParent = () => {
                 })}
           </tbody>
         </table>
-        <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
-            </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
-            </button>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
           </div>
-        </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            {tab === "Eleve" ? "Aucun élève trouvé" : "Aucun parent trouvé"}
+          </h1>
+        )}
+        {tab === "Eleve" ? (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                disabled={currentPage == Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPageParent === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPageParent}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                disabled={currentPageParent == Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        )}
+
         <ul
           className="table_resume_bar"
           style={{

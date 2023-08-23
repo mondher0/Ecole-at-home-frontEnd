@@ -12,6 +12,11 @@ const Avis = () => {
   const [profNom, setProfNom] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(0);
   let Navigate = useNavigate();
 
   const columns = [
@@ -27,15 +32,25 @@ const Avis = () => {
   // get avis
   const getAvis = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/rating/?page=1&pageSize=5
+        `${baseURl}/rating/?page=${currentPage}&pageSize=5
         ${profNom ? `&professeurName=${profNom}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
         }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
       setAvis(response.data?.ratings);
+      if (response.data?.ratings.length === 0) {
+        setIsEmpy(true);
+      }
+      setPages(response.data?.count);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -55,9 +70,21 @@ const Avis = () => {
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   useEffect(() => {
     getAvis();
-  }, [profNom, startDate, endDate]);
+  }, [profNom, startDate, endDate, currentPage]);
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">
@@ -161,8 +188,8 @@ const Avis = () => {
                           setShowAvis({
                             note: avi.note,
                             comment: avi.comment,
-                            nom : avi.user.nom,
-                            prenom : avi.user.prenom,
+                            nom: avi.user.nom,
+                            prenom: avi.user.prenom,
                           })
                         }
                       />
@@ -173,16 +200,63 @@ const Avis = () => {
             })}
           </tbody>
         </table>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Aucun avis trouvé
+          </h1>
+        )}
         <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              disabled={pages === 0 ? 1 : currentPage === Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
           </div>
         </div>
@@ -194,7 +268,9 @@ const Avis = () => {
             <div className="prof_edit_top avis">
               <img src="../assets/empty_avatar.png" />
               <div className="text">
-                <h2 className="user_name">{showAvis.nom} {showAvis.prenom}</h2>
+                <h2 className="user_name">
+                  {showAvis.nom} {showAvis.prenom}
+                </h2>
                 <p>{showAvis.comment}</p>
               </div>
             </div>

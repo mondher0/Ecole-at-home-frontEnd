@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // eslint-disable-next-line no-unused-vars
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,11 @@ import { useEffect } from "react";
 const EmailsPage = () => {
   const Navigate = useNavigate();
   const [mails, setMails] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(0);
   const columns = [
     "ID",
     "Objet mail",
@@ -18,12 +24,22 @@ const EmailsPage = () => {
   // get mails
   const getMails = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/mail/?pageSize=5&page=1`
+        `${baseURl}/mail/?pageSize=5&page=${currentPage}`
       );
       console.log(response);
+      if (response.data?.mails.length === 0) {
+        setIsEmpy(true);
+      }
       setMails(response.data?.mails);
+      setPages(response.data?.count);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -50,9 +66,21 @@ const EmailsPage = () => {
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   useEffect(() => {
     getMails();
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="admin_section">
@@ -111,16 +139,63 @@ const EmailsPage = () => {
             ))}
           </tbody>
         </table>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Aucun professeur trouvé
+          </h1>
+        )}
         <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              disabled={currentPage == Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
           </div>
         </div>

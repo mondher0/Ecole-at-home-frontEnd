@@ -10,27 +10,56 @@ const Historique = () => {
   const [entity, setEntity] = useState();
   const [status, setStatus] = useState();
   const [admin, setAdmin] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(0);
 
   // get logs
   const getLogs = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/log/admin/search?page=2&pageSize=5${
+        `${baseURl}/log/admin/search?page=${currentPage}&pageSize=5${
           startDate ? `&startDate=${startDate}` : ""
         }${endDate ? `&endDate=${endDate}` : ""}${
           entity ? `&entity=${entity}` : ""
-        }${status ? `&status=${status}` : ""}${admin ? `&adminName=${admin}` : ""}`
+        }${status ? `&status=${status}` : ""}${
+          admin ? `&adminName=${admin}` : ""
+        }`
       );
       console.log(response);
       setLogs(response.data.logs);
+      if (response.data.logs.length === 0) {
+        setIsEmpy(true);
+      }
+      setPages(response.data.count);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   useEffect(() => {
     getLogs();
-  }, [startDate, endDate, status, admin]);
+  }, [startDate, endDate, status, admin, currentPage]);
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">
@@ -211,6 +240,32 @@ const Historique = () => {
           marginTop: "2rem",
         }}
       >
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Aucun historique trouvé
+          </h1>
+        )}
         {logs &&
           logs.map((log) => {
             const { createdAt } = log;
@@ -249,6 +304,40 @@ const Historique = () => {
               </>
             );
           })}
+        <div className="table_pagination_bar">
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
+            </button>
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              disabled={pages === 0 ? 1 : currentPage === Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
