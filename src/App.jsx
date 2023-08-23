@@ -35,6 +35,7 @@ import AdminLoginProtectedRoute from "./Admin/Components/AdminLoginProtectedRout
 import AddEmail from "./Admin/Pages/addEmail";
 import EmailConfirmation from "./Pages/EmailConfirmation";
 import TeacherRating from "./Pages/TeacherRating";
+import EditEnfant from "./Admin/Pages/EditEnfant";
 
 const App = () => {
   return (
@@ -118,6 +119,10 @@ const App = () => {
           <Route path="/admin/professeurs" element={<Profeseurs />} />
           <Route path="/admin/eleve-parent" element={<EleveParent />} />
           <Route path="/admin/Parent/edit/:id" element={<EditParent />} />
+          <Route
+            path="/admin/Parent/edit/:id/edit-enfant/:id"
+            element={<EditEnfant />}
+          />
           <Route path="/admin/Eleve/edit/:id" element={<EditEleve />} />
           <Route path="/admin/Emails" element={<EmailsPage />} />
           <Route path="/admin/Email/edit/:id" element={<EditMail />} />

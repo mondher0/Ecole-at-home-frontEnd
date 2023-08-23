@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from "react";
 import { Parent, supprimer, edit, hide } from "../../assets/index";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
 const EditParent = () => {
+  const navigate = useNavigate();
   const [pageAction, setPageAction] = useState("Modifier");
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [parentInfo, setParentInfo] = useState({});
@@ -250,7 +251,13 @@ const EditParent = () => {
                     }}
                   />
                 </button>
-                <button type="button" className="edit">
+                <button
+                  type="button"
+                  className="edit"
+                  onClick={() => {
+                    navigate(`edit-enfant/${eleve.id}`);
+                  }}
+                >
                   <img
                     src={edit}
                     style={{
