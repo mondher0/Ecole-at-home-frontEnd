@@ -32,6 +32,7 @@ import img from "./img.svg";
 import editDispo from "./edit-dispo.svg";
 import deleteDispo from "./delete-dispo.svg";
 import notColoredStar from "./not-colored-star.svg";
+import hide from "./x.svg";
 
 export {
   A,
@@ -68,4 +69,5 @@ export {
   editDispo,
   deleteDispo,
   notColoredStar,
+  hide
 };

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from "react";
-import { Parent, supprimer, edit } from "../../assets/index";
+import { Parent, supprimer, edit, hide } from "../../assets/index";
 import { useParams } from "react-router-dom";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
@@ -10,6 +10,7 @@ const EditParent = () => {
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [parentInfo, setParentInfo] = useState({});
   const [toggleSubmit, setToggleSubmit] = useState(false);
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
 
   const { id } = useParams();
   console.log(id);
@@ -236,7 +237,10 @@ const EditParent = () => {
                   type="button"
                   className="delete"
                   onClick={() => {
-                    deleteEnfant(eleve.id);
+                    setShowDeletePopUp({
+                      id: eleve.id,
+                      info: `${eleve.nom} ${eleve.prenom}`,
+                    });
                   }}
                 >
                   <img
@@ -259,6 +263,45 @@ const EditParent = () => {
           </>
         ))}
       </div>
+      {showDeletePopUp && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top"></div>
+            <div className="edit_etat delete">
+              <p className="delete_text">
+                Etes vous sûr de vouloir supprimer
+                <span>{showDeletePopUp.info}</span>?
+              </p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                deleteEnfant(showDeletePopUp.id);
+                setShowDeletePopUp(false);
+              }}
+            >
+              Confirmer
+            </button>
+            <img
+              className="hide_btn"
+              src={hide}
+              onClick={() => {
+                setShowDeletePopUp(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
