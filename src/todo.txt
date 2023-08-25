@@ -23,11 +23,6 @@ the pop up of what prof do not linked yet
 mails : 
 adding many receivers in the mail
 
-
-abonnements :
-in eleves checking if there is parent 
-linking the parent
-
 enfants :
 check if the enfant is deleted
 

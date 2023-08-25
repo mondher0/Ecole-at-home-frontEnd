@@ -177,7 +177,6 @@ const Paiment = () => {
     if (tab === "Professeurs") {
       setCurrentPage((prevPage) => prevPage + 1);
     }
-    setCurrentPageStudent;
   };
 
   useEffect(() => {

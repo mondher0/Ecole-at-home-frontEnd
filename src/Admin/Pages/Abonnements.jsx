@@ -22,13 +22,25 @@ const Abonnements = () => {
   const [etat, setEtat] = useState();
   const [etat2, setEtat2] = useState();
   const [enregistrementState, setEnregistrementState] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageParent, setCurrentPageParent] = useState(1);
+  const [currentPageStudent, setCurrentPageStudent] = useState(1);
+  const [pages, setPages] = useState(0);
+  const [pagesParent, setPagesParent] = useState(0);
+  const [pagesStudent, setPagesStudent] = useState(0);
   let Navigate = useNavigate();
 
   // get abonnment info
   const getAbonnementInfo = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/abonnement/admin/search?page=1&pageSize=5&${
+        `${baseURl}/abonnement/admin/search?page=${currentPage}&pageSize=5&${
           etat2 ? `status=${etat2}` : ""
         }${profNom ? `&professeurName=${profNom}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -37,8 +49,13 @@ const Abonnements = () => {
         }
         `
       );
+      if (response?.data?.newResults?.length === 0) {
+        setIsEmpy(true);
+      }
       setAbonnementInfo(response?.data.newResults);
+      setPages(response?.data?.count);
       console.log(abonnementInfo);
+      setIsLoading(false);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -91,9 +108,25 @@ const Abonnements = () => {
       console.log(error);
     }
   };
+
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    console.log(currentPage);
+    if (currentPage === Math.ceil(pages / 5)) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
   useEffect(() => {
     getAbonnementInfo();
-  }, [tab, startDate, endDate, eleveNom, profNom, etat2]);
+  }, [tab, startDate, endDate, eleveNom, profNom, etat2, currentPage]);
 
   const columnsParent = [
     "ID",
@@ -104,10 +137,8 @@ const Abonnements = () => {
     "Parent",
     "Email Parent",
     "Etat abonnement",
-    "Etat parent",
     "Enfant",
     "Email enfant",
-    "Etat enfant",
   ];
 
   const columnsProfesseur = [
@@ -189,25 +220,37 @@ const Abonnements = () => {
         <h2 className="admin_section_title tabs">
           <span
             className={tab === "Professeurs" ? "active" : ""}
-            onClick={() => setTab("Professeurs")}
+            onClick={() => {
+              setTab("Professeurs");
+              setCurrentPage(1);
+            }}
           >
             Professeurs
           </span>
           <span
             className={tab === "Niveaux&Matières" ? "active" : ""}
-            onClick={() => setTab("Niveaux&Matières")}
+            onClick={() => {
+              setTab("Niveaux&Matières");
+              setCurrentPage(1);
+            }}
           >
             Niveaux&Matières
           </span>
           <span
             className={tab === "Eleve" ? "active" : ""}
-            onClick={() => setTab("Eleve")}
+            onClick={() => {
+              setTab("Eleve");
+              setCurrentPage(1);
+            }}
           >
             Elèves
           </span>
           <span
             className={tab === "Parent" ? "active" : ""}
-            onClick={() => setTab("Parent")}
+            onClick={() => {
+              setTab("Parent");
+              setCurrentPage(1);
+            }}
           >
             Parents
           </span>
@@ -600,67 +643,130 @@ const Abonnements = () => {
                         </>
                       ));
                 })
-              : data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.id}</td>
-                    <td>{row.professeur}</td>
-                    <td>Lundi 18:00 - 20:00 </td>
-                    <td>Physique</td>
-                    <td>Terminal</td>
-                    <td>{row.professeur}</td>
-                    <td>{row.email}</td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                    <td>{row.professeur}</td>
-                    <td>{row.email}</td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => {
-                              setShowEtat(true);
-                              setData("mondehr");
-                            }}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+              : abonnementInfo.map((row) => {
+                  return (
+                    row?.enfants?.length > 0 &&
+                    row?.enfants?.map((enfant) => {
+                      console.log("helloopoff");
+                      return (
+                        <tr key={row.id}>
+                          <td>{row.id}</td>
+                          <td>
+                            {row?.professeur?.user.nom}{" "}
+                            {row?.professeur?.user.prenom}
+                          </td>
+                          <td>
+                            {row.day} {row?.timing?.start_hour}-
+                            {row?.timing.end_hour}
+                          </td>
+                          <td>{row.matiere.niveau.name}</td>
+                          <td>{row.matiere.name}</td>
+                          <td>
+                            {enfant?.parent?.user?.nom}{" "}
+                            {enfant?.parent?.user?.prenom}
+                          </td>
+                          <td>{enfant?.parent?.user?.email}</td>
+                          <td className={row.etat}>
+                            <div>
+                              <button className="btn btn-danger">
+                                <img
+                                  src="../assets/admin_edit.svg"
+                                  onClick={() =>
+                                    setShowEtat({
+                                      id: row.id,
+                                      prof:
+                                        row.professeur.user.nom +
+                                        " " +
+                                        row.professeur.user.prenom,
+                                      etat: row.status,
+                                      timing:
+                                        row.day +
+                                        " " +
+                                        row.timing.start_hour +
+                                        " - " +
+                                        row.timing.end_hour,
+                                    })
+                                  }
+                                />
+                              </button>
+                              <span>{row?.status}</span>
+                            </div>
+                          </td>
+                          <td>
+                            {enfant?.nom} {enfant?.prenom}
+                          </td>
+                          <td>{enfant?.email}</td>
+                        </tr>
+                      );
+                    })
+                  );
+                })}
           </tbody>
         </table>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            {tab === "Professeurs"
+              ? "Aucun professeur trouvé"
+              : tab === "Niveaux&Matières"
+              ? "Aucun niveau/matière trouvé"
+              : tab === "Eleve"
+              ? "Aucun élève trouvé"
+              : "Aucun parent trouvé"}
+          </h1>
+        )}
+
         <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
           </div>
         </div>
