@@ -18,13 +18,21 @@ const Cours = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [profName, setProfName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isEmpy, setIsEmpy] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(0);
   let Navigate = useNavigate();
 
   // get cours
   const getCours = async () => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/cours/admin?page=1&pageSize=5&${
+        `${baseURl}/cours/admin?page=${currentPage}&pageSize=5&${
           etat ? `status=${etat}` : ""
         }${profName ? `&professeurName=${profName}` : ""}${
           startDate ? `&startDate=${startDate}` : ""
@@ -33,8 +41,15 @@ const Cours = () => {
         }${niveau ? `&niveau=${niveau}` : ""}`
       );
       console.log(response);
+      if (response?.data?.newResults?.length === 0) {
+        setIsEmpy(true);
+      }
       setCours(response.data?.newResults);
+      setPages(response?.data?.count);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -77,6 +92,21 @@ const Cours = () => {
       console.log(error);
     }
   };
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    if (currentPage === pages / currentPage) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    console.log(currentPage);
+    if (currentPage === Math.ceil(pages / 5)) {
+      return;
+    }
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   useEffect(() => {
     getNiveaux();
@@ -85,21 +115,17 @@ const Cours = () => {
 
   useEffect(() => {
     getCours();
-  }, [tab, etat, startDate, endDate, profName, matiere, niveau]);
+  }, [tab, etat, startDate, endDate, profName, matiere, niveau, currentPage]);
 
   const columnsParent = [
     "ID",
-    "Cours",
     "ID Abonnement",
     "Professeur",
     "Date",
     "Matière",
     "Niveau",
-    "ID Paiement",
     "Parent",
-    "Etat Parent",
     "Elève",
-    "Etat élève",
     "Etat Cours",
   ];
 
@@ -109,7 +135,7 @@ const Cours = () => {
     "Date",
     "Matière",
     "Niveau",
-    "ID Paiement",
+    "ID Abonnement",
     "Elève",
     "Email",
     "Etat Cours",
@@ -121,56 +147,9 @@ const Cours = () => {
     "Date",
     "Matière",
     "Niveau",
-    "ID Paiment",
+    "ID Abonnement",
     "Eleve inscrits",
     "Etat",
-  ];
-
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Bloqué",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Validé",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Inscrit",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Confirmé",
-    },
   ];
 
   return (
@@ -328,10 +307,17 @@ const Cours = () => {
                     </td>
                     <td>{course.abonnement.matiere.name}</td>
                     <td>{course.abonnement.matiere.niveau.name}</td>
-                    <td></td>
+                    <td>{course.abonnement?.id}</td>
                     <td>
                       {course.abonnement.abonnes?.map((abonne) => (
-                        <span key={abonne.id}>{abonne.email}</span>
+                        <span
+                          key={abonne.id}
+                          style={{
+                            display: "block",
+                          }}
+                        >
+                          {abonne.email}
+                        </span>
                       ))}
                     </td>
                     <td className="">
@@ -386,7 +372,7 @@ const Cours = () => {
                               </td>
                               <td>{course.abonnement.matiere.name}</td>
                               <td>{course.abonnement.matiere.niveau.name}</td>
-                              <td></td>
+                              <td>{course.abonnement.id}</td>
                               <td>{abonne.nom + " " + abonne.prenom}</td>
                               <td>{abonne.email}</td>
                               <td className="">
@@ -440,7 +426,7 @@ const Cours = () => {
                             </td>
                             <td>{course.abonnement.matiere.name}</td>
                             <td>{course.abonnement.matiere.niveau.name}</td>
-                            <td></td>
+                            <td>{course.abonnement.id}</td>
                             <td>-</td>
                             <td>-</td>
                             <td className="">
@@ -472,52 +458,127 @@ const Cours = () => {
                         </>
                       ));
                 })
-              : data.map((row) => (
-                  <tr key={row.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {row.id}
-                    </td>
-                    <td>{row.professeur}</td>
-                    <td>{row.id}</td>
-                    <td>{row.telephone}</td>
-                    <td>{row.diplome}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td>{row.experience}</td>
-                    <td className={"Validé"}>
-                      <div>
-                        <span>Oui</span>
-                      </div>
-                    </td>
-                    <td className={row.etat}>
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() => setShowEtat(true)}
-                          />
-                        </button>
-                        <span>{row.etat}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+              : cours.map((row) => {
+                  return (
+                    row?.abonnement?.enfants?.length > 0 &&
+                    row?.abonnement?.enfants?.map((enfant) => {
+                      console.log("helloopoff");
+                      return (
+                        <tr key={row.id}>
+                          <td>{row.id}</td>
+                          <td>{row?.abonnement?.id}</td>
+                          <td>
+                            {row?.abonnement?.professeur?.user?.nom}{" "}
+                            {row?.abonnement?.professeur?.user?.prenom}
+                          </td>
+                          <td>
+                            {row?.abonnement?.day}
+                            {row?.abonnement?.timing?.start_hour} -{" "}
+                            {row?.abonnement?.timing?.end_hour}
+                          </td>
+                          <td>{row?.abonnement?.matiere.niveau.name}</td>
+                          <td>{row?.abonnement?.matiere.name}</td>
+                          <td>
+                            {enfant?.parent?.user?.nom}{" "}
+                            {enfant?.parent?.user?.prenom}
+                          </td>
+                          <td>
+                            {enfant?.nom} {enfant?.prenom}
+                          </td>
+                          <td className={row.etat}>
+                            <div>
+                              <button className="btn btn-danger">
+                                <img
+                                  src="../assets/admin_edit.svg"
+                                  onClick={() =>
+                                    setShowEtat({
+                                      id: row.id,
+                                      profName:
+                                        row?.abonnement?.professeur?.user?.nom + " " +
+                                        row?.abonnement?.professeur?.user
+                                          ?.prenom,
+                                      etat: row.status,
+                                      timing:
+                                        row.abonnement.day +
+                                        " " +
+                                        row.abonnement?.timing.start_hour +
+                                        " - " +
+                                        row.abonnement?.timing.end_hour,
+                                    })
+                                  }
+                                />
+                              </button>
+                              <span>{row?.status}</span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  );
+                })}
           </tbody>
         </table>
+        {isLoading && (
+          <div className="spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {isError && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            Erreur de chargement
+          </h1>
+        )}
+        {isEmpy && (
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "25px",
+            }}
+          >
+            {tab === "Professeurs"
+              ? "Aucun professeur trouvé"
+              : tab === "Eleve"
+              ? "Aucun élève trouvé"
+              : "Aucun parent trouvé"}
+          </h1>
+        )}
+
         <div className="table_pagination_bar">
-          <div className="pagination_btns">
-            <button className="pagination_arrow">
-              <img src="../assets/arrow.svg" />
+          <div
+            className="pagination_btns"
+            style={{
+              gap: "10px",
+            }}
+          >
+            <button
+              className="pagination_arrow"
+              disabled={currentPage === 1}
+              onClick={goToPreviousPage}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
-            <button className="pagination_btn selected">1</button>
-            <button className="pagination_btn">2</button>
-            <button className="pagination_btn">3</button>
-            <button className="pagination_arrow right">
-              <img src="../assets/arrow.svg" />
+            <button className="pagination_btn selected">{currentPage}</button>
+            <button
+              className="pagination_arrow right"
+              onClick={goToNextPage}
+              // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+            >
+              <img
+                src="../assets/arrow.svg"
+                style={{
+                  height: "20px",
+                }}
+              />
             </button>
           </div>
         </div>

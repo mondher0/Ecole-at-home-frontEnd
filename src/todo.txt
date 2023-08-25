@@ -26,9 +26,6 @@ adding many receivers in the mail
 enfants :
 check if the enfant is deleted
 
-cours : 
-linking the parent
-
 historique :
 filter parent and enfant 
 

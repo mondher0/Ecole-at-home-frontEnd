@@ -26,11 +26,7 @@ const Abonnements = () => {
   const [isError, setIsError] = useState(false);
   const [isEmpy, setIsEmpy] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageParent, setCurrentPageParent] = useState(1);
-  const [currentPageStudent, setCurrentPageStudent] = useState(1);
   const [pages, setPages] = useState(0);
-  const [pagesParent, setPagesParent] = useState(0);
-  const [pagesStudent, setPagesStudent] = useState(0);
   let Navigate = useNavigate();
 
   // get abonnment info
@@ -58,6 +54,8 @@ const Abonnements = () => {
       setIsLoading(false);
       console.log(response);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
