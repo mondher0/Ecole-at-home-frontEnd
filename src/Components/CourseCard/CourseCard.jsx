@@ -6,12 +6,12 @@ import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
 import axiosInstance, { baseURl } from "../../utils/utils";
 
-const CourseCard = ({ course, etat, rol }) => {
+const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
   const { role, prenom, nom } = userInfo;
-  const { abonnement, createdAt, zoomMeetingJoinUrl } = course;
+  const { abonnement, createdAt } = course;
   console.log(course);
 
   // get date
@@ -88,9 +88,8 @@ const CourseCard = ({ course, etat, rol }) => {
               {role === "teacher" ? (
                 <button
                   className="green"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById("demCours").showModal();
+                  onClick={() => {
+                    window.location.href = zoomMeetingJoinUrl;
                   }}
                 >
                   Démarrer le cours

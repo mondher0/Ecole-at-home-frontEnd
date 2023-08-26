@@ -151,6 +151,7 @@ const UpComingCourses = () => {
                     course={course}
                     etat="venir"
                     rol="teacher"
+                    zoomMeetingJoinUrl={course.zoomMeetingJoinUrl}
                   />
                 );
               })}
