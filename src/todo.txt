@@ -64,5 +64,7 @@ teacher :
 waiting page of the admin
 adding the niveau and the matiere in the inscription
 cours-passe : not link yet voir cours passe
-paiement : not link yet paiement
+paiement : linked but not tested yet
 notification : not link yet notification
+
+download the facture in the parent and the student and prof 
