@@ -12,6 +12,7 @@ import Status from "../Components/Status/Status";
 import PastCourse from "../Components/PastCourse/PastCourse";
 import Abonnement from "../Components/Abonnment/Abonnment";
 import AddingCart from "../Components/AddingCart/AddingCart";
+import PaymentProf from "../Components/PaymentProf/PaymentProf";
 const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role, nom } = userInfo;
@@ -109,15 +110,29 @@ const MesCours = () => {
                 </li>
               ))}
 
-            <li
-              className={sideLinks === "paiement" ? "selected" : ""}
-              onClick={() => {
-                setSideLinks("paiement");
-              }}
-            >
-              <img src="../assets/card.svg" />
-              Paiement
-            </li>
+            {role === "parent" ||
+              (role === "student" && (
+                <li
+                  className={sideLinks === "paiement" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("paiement");
+                  }}
+                >
+                  <img src="../assets/card.svg" />
+                  Paiement
+                </li>
+              ))}
+            {role === "teacher" && (
+              <li
+                className={sideLinks === "paiement" ? "selected" : ""}
+                onClick={() => {
+                  setSideLinks("paiementTeacher");
+                }}
+              >
+                <img src="../assets/card.svg" />
+                Paiement
+              </li>
+            )}
             <li
               className={sideLinks === "notifications" ? "selected" : ""}
               onClick={() => {
@@ -183,6 +198,7 @@ const MesCours = () => {
           {sideLinks === "notifications" ? <Notification /> : null}
           {sideLinks === "status" ? <Status /> : null}
           {sideLinks === "parametres" ? <Settings /> : null}
+          {sideLinks === "paiementTeacher" ? <PaymentProf /> : null}
         </div>
       </div>
     </>
