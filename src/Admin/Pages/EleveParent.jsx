@@ -382,79 +382,86 @@ const EleveParent = () => {
                   {
                     return parent.enfants?.length > 0 ? (
                       parent.enfants.map((enfant) => {
+                        console.log(enfant.deleted);
                         return (
-                          <tr key={enfant.id}>
-                            <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                              {parent.user.nom} {parent.user.prenom}
-                            </td>
-                            <td>{formattedDate}</td>
-                            <td>{parent.user.email}</td>
-                            <td className={parent.status}>
-                              <div>
+                          enfant.deleted === false && (
+                            <tr key={enfant.id}>
+                              <td
+                                onClick={() => Navigate(`/admin/${tab}/edit`)}
+                              >
+                                {parent.user.nom} {parent.user.prenom}
+                              </td>
+                              <td>{formattedDate}</td>
+                              <td>{parent.user.email}</td>
+                              <td className={parent.status}>
+                                <div>
+                                  <button className="btn btn-danger">
+                                    <img
+                                      src="../assets/admin_edit.svg"
+                                      onClick={() =>
+                                        setShowProfEtat({
+                                          id: parent.id,
+                                          role: parent.user.role,
+                                          nom: parent.user.nom,
+                                          prenom: parent.user.prenom,
+                                          etat: parent.status,
+                                        })
+                                      }
+                                    />
+                                  </button>
+                                  <span>{parent.status}</span>
+                                </div>
+                              </td>
+                              <td>
+                                {enfant.nom} {enfant.prenom}
+                              </td>
+                              <td>{enfant.email}</td>
+                              <td className={enfant.status}>
+                                <div>
+                                  <button className="btn btn-danger">
+                                    <img
+                                      src="../assets/admin_edit.svg"
+                                      onClick={() =>
+                                        setShowProfEtat({
+                                          id: enfant.id,
+                                          role: "Enfant",
+                                          nom: enfant.nom,
+                                          prenom: enfant.prenom,
+                                          etat: enfant.status,
+                                        })
+                                      }
+                                    />
+                                  </button>
+                                  <span>{enfant.status}</span>
+                                </div>
+                              </td>
+                              <td>
+                                <button className="btn btn-primary">
+                                  <img
+                                    src="../assets/aye.svg"
+                                    onClick={() =>
+                                      Navigate(
+                                        `/admin/${tab}/edit/${parent.id}`
+                                      )
+                                    }
+                                  />
+                                </button>
                                 <button className="btn btn-danger">
                                   <img
-                                    src="../assets/admin_edit.svg"
+                                    src="../assets/admin_delete.svg"
                                     onClick={() =>
-                                      setShowProfEtat({
+                                      setShowDelete({
                                         id: parent.id,
                                         role: parent.user.role,
                                         nom: parent.user.nom,
                                         prenom: parent.user.prenom,
-                                        etat: parent.status,
                                       })
                                     }
                                   />
                                 </button>
-                                <span>{parent.status}</span>
-                              </div>
-                            </td>
-                            <td>
-                              {enfant.nom} {enfant.prenom}
-                            </td>
-                            <td>{enfant.email}</td>
-                            <td className={enfant.status}>
-                              <div>
-                                <button className="btn btn-danger">
-                                  <img
-                                    src="../assets/admin_edit.svg"
-                                    onClick={() =>
-                                      setShowProfEtat({
-                                        id: enfant.id,
-                                        role: "Enfant",
-                                        nom: enfant.nom,
-                                        prenom: enfant.prenom,
-                                        etat: enfant.status,
-                                      })
-                                    }
-                                  />
-                                </button>
-                                <span>{enfant.status}</span>
-                              </div>
-                            </td>
-                            <td>
-                              <button className="btn btn-primary">
-                                <img
-                                  src="../assets/aye.svg"
-                                  onClick={() =>
-                                    Navigate(`/admin/${tab}/edit/${parent.id}`)
-                                  }
-                                />
-                              </button>
-                              <button className="btn btn-danger">
-                                <img
-                                  src="../assets/admin_delete.svg"
-                                  onClick={() =>
-                                    setShowDelete({
-                                      id: parent.id,
-                                      role: parent.user.role,
-                                      nom: parent.user.nom,
-                                      prenom: parent.user.prenom,
-                                    })
-                                  }
-                                />
-                              </button>
-                            </td>
-                          </tr>
+                              </td>
+                            </tr>
+                          )
                         );
                       })
                     ) : (
@@ -600,7 +607,9 @@ const EleveParent = () => {
                   }}
                 />
               </button>
-              <button className="pagination_btn selected">{currentPageParent}</button>
+              <button className="pagination_btn selected">
+                {currentPageParent}
+              </button>
               <button
                 className="pagination_arrow right"
                 onClick={goToNextPage}

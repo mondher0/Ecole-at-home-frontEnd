@@ -647,54 +647,56 @@ const Abonnements = () => {
                     row?.enfants?.map((enfant) => {
                       console.log("helloopoff");
                       return (
-                        <tr key={row.id}>
-                          <td>{row.id}</td>
-                          <td>
-                            {row?.professeur?.user.nom}{" "}
-                            {row?.professeur?.user.prenom}
-                          </td>
-                          <td>
-                            {row.day} {row?.timing?.start_hour}-
-                            {row?.timing.end_hour}
-                          </td>
-                          <td>{row.matiere.niveau.name}</td>
-                          <td>{row.matiere.name}</td>
-                          <td>
-                            {enfant?.parent?.user?.nom}{" "}
-                            {enfant?.parent?.user?.prenom}
-                          </td>
-                          <td>{enfant?.parent?.user?.email}</td>
-                          <td className={row.etat}>
-                            <div>
-                              <button className="btn btn-danger">
-                                <img
-                                  src="../assets/admin_edit.svg"
-                                  onClick={() =>
-                                    setShowEtat({
-                                      id: row.id,
-                                      prof:
-                                        row.professeur.user.nom +
-                                        " " +
-                                        row.professeur.user.prenom,
-                                      etat: row.status,
-                                      timing:
-                                        row.day +
-                                        " " +
-                                        row.timing.start_hour +
-                                        " - " +
-                                        row.timing.end_hour,
-                                    })
-                                  }
-                                />
-                              </button>
-                              <span>{row?.status}</span>
-                            </div>
-                          </td>
-                          <td>
-                            {enfant?.nom} {enfant?.prenom}
-                          </td>
-                          <td>{enfant?.email}</td>
-                        </tr>
+                        enfant.deleted === false && (
+                          <tr key={row.id}>
+                            <td>{row.id}</td>
+                            <td>
+                              {row?.professeur?.user.nom}{" "}
+                              {row?.professeur?.user.prenom}
+                            </td>
+                            <td>
+                              {row.day} {row?.timing?.start_hour}-
+                              {row?.timing.end_hour}
+                            </td>
+                            <td>{row.matiere.niveau.name}</td>
+                            <td>{row.matiere.name}</td>
+                            <td>
+                              {enfant?.parent?.user?.nom}{" "}
+                              {enfant?.parent?.user?.prenom}
+                            </td>
+                            <td>{enfant?.parent?.user?.email}</td>
+                            <td className={row.etat}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() =>
+                                      setShowEtat({
+                                        id: row.id,
+                                        prof:
+                                          row.professeur.user.nom +
+                                          " " +
+                                          row.professeur.user.prenom,
+                                        etat: row.status,
+                                        timing:
+                                          row.day +
+                                          " " +
+                                          row.timing.start_hour +
+                                          " - " +
+                                          row.timing.end_hour,
+                                      })
+                                    }
+                                  />
+                                </button>
+                                <span>{row?.status}</span>
+                              </div>
+                            </td>
+                            <td>
+                              {enfant?.nom} {enfant?.prenom}
+                            </td>
+                            <td>{enfant?.email}</td>
+                          </tr>
+                        )
                       );
                     })
                   );

@@ -463,55 +463,60 @@ const Cours = () => {
                     row?.abonnement?.enfants?.length > 0 &&
                     row?.abonnement?.enfants?.map((enfant) => {
                       console.log("helloopoff");
+
                       return (
-                        <tr key={row.id}>
-                          <td>{row.id}</td>
-                          <td>{row?.abonnement?.id}</td>
-                          <td>
-                            {row?.abonnement?.professeur?.user?.nom}{" "}
-                            {row?.abonnement?.professeur?.user?.prenom}
-                          </td>
-                          <td>
-                            {row?.abonnement?.day}
-                            {row?.abonnement?.timing?.start_hour} -{" "}
-                            {row?.abonnement?.timing?.end_hour}
-                          </td>
-                          <td>{row?.abonnement?.matiere.niveau.name}</td>
-                          <td>{row?.abonnement?.matiere.name}</td>
-                          <td>
-                            {enfant?.parent?.user?.nom}{" "}
-                            {enfant?.parent?.user?.prenom}
-                          </td>
-                          <td>
-                            {enfant?.nom} {enfant?.prenom}
-                          </td>
-                          <td className={row.etat}>
-                            <div>
-                              <button className="btn btn-danger">
-                                <img
-                                  src="../assets/admin_edit.svg"
-                                  onClick={() =>
-                                    setShowEtat({
-                                      id: row.id,
-                                      profName:
-                                        row?.abonnement?.professeur?.user?.nom + " " +
-                                        row?.abonnement?.professeur?.user
-                                          ?.prenom,
-                                      etat: row.status,
-                                      timing:
-                                        row.abonnement.day +
-                                        " " +
-                                        row.abonnement?.timing.start_hour +
-                                        " - " +
-                                        row.abonnement?.timing.end_hour,
-                                    })
-                                  }
-                                />
-                              </button>
-                              <span>{row?.status}</span>
-                            </div>
-                          </td>
-                        </tr>
+                        enfant.deleted === false && (
+                          <tr key={row.id}>
+                            <td>{row.id}</td>
+                            <td>{row?.abonnement?.id}</td>
+                            <td>
+                              {row?.abonnement?.professeur?.user?.nom}{" "}
+                              {row?.abonnement?.professeur?.user?.prenom}
+                            </td>
+                            <td>
+                              {row?.abonnement?.day}
+                              {row?.abonnement?.timing?.start_hour} -{" "}
+                              {row?.abonnement?.timing?.end_hour}
+                            </td>
+                            <td>{row?.abonnement?.matiere.niveau.name}</td>
+                            <td>{row?.abonnement?.matiere.name}</td>
+                            <td>
+                              {enfant?.parent?.user?.nom}{" "}
+                              {enfant?.parent?.user?.prenom}
+                            </td>
+                            <td>
+                              {enfant?.nom} {enfant?.prenom}
+                            </td>
+                            <td className={row.etat}>
+                              <div>
+                                <button className="btn btn-danger">
+                                  <img
+                                    src="../assets/admin_edit.svg"
+                                    onClick={() =>
+                                      setShowEtat({
+                                        id: row.id,
+                                        profName:
+                                          row?.abonnement?.professeur?.user
+                                            ?.nom +
+                                          " " +
+                                          row?.abonnement?.professeur?.user
+                                            ?.prenom,
+                                        etat: row.status,
+                                        timing:
+                                          row.abonnement.day +
+                                          " " +
+                                          row.abonnement?.timing.start_hour +
+                                          " - " +
+                                          row.abonnement?.timing.end_hour,
+                                      })
+                                    }
+                                  />
+                                </button>
+                                <span>{row?.status}</span>
+                              </div>
+                            </td>
+                          </tr>
+                        )
                       );
                     })
                   );
