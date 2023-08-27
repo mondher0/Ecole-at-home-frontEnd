@@ -14,9 +14,6 @@ adding many receivers in the mail
 enfants :
 check if the enfant is deleted
 
-abonnment :
-niveau and matier: not linking edit
-
 historique :
 filter parent and enfant 
 -----------------------------------------------------------------------------------------------------------
