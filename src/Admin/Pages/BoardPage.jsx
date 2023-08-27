@@ -4,10 +4,25 @@ import { useEffect, useState } from "react";
 import "../css/boardPage.css";
 import PaymentChart from "../Components/PaymentChart";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import "../../css/loader.css";
 
 const BoardPage = () => {
   const [startDate, setStartDate] = useState("2023-07-07T00:00:00.000Z");
   const [endDate, setEndDate] = useState("2023-08-07T23:59:59.999Z");
+  const [lastFourWeeks, setLastFourWeeks] = useState(false);
+  const [lastFourMonths, setLastFourMonths] = useState(false);
+  const [months, setMonths] = useState();
+  const [firstMonth, setFirstMonth] = useState();
+  const [secondMonth, setSecondMonth] = useState();
+  const [thirdMonth, setThirdMonth] = useState();
+  const [fourthMonth, setFourthMonth] = useState();
+  const [weeks, setWeeks] = useState();
+  const [firstWeek, setFirstWeek] = useState();
+  const [secondWeek, setSecondWeek] = useState();
+  const [thirdWeek, setThirdWeek] = useState();
+  const [fourthWeek, setFourthWeek] = useState();
+  const [date, setDate] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({});
   // get data
@@ -23,9 +38,45 @@ const BoardPage = () => {
     }
   };
 
+  // get payment data
+  const getPaymentData = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get(
+        `${baseURl}/payment/admin/dashboard?${
+          lastFourMonths ? `lastFourMonths=${lastFourMonths}` : ""
+        }${lastFourWeeks ? `&lastFourWeeks=${lastFourWeeks}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}`
+      );
+      console.log(response);
+      if (lastFourWeeks) {
+        setWeeks(response?.data);
+        setFirstWeek(response?.data?.firstWeek);
+        setSecondWeek(response?.data?.secondWeek);
+        setThirdWeek(response?.data?.thirdWeek);
+        setFourthWeek(response?.data?.fourthWeek);
+      }
+      if (lastFourMonths) {
+        setMonths(response?.data);
+        setFirstMonth(response?.data?.firstMonth);
+        setSecondMonth(response?.data?.secondMonth);
+        setThirdMonth(response?.data?.thirdMonth);
+        setFourthMonth(response?.data?.fourthMonth);
+      }
+      if (startDate && endDate) {
+        setDate(response?.data);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getData();
-  }, [startDate, endDate]);
+    getPaymentData();
+  }, [startDate, endDate, lastFourWeeks, lastFourMonths]);
   return (
     <>
       <div className="admin_section">
@@ -52,6 +103,8 @@ const BoardPage = () => {
                   onChange={(e) => {
                     const date = e.target.value + "T00:00:00.000Z";
                     setStartDate(date);
+                    setLastFourMonths(false);
+                    setLastFourWeeks(false);
                   }}
                 />
                 <img src="../assets/clock_calender.svg" />
@@ -65,6 +118,8 @@ const BoardPage = () => {
                   onChange={(e) => {
                     const date = e.target.value + "T23:59:59.999Z";
                     setEndDate(date);
+                    setLastFourMonths(false);
+                    setLastFourWeeks(false);
                   }}
                 />
                 <img src="../assets/clock_calender.svg" />
@@ -226,32 +281,78 @@ const BoardPage = () => {
               </div>
             </div>
           </div>
-          
         </div>
       </div>
       <div className="admin_section">
         <div className="admin_sections_header">
           <h2 className="admin_section_title">Statistique de paiement</h2>
+          <div className="admin_time_filter">
+            <div className="radio_container">
+              <input
+                type="radio"
+                name="date_range"
+                value="Semaine"
+                onChange={() => {
+                  setLastFourMonths(false);
+                  setLastFourWeeks(true);
+                }}
+              />
+              <label htmlFor="date_range">Semaine</label>
+            </div>
+            <div className="radio_container">
+              <input
+                type="radio"
+                name="date_range"
+                value="Mois"
+                onChange={() => {
+                  setLastFourWeeks(false);
+                  setLastFourMonths(true);
+                }}
+              />
+              <label htmlFor="date_range">Mois</label>
+            </div>
+          </div>
         </div>
         <div className="paiment_section">
           <div className="paiment_chart_container">
-            <PaymentChart />
-            <div className="legends">
-              <div className="legend">
-                <div style={{ backgroundColor: "#0BA5EC" }}></div>
-                <span>Solde globale</span>
+            {loading ? (
+              <div
+                className="spinner-container"
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <div className="loading-spinner"></div>
               </div>
+            ) : (
+              <>
+                <PaymentChart
+                  startDate={startDate}
+                  endDate={endDate}
+                  lastFourWeeks={lastFourWeeks}
+                  lastFourMonths={lastFourMonths}
+                  date={date}
+                  weeks={weeks}
+                  months={months}
+                />
+                <div className="legends">
+                  <div className="legend">
+                    <div style={{ backgroundColor: "#0BA5EC" }}></div>
+                    <span>Solde globale</span>
+                  </div>
 
-              <div className="legend">
-                <div style={{ backgroundColor: "#28D6D8" }}></div>
-                <span>Solde professeurs</span>
-              </div>
+                  <div className="legend">
+                    <div style={{ backgroundColor: "#28D6D8" }}></div>
+                    <span>Solde professeurs</span>
+                  </div>
 
-              <div className="legend">
-                <div style={{ backgroundColor: "#7CD4FD" }}></div>
-                <span>Solde plateforme</span>
-              </div>
-            </div>
+                  <div className="legend">
+                    <div style={{ backgroundColor: "#7CD4FD" }}></div>
+                    <span>Solde plateforme</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <div className="paiment_card_illustraion_container">
             <div className="paiment_card_illustraion">

@@ -1,21 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import axiosInstance, { baseURl } from "../../utils/utils";
 
-const PaymentChart = () => {
+const PaymentChart = ({
+  startDate,
+  endDate,
+  lastFourWeeks,
+  lastFourMonths,
+  weeks,
+  months,
+  date,
+}) => {
   const chartRef = useRef(null);
   Chart.register(ChartDataLabels);
-
   useEffect(() => {
     if (chartRef.current) {
-      const chartData = {
-        labels: [
-          "Septembre  2022",
-          "Octobre  2022",
-          "Novembre 2022",
-          "Décembre  2022",
-        ],
+      const chartData1 = {
+        labels: ["Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4"],
         datasets: [
           {
             label: "Solde globale",
@@ -23,7 +28,12 @@ const PaymentChart = () => {
             borderColor: ["rgba(255, 255, 255, 0)"],
             borderWidth: 1,
             borderRadius: Number.MAX_VALUE,
-            data: [100, 100, 100, 100],
+            data: [
+              weeks?.firstWeek?.soldeGlobale,
+              weeks?.secondWeek?.soldeGlobale,
+              weeks?.thirdWeek?.soldeGlobale,
+              weeks?.fourthWeek?.soldeGlobale,
+            ],
             borderSkipped: false,
           },
           {
@@ -32,7 +42,12 @@ const PaymentChart = () => {
             borderColor: ["rgba(255, 255, 255, 0)"],
             borderWidth: 1,
             borderRadius: Number.MAX_VALUE,
-            data: [70, 70, 70, 70],
+            data: [
+              weeks?.firstWeek?.soldeProf,
+              weeks?.secondWeek?.soldeProf,
+              weeks?.thirdWeek?.soldeProf,
+              weeks?.fourthWeek?.soldeProf,
+            ],
             borderSkipped: false,
           },
           {
@@ -41,15 +56,121 @@ const PaymentChart = () => {
             borderColor: ["rgba(255, 255, 255, 0)"],
             borderWidth: 1,
             borderRadius: Number.MAX_VALUE,
-            data: [30, 30, 30, 30],
+            data: [
+              weeks?.firstWeek?.soldePlatform,
+              weeks?.secondWeek?.soldePlatform,
+              weeks?.thirdWeek?.soldePlatform,
+              weeks?.fourthWeek?.soldePlatform,
+            ],
             borderSkipped: false,
+          },
+        ],
+      };
+
+      const chartData2 = {
+        labels: ["Mois 1", "Mois 2", "Mois 3", "Mois 4"],
+        datasets: [
+          {
+            label: "Solde globale",
+            backgroundColor: ["#0BA5EC"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [
+              months?.firstMonth?.soldeGlobale,
+              months?.secondMonth?.soldeGlobale,
+              months?.thirdMonth?.soldeGlobale,
+              months?.fourthMonth?.soldeGlobale,
+            ],
+            borderSkipped: false,
+          },
+          {
+            label: "Solde professeurs",
+            backgroundColor: ["#28D6D8"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [
+              months?.firstMonth?.soldeProf,
+              months?.secondMonth?.soldeProf,
+              months?.thirdMonth?.soldeProf,
+              months?.fourthMonth?.soldeProf,
+            ],
+            borderSkipped: false,
+          },
+          {
+            label: "Solde plateforme",
+            backgroundColor: ["#7CD4FD"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [
+              months?.firstMonth?.soldePlatform,
+              months?.secondMonth?.soldePlatform,
+              months?.thirdMonth?.soldePlatform,
+              months?.fourthMonth?.soldePlatform,
+            ],
+            borderSkipped: false,
+          },
+        ],
+      };
+      const dateObject = new Date(startDate);
+      const year = dateObject.getUTCFullYear();
+      const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+      const day = dateObject.getUTCDate();
+      const formattedStartDate = `${year}-${month
+        .toString()
+        .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+      const dateObject2 = new Date(endDate);
+      const year2 = dateObject2.getUTCFullYear();
+      const month2 = dateObject2.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+      const day2 = dateObject2.getUTCDate();
+      const formattedEndDate = `${year2}-${month2
+        .toString()
+        .padStart(2, "0")}-${day2.toString().padStart(2, "0")}`;
+
+      const chartData3 = {
+        labels: [formattedStartDate + " " + formattedEndDate],
+        datasets: [
+          {
+            label: "Solde globale",
+            backgroundColor: ["#0BA5EC"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [date?.soldeGlobale],
+            borderSkipped: false,
+            barPercentage: 0.2, // Adjust this value to control the width
+            categoryPercentage: 0.9, //
+          },
+          {
+            label: "Solde professeurs",
+            backgroundColor: ["#28D6D8"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [date?.soldeProf],
+            borderSkipped: false,
+            barPercentage: 0.2, // Adjust this value to control the width
+            categoryPercentage: 0.9, //
+          },
+          {
+            label: "Solde plateforme",
+            backgroundColor: ["#7CD4FD"],
+            borderColor: ["rgba(255, 255, 255, 0)"],
+            borderWidth: 1,
+            borderRadius: Number.MAX_VALUE,
+            data: [date?.soldePlatform],
+            borderSkipped: false,
+            barPercentage: 0.2, // Adjust this value to control the width
+            categoryPercentage: 0.9, // A
           },
         ],
       };
 
       const chartConfig = {
         type: "bar",
-        data: chartData,
         options: {
           responsive: true,
           layout: {
@@ -58,7 +179,7 @@ const PaymentChart = () => {
           scales: {
             y: {
               beginAtZero: true,
-              display: false,
+              display: true,
             },
           },
           // barThickness: 32,
@@ -78,6 +199,18 @@ const PaymentChart = () => {
           },
         },
       };
+      if (lastFourWeeks) {
+        chartConfig.data = chartData1;
+        console.log("1");
+      }
+      if (lastFourMonths) {
+        console.log("2");
+        chartConfig.data = chartData2;
+      }
+      if (!lastFourWeeks && !lastFourMonths && startDate && endDate) {
+        console.log("3");
+        chartConfig.data = chartData3;
+      }
 
       const existingChart = Chart.getChart(chartRef.current);
       if (existingChart) {
@@ -90,7 +223,7 @@ const PaymentChart = () => {
         newChart.destroy();
       };
     }
-  }, []);
+  }, [lastFourWeeks, lastFourMonths, startDate, endDate]);
 
   return (
     <div className="payment_chart">
