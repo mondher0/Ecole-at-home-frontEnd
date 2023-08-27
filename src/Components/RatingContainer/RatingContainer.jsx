@@ -4,7 +4,9 @@ import "./RatingContainer.css";
 const RatingContainer = ({ rating }) => {
   return (
     <div className="rate_cont">
-      <h4>missing ffrom l back</h4>
+      <h4>
+        {rating?.user.nom} {rating?.user.prenom}
+      </h4>
       <p className="description">{rating?.comment}</p>
       <div className="stars">
         {[...Array(rating.note)].map((star, i) => {
