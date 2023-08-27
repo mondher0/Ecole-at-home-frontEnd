@@ -19,9 +19,6 @@ niveau and matier: not linking edit
 
 historique :
 filter parent and enfant 
-
-dashboard :
-linking the chart 
 -----------------------------------------------------------------------------------------------------------
 confirm email :
 na7i commentaire mn login function
