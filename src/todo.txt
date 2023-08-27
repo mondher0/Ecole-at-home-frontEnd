@@ -27,13 +27,11 @@ a propos :
 not coding yet
 
 student : 
-cours avenir: Assiter cours avenir functions
 cours passe : voir cours passe not linking yet and pagination 
 facture : not tested yet and not linking the download
 notification : not linking yet
 
 parent :
-cours avenir :Assiter cours avenir functions
 cours passe : voir cours passe not linking yet and pagination 
 notification : not linking yet
 facture : not tested yet and not linking the download
