@@ -11,8 +11,10 @@ const Abonnements = () => {
   let [showEtatEn, setShowEtatEn] = useState(false);
   let [showEtat, setShowEtat] = useState(false);
   let [showAddLevel, setShowAddLevel] = useState(false);
+  const [showAddMatiere, setShowAddMatiere] = useState(false);
   let [dat, setData] = useState("");
   let [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showDeleteNiveauPopup, setShowDeleteNiveauPopup] = useState(false);
   const [idNiveauMatier, setIdNiveauMatier] = useState("");
   const [abonnementInfo, setAbonnementInfo] = useState();
   const [startDate, setStartDate] = useState();
@@ -27,6 +29,8 @@ const Abonnements = () => {
   const [isEmpy, setIsEmpy] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(0);
+  const [niveaux, setNiveaux] = useState([]);
+  const [niveau, setNiveau] = useState("");
   let Navigate = useNavigate();
 
   // get abonnment info
@@ -56,6 +60,36 @@ const Abonnements = () => {
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
+      console.log(error);
+    }
+  };
+
+  // get niveaux et matieres
+  const getNiveauxEtMatieres = async () => {
+    try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
+      const response = await axios.get(`${baseURl}/niveau/matieres`);
+      console.log(response);
+      setNiveaux(response?.data);
+      if (response?.data?.length === 0) {
+        setIsEmpy(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  // delete niveau matiere
+  const deleteNiveauMatiere = async (id) => {
+    console.log(id);
+    try {
+      const response = await axiosInstance.delete(`${baseURl}/niveau/${id}`);
+      console.log(response);
+      getNiveauxEtMatieres();
+    } catch (error) {
       console.log(error);
     }
   };
@@ -107,6 +141,21 @@ const Abonnements = () => {
     }
   };
 
+  // add niveau
+  const addNiveau = async () => {
+    try {
+      const data = {
+        name: niveau,
+      };
+      const response = await axiosInstance.post(`${baseURl}/niveau`, data);
+      console.log(response);
+      getNiveauxEtMatieres();
+      setShowAddLevel(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Pagination handlers
   const goToPreviousPage = () => {
     if (currentPage === pages / currentPage) {
@@ -123,7 +172,11 @@ const Abonnements = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
   useEffect(() => {
-    getAbonnementInfo();
+    if (tab === "Niveaux&Matières") {
+      getNiveauxEtMatieres();
+    } else {
+      getAbonnementInfo();
+    }
   }, [tab, startDate, endDate, eleveNom, profNom, etat2, currentPage]);
 
   const columnsParent = [
@@ -164,54 +217,6 @@ const Abonnements = () => {
   ];
 
   const columnsNiveauMatière = ["Niveau", "Matière", "Date d'ajout", "Action"];
-
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Bloqué",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Validé",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Inscrit",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-      experience: "5 years",
-      note: "A",
-      etat: "Confirmé",
-    },
-  ];
-
   return (
     <div className="admin_section abonnements">
       <div className="admin_sections_header">
@@ -377,7 +382,11 @@ const Abonnements = () => {
           </h2>
           <button className="cta" onClick={() => setShowAddLevel(true)}>
             <img src="../assets/plus_calender.svg" />
-            <span>Ajouter Niveaux&Matières</span>
+            <span>Ajouter Niveau</span>
+          </button>
+          <button className="cta" onClick={() => setShowAddMatiere(true)}>
+            <img src="../assets/plus_calender.svg" />
+            <span>Ajouter Matière</span>
           </button>
         </div>
       )}
@@ -512,30 +521,57 @@ const Abonnements = () => {
                   );
                 })
               : tab === "Niveaux&Matières"
-              ? data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.dateInscription}</td>
-                    <td>{row.email}</td>
-                    <td>{row.email}</td>
-                    <td>
-                      <button className="btn btn-primary">
-                        <img
-                          src="../assets/admin_edit.svg"
-                          onClick={() => setShowAddLevel(true)}
-                        />
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          setShowDeletePopup(true);
-                          setIdNiveauMatier(row.id);
-                        }}
-                      >
-                        <img src="../assets/admin_delete.svg" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
+              ? niveaux.map((row) => {
+                  const { createdAt } = row;
+                  const dateObject = new Date(createdAt);
+                  const year = dateObject.getUTCFullYear();
+                  const month = dateObject.getUTCMonth() + 1; // Months are zero-indexed, so we add 1 to get the correct month.
+                  const day = dateObject.getUTCDate();
+                  // Format the date as a string in "YYYY-MM-DD" format
+                  const formattedDate = `${year}-${month
+                    .toString()
+                    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+                  return (
+                    <tr key={row.id}>
+                      <td>{row.name}</td>
+                      <td>
+                        {row.matieres.map((matiere) => {
+                          return (
+                            <span
+                              key={matiere.id}
+                              style={{
+                                display: "block",
+                              }}
+                            >
+                              {matiere.name}
+                            </span>
+                          );
+                        })}
+                      </td>
+                      <td>{formattedDate}</td>
+                      <td>
+                        <button className="btn btn-primary">
+                          <img
+                            src="../assets/admin_edit.svg"
+                            onClick={() => setShowAddLevel(true)}
+                          />
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            console.log(row.id);
+                            setShowDeleteNiveauPopup({
+                              id: row.id,
+                            });
+                          }}
+                        >
+                          <img src="../assets/admin_delete.svg" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               : tab === "Eleve"
               ? abonnementInfo.map((abonnement) => {
                   return abonnement?.abonnes?.length > 0
@@ -915,7 +951,50 @@ const Abonnements = () => {
         <div className="pop_up_container">
           <div className="pop_up edit etat abonnements">
             <div className="edit_etat">
-              <label>Veuillez entrer le niveau et la matière à enseigner</label>
+              <label>Veuillez entrer le niveau à enseigner</label>
+              <div className="radio_container">
+                <label>Niveau:</label>
+                <div className="date_picker_container">
+                  <input
+                    type={"text"}
+                    onChange={(e) => {
+                      setNiveau(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                addNiveau();
+              }}
+            >
+              Ajouter
+            </button>
+            <img
+              className="hide_btn"
+              onClick={() => setShowAddLevel(false)}
+              src="../assets/x.svg"
+            />
+          </div>
+        </div>
+      )}
+      {showAddMatiere && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat abonnements">
+            <div className="edit_etat">
+              <label>Veuillez entrer la matière à enseigner</label>
               <div className="radio_container">
                 <label>Niveau:</label>
                 <div className="date_picker_container">
@@ -946,7 +1025,47 @@ const Abonnements = () => {
             </button>
             <img
               className="hide_btn"
-              onClick={() => setShowAddLevel(false)}
+              onClick={() => setShowAddMatiere(false)}
+              src="../assets/x.svg"
+            />
+          </div>
+        </div>
+      )}
+      {showDeleteNiveauPopup && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2 className="user_name">{showDeletePopup.prof}</h2>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">
+                Etes vous sûr de vouloir supprimer ce niveau?
+              </p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                deleteNiveauMatiere(showDeleteNiveauPopup?.id);
+                setShowDeleteNiveauPopup(false);
+              }}
+            >
+              Confirmer
+            </button>
+            <img
+              className="hide_btn"
+              onClick={() => setShowDeleteNiveauPopup(false)}
               src="../assets/x.svg"
             />
           </div>

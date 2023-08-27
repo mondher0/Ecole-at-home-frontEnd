@@ -1,15 +1,3 @@
-putting the images in the src folder
-adding popUp in the edit parent exctlly when he delete the child
-in the abonnment adding popUp of deleting 
-adding cosulting in the abonnment niveau and matiere
-adding factorie
-pop up delete in parametre delete mode
-handdling the parent in the client 
-adding some details in the subscription details (from backend)
-adding protected routes in the admin
-in niveau and matiere we have delete pop up not consulter
-api fih array t3 objects feh niveau w matier 
-
 --------------------------------------------------------------------------------------------------------------------------
 all project:
 adding loading and error handdling
@@ -25,6 +13,9 @@ adding many receivers in the mail
 
 enfants :
 check if the enfant is deleted
+
+abonnment :
+niveau and matier missing link 
 
 historique :
 filter parent and enfant 
