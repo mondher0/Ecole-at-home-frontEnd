@@ -15,7 +15,7 @@ enfants :
 check if the enfant is deleted
 
 abonnment :
-niveau and matier missing link 
+niveau and matier not linking edit and add matiere
 
 historique :
 filter parent and enfant 
