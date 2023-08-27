@@ -27,19 +27,19 @@ a propos :
 not coding yet
 
 student : 
-cours passe : voir cours passe not linking yet and pagination 
+cours passe : pagination 
 facture : not tested yet and not linking the download
 notification : not linking yet
 
 parent :
-cours passe : voir cours passe not linking yet and pagination 
+cours passe :  pagination 
 notification : not linking yet
 facture : not tested yet and not linking the download
 
 teacher :
 waiting page of the admin
 adding the niveau and the matiere in the inscription
-cours-passe : not link yet voir cours passe
+cours-passe : pagination
 paiement : linked but not tested yet
 notification : not link yet notification
 

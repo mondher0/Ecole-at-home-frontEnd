@@ -37,10 +37,6 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   ];
   const formatedMonth = monthes[month];
   const dateFormated = `${day} ${formatedMonth} ${year}`;
-  console.log(abonnement);
-  console.log(userInfo);
-  console.log(role);
-
   // cancel course
   const cancelCourse = async () => {
     try {
