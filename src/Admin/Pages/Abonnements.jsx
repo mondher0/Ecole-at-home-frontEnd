@@ -33,8 +33,11 @@ const Abonnements = () => {
   const [niveau, setNiveau] = useState("");
   const [levels, setLevels] = useState([]);
   const [matiere, setMatiere] = useState("");
+  const [subjects, setSubjects] = useState([]);
   const [niveauId, setNiveauId] = useState("");
   const [currentPageNiveau, setCurrentPageNiveau] = useState(1);
+  const [levelName, setLevelName] = useState("");
+  const [subjectName, setSubjectName] = useState("");
   let Navigate = useNavigate();
 
   // get levels
@@ -43,6 +46,17 @@ const Abonnements = () => {
       const response = await axiosInstance.get(`${baseURl}/niveau`);
       console.log(response);
       setLevels(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get matiers
+  const getMatiers = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/matiere`);
+      console.log(response);
+      setSubjects(response?.data);
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +100,12 @@ const Abonnements = () => {
       setIsError(false);
       setIsLoading(true);
       const response = await axios.get(
-        `${baseURl}/niveau/matieres?page=${currentPageNiveau}&pageSize=5`
+        `${baseURl}/niveau/matieres?page=${currentPageNiveau}&pageSize=5&${
+          levelName ? `niveau=${levelName}` : ""
+        }${subjectName ? `&matiere=${subjectName}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}
+        `
       );
       console.log(response);
       setNiveaux(response?.data);
@@ -216,6 +235,7 @@ const Abonnements = () => {
 
   useEffect(() => {
     if (tab === "Niveaux&Matières") {
+      getMatiers();
       getNiveauxEtMatieres();
       getLevels();
     } else {
@@ -230,6 +250,8 @@ const Abonnements = () => {
     etat2,
     currentPage,
     currentPageNiveau,
+    levelName,
+    subjectName,
   ]);
 
   const columnsParent = [
@@ -359,67 +381,83 @@ const Abonnements = () => {
               <img src="../assets/clock_calender.svg" />
             </div>
           </div>
-          <div className="radio_container">
-            <label>Elève</label>
-            <div className="date_picker_container">
-              <input
-                type="text"
-                onChange={(e) => {
-                  setEleveNom(e.target.value);
-                }}
-              />
+          {tab !== "Niveaux&Matières" && (
+            <div className="radio_container">
+              <label>Elève</label>
+              <div className="date_picker_container">
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    setEleveNom(e.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
           {tab === "Niveaux&Matières" && (
             <>
               <div className="radio_container">
                 <label>Niveau</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Tous</option>
+                  <select
+                    onChange={(e) => {
+                      setLevelName(e.target.value);
+                    }}
+                  >
+                    <option value="">Tous</option>
+                    {levels?.map((level) => {
+                      return (
+                        <option key={level.id} value={level.name}>
+                          {level.name}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
               <div className="radio_container">
                 <label>Matière</label>
                 <div className="date_picker_container">
-                  <select>
-                    <option>Tous</option>
+                  <select
+                    onChange={(e) => {
+                      setSubjectName(e.target.value);
+                    }}
+                  >
+                    <option value="">Tous</option>
+                    {subjects?.map((subject) => {
+                      return (
+                        <option key={subject.id} value={subject.name}>
+                          {subject.name}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
             </>
           )}
-          {tab === "Parent" && (
+          {tab !== "Niveaux&Matières" && (
             <div className="radio_container">
-              <label>Parent</label>
+              <label>Etat</label>
               <div className="date_picker_container">
-                <select>
+                <select
+                  onChange={(e) => {
+                    setEtat2(e.target.value);
+                  }}
+                >
                   <option>Tous</option>
+                  <option value="propose">Propose</option>
+                  <option value="valide">Valide</option>
+                  <option value="test">Test</option>
+                  <option value="teste">Testé</option>
+                  <option value="abonne">Abonné</option>
+                  <option value="suspendu">Suspendu</option>
+                  <option value="disponible">Disponible</option>
+                  <option value="resilie">Resilie</option>
                 </select>
               </div>
             </div>
           )}
-          <div className="radio_container">
-            <label>Etat</label>
-            <div className="date_picker_container">
-              <select
-                onChange={(e) => {
-                  setEtat2(e.target.value);
-                }}
-              >
-                <option>Tous</option>
-                <option value="propose">Propose</option>
-                <option value="valide">Valide</option>
-                <option value="test">Test</option>
-                <option value="teste">Testé</option>
-                <option value="abonne">Abonné</option>
-                <option value="suspendu">Suspendu</option>
-                <option value="disponible">Disponible</option>
-                <option value="resilie">Resilie</option>
-              </select>
-            </div>
-          </div>
         </div>
       </div>
 
