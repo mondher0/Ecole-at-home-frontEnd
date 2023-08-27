@@ -38,6 +38,7 @@ const Abonnements = () => {
   const [currentPageNiveau, setCurrentPageNiveau] = useState(1);
   const [levelName, setLevelName] = useState("");
   const [subjectName, setSubjectName] = useState("");
+  const [showEditMatiere, setShowEditMatiere] = useState(false);
   let Navigate = useNavigate();
 
   // get levels
@@ -115,6 +116,27 @@ const Abonnements = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      setIsError(true);
+      console.log(error);
+    }
+  };
+
+  // edit matiere
+  const editMatiere = async (id) => {
+    try {
+      const data = {
+        name: matiere,
+        niveauId: id.id,
+      };
+      console.log(data);
+      console.log(id);
+      const response = await axiosInstance.patch(
+        `${baseURl}/matiere/${id.matiereId}`,
+        data
+      );
+      console.log(response);
+      getNiveauxEtMatieres();
+    } catch (error) {
       console.log(error);
     }
   };
@@ -623,29 +645,50 @@ const Abonnements = () => {
                     .toString()
                     .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
 
-                  return (
-                    <tr key={row.id}>
-                      <td>{row.name}</td>
-                      <td>
-                        {row.matieres.map((matiere) => {
-                          return (
-                            <span
-                              key={matiere.id}
-                              style={{
-                                display: "block",
+                  return row.matieres.length > 0 ? (
+                    row.matieres.map((matiere) => {
+                      return (
+                        <tr key={row.id}>
+                          <td>{row.name}</td>
+                          <td>{matiere.name}</td>
+                          <td>{formattedDate}</td>
+                          <td>
+                            <button className="btn btn-primary">
+                              <img
+                                src="../assets/admin_edit.svg"
+                                onClick={() =>
+                                  setShowEditMatiere({
+                                    id: row.id,
+                                    matiereId: matiere.id,
+                                  })
+                                }
+                              />
+                            </button>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => {
+                                console.log(row.id);
+                                setShowDeleteNiveauPopup({
+                                  id: row.id,
+                                });
                               }}
                             >
-                              {matiere.name}
-                            </span>
-                          );
-                        })}
-                      </td>
+                              <img src="../assets/admin_delete.svg" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr key={row.id}>
+                      <td>{row.name}</td>
+                      <td>-</td>
                       <td>{formattedDate}</td>
                       <td>
                         <button className="btn btn-primary">
                           <img
                             src="../assets/admin_edit.svg"
-                            onClick={() => setShowAddLevel(true)}
+                            onClick={() => setShowEditMatiere(false)}
                           />
                         </button>
                         <button
@@ -1177,6 +1220,51 @@ const Abonnements = () => {
             <img
               className="hide_btn"
               onClick={() => setShowAddMatiere(false)}
+              src="../assets/x.svg"
+            />
+          </div>
+        </div>
+      )}
+
+      {showEditMatiere && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat abonnements">
+            <div className="edit_etat">
+              <label>Veuillez entrer la matière à enseigner</label>
+              <div className="radio_container">
+                <label>Matière:</label>
+                <div className="date_picker_container">
+                  <input
+                    type={"text"}
+                    onChange={(e) => {
+                      setMatiere(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                editMatiere(showEditMatiere);
+                setShowEditMatiere(false);
+              }}
+            >
+              Modifier
+            </button>
+            <img
+              className="hide_btn"
+              onClick={() => setShowEditMatiere(false)}
               src="../assets/x.svg"
             />
           </div>
