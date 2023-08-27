@@ -359,9 +359,6 @@ const BoardPage = () => {
               <div className="top_text">
                 <h5>
                   <span>Solde actuel</span>
-                  <button type="button" className="add_btn">
-                    <img src="../assets/plus.svg" />
-                  </button>
                 </h5>
                 <h2 className="the_value">{data.balance} €</h2>
                 <img
