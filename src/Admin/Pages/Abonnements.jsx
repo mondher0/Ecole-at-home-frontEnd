@@ -31,7 +31,21 @@ const Abonnements = () => {
   const [pages, setPages] = useState(0);
   const [niveaux, setNiveaux] = useState([]);
   const [niveau, setNiveau] = useState("");
+  const [levels, setLevels] = useState([]);
+  const [matiere, setMatiere] = useState("");
+  const [niveauId, setNiveauId] = useState("");
   let Navigate = useNavigate();
+
+  // get levels
+  const getLevels = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/niveau`);
+      console.log(response);
+      setLevels(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // get abonnment info
   const getAbonnementInfo = async () => {
@@ -70,7 +84,9 @@ const Abonnements = () => {
       setIsEmpy(false);
       setIsError(false);
       setIsLoading(true);
-      const response = await axios.get(`${baseURl}/niveau/matieres`);
+      const response = await axios.get(
+        `${baseURl}/niveau/matieres?page=1&pageSize=5`
+      );
       console.log(response);
       setNiveaux(response?.data);
       if (response?.data?.length === 0) {
@@ -79,6 +95,7 @@ const Abonnements = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
     }
   };
 
@@ -151,6 +168,22 @@ const Abonnements = () => {
       console.log(response);
       getNiveauxEtMatieres();
       setShowAddLevel(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // add matiere
+  const addMatiere = async () => {
+    try {
+      const data = {
+        name: matiere,
+        niveauId: niveauId,
+      };
+      console.log(data);
+      const response = await axiosInstance.post(`${baseURl}/matiere`, data);
+      console.log(response);
+      getNiveauxEtMatieres();
     } catch (error) {
       console.log(error);
     }
@@ -998,13 +1031,31 @@ const Abonnements = () => {
               <div className="radio_container">
                 <label>Niveau:</label>
                 <div className="date_picker_container">
-                  <input type={"text"} />
+                  <select
+                    onChange={(e) => {
+                      setNiveauId(e.target.value);
+                    }}
+                  >
+                    <option>Tous</option>
+                    {niveaux.map((niveau) => {
+                      return (
+                        <option key={niveau.id} value={niveau.id}>
+                          {niveau.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="radio_container">
                 <label>Matière:</label>
                 <div className="date_picker_container">
-                  <input type={"text"} />
+                  <input
+                    type={"text"}
+                    onChange={(e) => {
+                      setMatiere(e.target.value);
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -1019,6 +1070,10 @@ const Abonnements = () => {
                 marginTop: "20px",
                 width: "120px",
                 textAlign: "center",
+              }}
+              onClick={(e) => {
+                addMatiere();
+                setShowAddMatiere(false);
               }}
             >
               Ajouter
