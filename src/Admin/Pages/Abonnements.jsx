@@ -34,6 +34,7 @@ const Abonnements = () => {
   const [levels, setLevels] = useState([]);
   const [matiere, setMatiere] = useState("");
   const [niveauId, setNiveauId] = useState("");
+  const [currentPageNiveau, setCurrentPageNiveau] = useState(1);
   let Navigate = useNavigate();
 
   // get levels
@@ -85,7 +86,7 @@ const Abonnements = () => {
       setIsError(false);
       setIsLoading(true);
       const response = await axios.get(
-        `${baseURl}/niveau/matieres?page=1&pageSize=5`
+        `${baseURl}/niveau/matieres?page=${currentPageNiveau}&pageSize=5`
       );
       console.log(response);
       setNiveaux(response?.data);
@@ -194,7 +195,11 @@ const Abonnements = () => {
     if (currentPage === pages / currentPage) {
       return;
     }
-    setCurrentPage((prevPage) => prevPage - 1);
+    if (tab === "Niveaux&Matières") {
+      setCurrentPageNiveau((prevPage) => prevPage - 1);
+    } else {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   const goToNextPage = () => {
@@ -202,15 +207,30 @@ const Abonnements = () => {
     if (currentPage === Math.ceil(pages / 5)) {
       return;
     }
-    setCurrentPage((prevPage) => prevPage + 1);
+    if (tab === "Niveaux&Matières") {
+      setCurrentPageNiveau((prevPage) => prevPage + 1);
+    } else {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
+
   useEffect(() => {
     if (tab === "Niveaux&Matières") {
       getNiveauxEtMatieres();
+      getLevels();
     } else {
       getAbonnementInfo();
     }
-  }, [tab, startDate, endDate, eleveNom, profNom, etat2, currentPage]);
+  }, [
+    tab,
+    startDate,
+    endDate,
+    eleveNom,
+    profNom,
+    etat2,
+    currentPage,
+    currentPageNiveau,
+  ]);
 
   const columnsParent = [
     "ID",
@@ -804,41 +824,79 @@ const Abonnements = () => {
               : "Aucun parent trouvé"}
           </h1>
         )}
-
-        <div className="table_pagination_bar">
-          <div
-            className="pagination_btns"
-            style={{
-              gap: "10px",
-            }}
-          >
-            <button
-              className="pagination_arrow"
-              disabled={currentPage === 1}
-              onClick={goToPreviousPage}
+        {tab === "Niveaux&Matières" ? (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
             >
-              <img
-                src="../assets/arrow.svg"
-                style={{
-                  height: "20px",
-                }}
-              />
-            </button>
-            <button className="pagination_btn selected">{currentPage}</button>
-            <button
-              className="pagination_arrow right"
-              onClick={goToNextPage}
-              // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
-            >
-              <img
-                src="../assets/arrow.svg"
-                style={{
-                  height: "20px",
-                }}
-              />
-            </button>
+              <button
+                className="pagination_arrow"
+                disabled={currentPageNiveau === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">
+                {currentPageNiveau}
+              </button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        )}
         <ul
           className="table_resume_bar"
           style={{
@@ -1037,7 +1095,7 @@ const Abonnements = () => {
                     }}
                   >
                     <option>Tous</option>
-                    {niveaux.map((niveau) => {
+                    {levels.map((niveau) => {
                       return (
                         <option key={niveau.id} value={niveau.id}>
                           {niveau.name}
