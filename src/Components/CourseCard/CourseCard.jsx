@@ -13,6 +13,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   const { role, prenom, nom } = userInfo;
   const { abonnement, createdAt } = course;
   const [url, setUrl] = useState();
+  const [vemeoUrl, setVemeoUrl] = useState();
   console.log(course);
 
   // get date
@@ -65,9 +66,25 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
     }
   };
 
+  // get vemeo video url
+  const getVimeoVideoUrl = async (id) => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/voir-enregistrement/${id}`
+      );
+      console.log(response);
+      setVemeoUrl(response.data.url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    if (role !== "teacher") {
+    if (role !== "teacher" && etat === "venir") {
       getZoomMeetingStartUrl(course.id);
+    }
+    if (etat !== "venir") {
+      getVimeoVideoUrl(course.id);
     }
   }, []);
 
@@ -136,15 +153,14 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
               )}
             </>
           ) : (
-            <button
+            <a
               className="green"
-              style={{
-                width: "100%",
-                padding: "5px",
-              }}
+              href={vemeoUrl}
+              target="_blank"
+              rel="noreferrer"
             >
               Voir l{"'"}enregistrement
-            </button>
+            </a>
           )}
         </div>
       </div>

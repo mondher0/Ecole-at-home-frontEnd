@@ -173,6 +173,10 @@ const TimingCard = ({ item }) => {
             <div
               className="time_blocks"
               onClick={() => {
+                if (!isLogged) {
+                  navigate("/login");
+                  return;
+                }
                 if (role === "student") {
                   handleSubscribe(item.id);
                 }
