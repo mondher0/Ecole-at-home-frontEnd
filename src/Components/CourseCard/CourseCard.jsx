@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import TitleCoursPopUp from "../TitleCoursPopPup/TitleCoursPopUp";
 import axiosInstance, { baseURl } from "../../utils/utils";
@@ -12,6 +12,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   const { userInfo } = useContext(GlobalContext);
   const { role, prenom, nom } = userInfo;
   const { abonnement, createdAt } = course;
+  const [url, setUrl] = useState();
   console.log(course);
 
   // get date
@@ -50,6 +51,25 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
       console.log(error);
     }
   };
+
+  // get zoom meeting start url
+  const getZoomMeetingStartUrl = async (id) => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/cours/assister/${id}`
+      );
+      console.log(response);
+      setUrl(response.data.url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (role !== "teacher") {
+      getZoomMeetingStartUrl(course.id);
+    }
+  }, []);
 
   return (
     <div className="cours_card">
@@ -96,7 +116,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
                 </button>
               ) : (
                 <a
-                  href={zoomMeetingJoinUrl}
+                  href={url}
                   className="green"
                   target="_blank"
                   rel="noreferrer"
