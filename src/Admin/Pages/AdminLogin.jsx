@@ -5,9 +5,11 @@ import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const Navigate = useNavigate();
   const { setAdminPassword, setAdminEmail, handleAdminLogin } =
     useContext(AuthContext);
 
@@ -24,7 +26,7 @@ const AdminLogin = () => {
         <fieldset className="admin_fieldset">
           <div className="input_container2">
             <label>Adresse email</label>
-            <input onChange={(e) => setAdminEmail(e.target.value)} />
+            <input type="email" onChange={(e) => setAdminEmail(e.target.value)} />
           </div>
           <div className="input_container2">
             <label>Mot de passe</label>
@@ -42,7 +44,14 @@ const AdminLogin = () => {
               </button>
             </div>
           </div>
-          <h5 className="note">Mot de passe oublié ?</h5>
+          <h5
+            className="note"
+            onClick={() => {
+              Navigate("/admin/forgot-password");
+            }}
+          >
+            Mot de passe oublié ?
+          </h5>
           <button type="submit">Connexion</button>
         </fieldset>
       </form>

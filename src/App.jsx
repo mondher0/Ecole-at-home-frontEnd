@@ -36,6 +36,7 @@ import AddEmail from "./Admin/Pages/addEmail";
 import EmailConfirmation from "./Pages/EmailConfirmation";
 import TeacherRating from "./Pages/TeacherRating";
 import EditEnfant from "./Admin/Pages/EditEnfant";
+import AdminForgotPassowrd from "./Admin/Pages/AdminForgotPassword";
 
 const App = () => {
   return (
@@ -105,6 +106,14 @@ const App = () => {
             <AdminLoginProtectedRoute>
               <AdminLogin />
             </AdminLoginProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/forgot-password"
+          element={
+            <LoginProtectedRoute>
+              <AdminForgotPassowrd />
+            </LoginProtectedRoute>
           }
         />
         <Route
