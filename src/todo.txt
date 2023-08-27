@@ -22,10 +22,6 @@ filter parent and enfant
 
 dashboard :
 linking the chart 
-
-admin : 
-forgot password ui and api
-
 -----------------------------------------------------------------------------------------------------------
 confirm email :
 na7i commentaire mn login function
