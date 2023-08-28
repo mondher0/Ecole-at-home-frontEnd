@@ -19,7 +19,9 @@ const Settings = () => {
       ? userInfo.parentProfileEntity.phoneNumber
       : role === "teacher"
       ? userInfo.proffesseurProfile.phoneNumber
-      : userInfo.eleveProfile.phoneNumber
+      : role === "student"
+      ? userInfo.eleveProfile.phoneNumber
+      : ""
   );
   console.log(telephone);
   const [adresse, setAdresse] = useState(
@@ -213,7 +215,7 @@ const Settings = () => {
                 color: "black",
                 fontWeight: "bold",
               }}
-              placeholder="kk"
+              placeholder="Adress"
               type={"text"}
               name="email"
               value={adresse}
@@ -229,7 +231,7 @@ const Settings = () => {
                 color: "black",
                 fontWeight: "bold",
               }}
-              placeholder="kk"
+              placeholder="Ville"
               type={"text"}
               name="email"
               value={ville}
@@ -245,7 +247,7 @@ const Settings = () => {
                 color: "black",
                 fontWeight: "bold",
               }}
-              placeholder="kk"
+              placeholder="Code postal"
               type={"number"}
               name="email"
               value={codePostal}

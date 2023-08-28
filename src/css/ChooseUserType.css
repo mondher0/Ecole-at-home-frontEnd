@@ -86,6 +86,11 @@ fieldset {
   display: flex;
   justify-content: center;
 }
+/* @media (max-width: 450px) {
+  fieldset {
+    margin: unset;
+  }
+} */
 
 fieldset button {
   margin-top: 22px;
@@ -95,7 +100,7 @@ legend,
 .sign_up_legend {
   color: rgba(0, 120, 212, 1);
   font-weight: 600;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 26px;
 }
 
@@ -136,6 +141,19 @@ fieldset form {
   justify-content: space-between;
   max-width: calc(90vw - 20px * 2);
   width: 100%;
+}
+@media (max-width: 600px) {
+  fieldset form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: calc(90vw - 20px * 2);
+    width: 100%;
+    flex-direction: column !important;
+  }
+  .input_container.half {
+    width: 400px;
+  }
 }
 
 fieldset form ul {
@@ -312,6 +330,12 @@ fieldset .insc_btn {
 .input_container.half {
   width: calc(50% - 5px);
   min-width: 200px;
+}
+
+@media (max-width: 600px) {
+  .input_container.half {
+    width: unset;
+  }
 }
 
 .form_error {

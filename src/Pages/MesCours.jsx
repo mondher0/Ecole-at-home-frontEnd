@@ -17,7 +17,7 @@ const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role, nom } = userInfo;
   console.log(userInfo);
-  const [sideLinks, setSideLinks] = useState("");
+  const [sideLinks, setSideLinks] = useState("parametres");
   console.log(role);
   return (
     <>
@@ -25,11 +25,6 @@ const MesCours = () => {
         <div className="side_nav inside">
           <h3 className="welcome">
             Bonjour, {role?.toUpperCase()} {prenom?.toUpperCase()}
-            <div className="berger">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
           </h3>
           <ul>
             <li
@@ -39,7 +34,7 @@ const MesCours = () => {
               }}
             >
               <img src="../assets/side_nav01.svg" />
-              Cours à venir
+              <span> Cours à venir</span>
             </li>
             <li
               className={sideLinks === "cours_passés" ? "selected" : ""}
@@ -48,7 +43,7 @@ const MesCours = () => {
               }}
             >
               <img src="../assets/courses.svg" />
-              Cours passés
+              <span> Cours passés</span>
             </li>
             {role === "teacher" && (
               <li
@@ -58,7 +53,7 @@ const MesCours = () => {
                 }}
               >
                 <img src="../assets/clock_calender.svg" />
-                Disponibilités
+                <span> Disponibilités</span>
               </li>
             )}
             {role === "parent" ||
@@ -70,7 +65,7 @@ const MesCours = () => {
                   }}
                 >
                   <img src="../assets/two_users.svg" />
-                  Abonnement
+                  <span> Abonnement</span>
                 </li>
               ))}
             {role === "student" ||
@@ -82,7 +77,7 @@ const MesCours = () => {
                   }}
                 >
                   <img src="../assets/two_users.svg" />
-                  Abonnement
+                  <span> Abonnement</span>
                 </li>
               ))}
             {role === "parent" ||
@@ -94,7 +89,7 @@ const MesCours = () => {
                   }}
                 >
                   <img src="../assets/euro.svg" />
-                  Facture
+                  <span> Facture</span>
                 </li>
               ))}
             {role === "student" ||
@@ -106,7 +101,7 @@ const MesCours = () => {
                   }}
                 >
                   <img src="../assets/euro.svg" />
-                  Facture
+                  <span> Facture</span>
                 </li>
               ))}
 
@@ -119,7 +114,20 @@ const MesCours = () => {
                   }}
                 >
                   <img src="../assets/card.svg" />
-                  Paiement
+                  <span> Paiement</span>
+                </li>
+              ))}
+
+            {role === "student" ||
+              (role === "parent" && (
+                <li
+                  className={sideLinks === "paiement" ? "selected" : ""}
+                  onClick={() => {
+                    setSideLinks("paiement");
+                  }}
+                >
+                  <img src="../assets/card.svg" />
+                  <span> Paiement</span>
                 </li>
               ))}
             {role === "teacher" && (
@@ -130,7 +138,7 @@ const MesCours = () => {
                 }}
               >
                 <img src="../assets/card.svg" />
-                Paiement
+                <span> Paiement</span>
               </li>
             )}
             <li
@@ -140,7 +148,7 @@ const MesCours = () => {
               }}
             >
               <img src="../assets/bell.svg" />
-              Notifications
+              <span> Notifications</span>
             </li>
             {role === "teacher" && (
               <li
@@ -150,7 +158,7 @@ const MesCours = () => {
                 }}
               >
                 <img src="../assets/status.svg" />
-                Status
+                <span> Status</span>
               </li>
             )}
 
@@ -161,7 +169,7 @@ const MesCours = () => {
               }}
             >
               <img src="../assets/settings.svg" />
-              Parametres
+              <span> Paramètres</span>
             </li>
           </ul>
         </div>
@@ -174,8 +182,6 @@ const MesCours = () => {
                 fontWeight: "bold",
                 color: "#1D1D1D",
                 marginTop: "2rem",
-                marginLeft: "2rem",
-                textAlign: "center",
               }}
             >
               Bienvenue{" "}
