@@ -18,18 +18,23 @@ const UpComingCourses = () => {
   const [enfant, setEnfant] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   // Get upComing Courses of the teacher
   const getUpComingCoursesForTeacher = async () => {
     try {
+      setIsEmpty(false);
+      setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/cours/professeurs/cours-avenir`
       );
       console.log(response);
+      if (response.data.length === 0) {
+        setIsEmpty(true);
+      }
       const upComingCourses = await response.data;
       console.log(upComingCourses);
-
       setUpComingCoursesTeacher(upComingCourses);
       setIsLoading(false);
     } catch (error) {
@@ -42,11 +47,16 @@ const UpComingCourses = () => {
   // Get upComing Courses of the student
   const getUpComingCoursesForStudent = async () => {
     try {
+      setIsEmpty(false);
+      setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/cours/students/cours-avenir`
       );
       console.log(response);
+      if (response.data.length === 0) {
+        setIsEmpty(true);
+      }
       setUpComingCoursesStudent(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -70,11 +80,16 @@ const UpComingCourses = () => {
   // get cours avenir of an enfant
   const getUpComingCoursesForEnfant = async (id) => {
     try {
+      setIsEmpty(false);
+      setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/cours/parents/cours-avenir?enfantId=${id}`
       );
       console.log(response);
+      if (response.data.length === 0) {
+        setIsEmpty(true);
+      }
       setUpComingCoursesEnfant(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -103,8 +118,8 @@ const UpComingCourses = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
-            fontSize: "3rem",
+            height: "60vh",
+            fontSize: "2rem",
             color: "black",
           }}
         >
@@ -114,48 +129,96 @@ const UpComingCourses = () => {
         <div className="up_coming_courses">
           <h3 className="green_title">Cours à venir de la semaine</h3>
           {role === "parent" ? (
-            <div className="select_child">
-              <label>Enfant:</label>
-              <select
-                onChange={(e) => {
-                  setEnfant(e.target.value);
-                  getUpComingCoursesForEnfant(e.target.value);
-                }}
-              >
-                <option>Séléctioner</option>
-                {enfants?.map((enfant) => {
+            <>
+              <div className="select_child">
+                <label>Enfant:</label>
+                <select
+                  onChange={(e) => {
+                    setEnfant(e.target.value);
+                    getUpComingCoursesForEnfant(e.target.value);
+                  }}
+                >
+                  <option>Séléctioner</option>
+                  {enfants?.map((enfant) => {
+                    return (
+                      <option key={enfant.id} value={enfant.id}>
+                        {enfant.nom} {enfant.prenom}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              {isEmpty && (
+                <h1
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "60vh",
+                    fontSize: "2rem",
+                    color: "black",
+                  }}
+                >
+                  Pas de cours à venir
+                </h1>
+              )}
+            </>
+          ) : role === "student" ? (
+            <>
+              {isEmpty && (
+                <h1
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "60vh",
+                    fontSize: "2rem",
+                    color: "black",
+                  }}
+                >
+                  Pas de cours à venir
+                </h1>
+              )}
+              <div className="courses_cards">
+                {upComingCoursesStudent.map((course) => {
+                  console.log(course);
                   return (
-                    <option key={enfant.id} value={enfant.id}>
-                      {enfant.nom} {enfant.prenom}
-                    </option>
+                    <CourseCard key={course.id} course={course} etat="venir" />
                   );
                 })}
-              </select>
-            </div>
-          ) : role === "student" ? (
-            <div className="courses_cards">
-              {upComingCoursesStudent.map((course) => {
-                console.log(course);
-                return (
-                  <CourseCard key={course.id} course={course} etat="venir" />
-                );
-              })}
-            </div>
+              </div>
+            </>
           ) : role === "teacher" ? (
-            <div className="courses_cards">
-              {upComingCoursesTeacher.map((course) => {
-                console.log(course);
-                return (
-                  <CourseCard
-                    key={course.id}
-                    course={course}
-                    etat="venir"
-                    rol="teacher"
-                    zoomMeetingJoinUrl={course.zoomMeetingJoinUrl}
-                  />
-                );
-              })}
-            </div>
+            <>
+              {isEmpty && (
+                <h1
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "60vh",
+                    fontSize: "2rem",
+                    color: "black",
+                  }}
+                >
+                  Pas de cours à venir
+                </h1>
+              )}
+              <div className="courses_cards">
+                {upComingCoursesTeacher.map((course) => {
+                  console.log(course);
+                  return (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      etat="venir"
+                      rol="teacher"
+                      zoomMeetingJoinUrl={course.zoomMeetingJoinUrl}
+                    />
+                  );
+                })}
+              </div>
+            </>
           ) : null}
           <div className="courses_cards">
             {role === "parent" &&
@@ -174,8 +237,7 @@ const UpComingCourses = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-
-            fontSize: "3rem",
+            fontSize: "2rem",
             color: "black",
           }}
         >

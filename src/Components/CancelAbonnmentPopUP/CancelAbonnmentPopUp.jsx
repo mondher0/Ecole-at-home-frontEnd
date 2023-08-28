@@ -6,7 +6,7 @@ import { useState } from "react";
 import axiosInstance from "../../utils/utils";
 import { baseURl } from "../../utils/utils";
 
-const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
+const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id, update }) => {
   const [title, setTitle] = useState("");
   console.log(id);
   console.log(info);
@@ -48,8 +48,7 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
       <div
         className="pop_up"
         style={{
-          width: "35%",
-          height: "33%",
+          width: "400px",
           color: "black",
           fontWeight: "bold",
         }}
@@ -67,22 +66,12 @@ const CancelAbonnmentPopUp = ({ day, startUrl, text, info, id }) => {
             flexDirection: "column",
             alignItems: "space-between",
             justifyContent: "space-around",
-            height: "100%",
+            height: "40%",
           }}
         >
-          <p
-            style={{
-              marginBottom: "20px",
-            }}
-          >
-            {text}
-          </p>
-          <p
-            style={{
-              marginBottom: "20px",
-            }}
-          >
-          {info?.professeur.user.nom} {info?.professeur.user.prenom}
+          <p>{text}</p>
+          <p>
+            {info?.professeur.user.nom} {info?.professeur.user.prenom}
           </p>
           <p>
             {day} {info?.timing.start_hour}-{info?.timing.end_hour}{" "}

@@ -21,7 +21,7 @@ const TimingCard = ({ item }) => {
   const [timings, setTimings] = useState([]);
   const [enfants, setEnfants] = useState();
   const [enfant, setEnfant] = useState();
-  const [showEssaiePopUp, setShowEssaiePopUp] = useState();
+  const [showEssaiePopUp, setShowEssaiePopUp] = useState(false);
   const [showChooseEnfantPoPup, setShowChooseEnfantPopUp] = useState(false);
   const days = [
     "Sunday",

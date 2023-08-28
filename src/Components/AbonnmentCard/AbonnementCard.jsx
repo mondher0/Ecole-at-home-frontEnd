@@ -6,7 +6,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import CancelAbonnmentPopUp from "../CancelAbonnmentPopUP/CancelAbonnmentPopUp";
 import { baseURl } from "../../utils/utils";
 
-const AbonnementCard = ({ course, etat, id, cas }) => {
+const AbonnementCard = ({ course, etat, id, cas, update }) => {
   console.log(etat);
   console.log(course);
   const { userInfo } = useContext(GlobalContext);
@@ -144,6 +144,7 @@ const AbonnementCard = ({ course, etat, id, cas }) => {
           text="Etre vous sur d’annluer l’abonnement :"
           info={course}
           id={id}
+          update={update}
         />
       </dialog>
     </div>

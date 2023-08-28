@@ -16,18 +16,26 @@ const Abonnement = () => {
   const [abonnmentsEnfant, setAbonnmentsEnfant] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const [enfants, setEnfants] = useState();
   const [enfant, setEnfant] = useState();
+  const [update, setUpdate] = useState(false);
 
   // Get abonnement of the enfant
   const getAbonnment = async (id) => {
     try {
+      setIsEmpty(false);
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/abonnement/enfant/${id}`
       );
       console.log(response);
       setAbonnmentsEnfant(response.data.abonnements);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -35,28 +43,28 @@ const Abonnement = () => {
   // Get upComing Courses of the student
   const getUpComingCoursesForStudent = async () => {
     try {
+      setIsEmpty(false);
+      setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(`${baseURl}/abonnement/user`);
       console.log(response);
-
       setUpComingCoursesStudent(response.data.abonnements);
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
 
   useEffect(() => {
-    // if (role === "teacher") {
-    //   getUpComingCoursesForTeacher();
-    // }
     if (role === "student") {
       getUpComingCoursesForStudent();
     }
     if (role === "parent") {
       getEnfants();
     }
-  }, []);
+  }, [update]);
 
   // get enfants of the parent
   const getEnfants = async () => {
@@ -76,8 +84,8 @@ const Abonnement = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
-            fontSize: "3rem",
+            height: "60vh",
+            fontSize: "2rem",
             color: "black",
           }}
         >
@@ -114,6 +122,7 @@ const Abonnement = () => {
                     key={course.id}
                     course={course}
                     etat="venir"
+                    update={setUpdate}
                   />
                 );
               })}
@@ -127,6 +136,7 @@ const Abonnement = () => {
                     key={course.id}
                     course={course}
                     etat="venir"
+                    update={setUpdate}
                   />
                 );
               })}
@@ -141,6 +151,7 @@ const Abonnement = () => {
                     course={course}
                     etat="venir"
                     id={enfant}
+                    update={setUpdate}
                   />
                 );
               })}
@@ -153,12 +164,24 @@ const Abonnement = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-
-            fontSize: "3rem",
+            fontSize: "2rem",
             color: "black",
           }}
         >
           Something went wrong -_-
+        </h1>
+      )}
+      {isEmpty && (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "2rem",
+            color: "black",
+          }}
+        >
+          Aucun abonnement à afficher
         </h1>
       )}
     </>

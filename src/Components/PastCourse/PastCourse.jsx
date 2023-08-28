@@ -24,6 +24,7 @@ const PastCourse = () => {
   // get past courses of the teacher
   const getPastCoursesForTeacher = async () => {
     try {
+      setIsEmpy(false);
       setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
@@ -46,6 +47,7 @@ const PastCourse = () => {
   // Get past Courses of the student
   const getPastCoursesForStudent = async () => {
     try {
+      setIsEmpy(false);
       setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
@@ -80,11 +82,16 @@ const PastCourse = () => {
   // get âst courses of an enfant
   const getPastCoursesForEnfant = async (id) => {
     try {
+      setIsEmpy(false);
+      setIsError(false);
       setIsLoading(true);
       const response = await axiosInstance.get(
         `${baseURl}/cours/parents/cours-passe?enfantId=${id}`
       );
       console.log(response);
+      if (response.data.length === 0) {
+        setIsEmpy(true);
+      }
       setPastCoursesEnfant(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -122,8 +129,8 @@ const PastCourse = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
-            fontSize: "3rem",
+            height: "60vh",
+            fontSize: "2rem",
             color: "black",
           }}
         >
@@ -230,8 +237,7 @@ const PastCourse = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-
-            fontSize: "3rem",
+            fontSize: "2rem",
             color: "black",
           }}
         >
@@ -244,8 +250,7 @@ const PastCourse = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-
-            fontSize: "3rem",
+            fontSize: "2rem",
             color: "black",
           }}
         >
