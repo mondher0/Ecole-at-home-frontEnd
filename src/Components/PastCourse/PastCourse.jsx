@@ -18,17 +18,27 @@ const PastCourse = () => {
   const [enfant, setEnfant] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isEmpy, setIsEmpy] = useState(false);
 
   // get past courses of the teacher
   const getPastCoursesForTeacher = async () => {
     try {
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/cours/professeurs/cours-passe?page=1&pageSize=10        `
+        `${baseURl}/cours/professeurs/cours-passe?page=${currentPage}&pageSize=3`
       );
+      if (response.data.items.length === 0) {
+        setIsEmpy(true);
+      }
       const pastCourses = await response.data.items;
       console.log(pastCourses);
       setPastCoursesTeacher(pastCourses);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -36,14 +46,22 @@ const PastCourse = () => {
   // Get past Courses of the student
   const getPastCoursesForStudent = async () => {
     try {
+      setIsError(false);
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/cours/students/cours-passe?page=1&pageSize=10        `
+        `${baseURl}/cours/students/cours-passe?page=${currentPage}&pageSize=3`
       );
       console.log(response);
+      if (response.data.items.length === 0) {
+        setIsEmpy(true);
+      }
       const pastCourses = await response.data.items;
       console.log(pastCourses);
       setPastCoursesStudent(pastCourses);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -76,6 +94,15 @@ const PastCourse = () => {
     }
   };
 
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   useEffect(() => {
     if (role === "teacher") {
       getPastCoursesForTeacher();
@@ -86,7 +113,7 @@ const PastCourse = () => {
     if (role === "parent") {
       getEnfants();
     }
-  }, []);
+  }, [currentPage]);
   return (
     <>
       {isLoading ? (
@@ -141,15 +168,56 @@ const PastCourse = () => {
               })}
             </div>
           ) : null}
+          {role === "parent" && (
+            <div className="courses_cards">
+              {role === "parent" &&
+                pastCoursesEnfant?.map((course) => {
+                  console.log("hello");
+                  return (
+                    <CourseCard key={course.id} course={course} etat="passe" />
+                  );
+                })}
+            </div>
+          )}
 
-          <div className="courses_cards">
-            {role === "parent" &&
-              pastCoursesEnfant?.map((course) => {
-                console.log("hello");
-                return (
-                  <CourseCard key={course.id} course={course} etat="passe" />
-                );
-              })}
+          <div
+            className="table_pagination_bar"
+            style={{
+              margin: "0",
+            }}
+          >
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -165,6 +233,20 @@ const PastCourse = () => {
           }}
         >
           Something went wrong -_-
+        </h1>
+      )}
+      {isEmpy && (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+            fontSize: "3rem",
+            color: "black",
+          }}
+        >
+          Aucun cours à afficher
         </h1>
       )}
     </>

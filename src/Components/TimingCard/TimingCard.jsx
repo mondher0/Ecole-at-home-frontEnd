@@ -70,7 +70,8 @@ const TimingCard = ({ item }) => {
         `${baseURl}/abonnement/subscribe-abonnement/student/${id}`
       );
       console.log(response);
-      if (eleveProfile?.status === "inscrit") {
+      console.log(eleveProfile.status);
+      if (eleveProfile?.status === "confirme") {
         setShowEssaiePopUp(true);
       }
     } catch (error) {
@@ -105,7 +106,7 @@ const TimingCard = ({ item }) => {
         data
       );
       console.log(response);
-      if (parentProfileEntity?.status === "inscrit") {
+      if (parentProfileEntity?.status === "confirme") {
         setShowEssaiePopUp(true);
       }
     } catch (error) {

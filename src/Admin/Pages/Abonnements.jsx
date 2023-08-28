@@ -109,7 +109,7 @@ const Abonnements = () => {
         `
       );
       console.log(response);
-      setNiveaux(response?.data);
+      setNiveaux(response?.data?.niveaux);
       if (response?.data?.length === 0) {
         setIsEmpy(true);
       }

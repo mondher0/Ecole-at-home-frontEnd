@@ -383,6 +383,7 @@ const EleveParent = () => {
                     return parent.enfants?.length > 0 ? (
                       parent.enfants.map((enfant) => {
                         console.log(enfant.deleted);
+                        console.log(parent.user);
                         return (
                           enfant.deleted === false && (
                             <tr key={enfant.id}>
