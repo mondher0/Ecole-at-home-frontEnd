@@ -13,7 +13,9 @@ const ChooseKids = () => {
   } = useContext(AuthContext);
   return (
     <div className="parent_sign_up p_s_kid">
-      <fieldset>
+      <fieldset style={{
+        padding: "20px"
+      }}>
         <legend>Je suis parent, je veux inscrire mon enfant</legend>
         <form onSubmit={handleRegisterParent}>
           <h2 className="form_subtitle">

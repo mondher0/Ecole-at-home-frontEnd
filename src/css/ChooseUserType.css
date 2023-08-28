@@ -191,6 +191,12 @@ fieldset form ul {
   padding: 12px;
 }
 
+@media screen and (max-width: 500px) {
+  .professor_sign_up fieldset ul {
+    width: unset;
+  }
+}
+
 .professor_sign_up fieldset legend {
   margin: auto;
 }
@@ -300,6 +306,11 @@ fieldset .insc_btn {
   padding: 20px;
   padding-top: 35px;
 }
+@media screen and (max-width: 500px) {
+  .p_s_kid fieldset {
+    padding: unset;
+  }
+}
 
 .p_s_kid fieldset form {
   max-width: 520px;
@@ -334,7 +345,7 @@ fieldset .insc_btn {
 
 @media (max-width: 600px) {
   .input_container.half {
-    width: unset;
+    width: 100%;
   }
 }
 

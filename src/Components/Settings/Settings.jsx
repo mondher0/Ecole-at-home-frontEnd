@@ -29,21 +29,21 @@ const Settings = () => {
       ? userInfo.parentProfileEntity.address
       : role === "teacher"
       ? userInfo.proffesseurProfile.address
-      : userInfo.eleveProfile.address
+      : role === "student" && userInfo.eleveProfile.address
   );
   const [ville, setVille] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.ville
       : role === "teacher"
       ? userInfo.proffesseurProfile.ville
-      : userInfo.eleveProfile.ville
+      : role === "student" && userInfo.eleveProfile.ville
   );
   const [codePostal, setCodePostal] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.codePostal
       : role === "teacher"
       ? userInfo.proffesseurProfile.codePostal
-      : userInfo.eleveProfile.codePostal
+      : role === "student" && userInfo.eleveProfile.codePostal
   );
   const [password, setPassword] = useState("");
 
@@ -391,6 +391,8 @@ const Settings = () => {
               display: "flex",
               gap: "20px",
               flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {enfants &&
@@ -411,29 +413,29 @@ const Settings = () => {
                   </div>
                 );
               })}
-            <div
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("demCours").showModal();
+              }}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                padding: "10px",
+                border: "2px solid #0078D4",
+                borderRadius: "30px",
+                backgroundColor: "transparent",
+                color: "#0078D4",
               }}
             >
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("demCours").showModal();
-                }}
-                style={{
-                  padding: "10px",
-                  border: "2px solid #0078D4",
-                  borderRadius: "30px",
-                  backgroundColor: "transparent",
-                  color: "#0078D4",
-                }}
-              >
-                Ajouter un enfant
-              </button>
-            </div>
+              Ajouter un enfant
+            </button>
           </div>
         </>
       )}

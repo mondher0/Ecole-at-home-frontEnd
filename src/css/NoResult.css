@@ -1,35 +1,34 @@
 .not-found-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
-  
+
 .not-found-message {
-    font-size: 2rem;
-    text-align: center;
-    padding: 1rem;
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem;
 }
 
 .card-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .card {
-    display: inline-block;
-    width: 60%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .card-content {
-    padding: 20px;
-  }
-  
-  .card p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
+.card {
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}

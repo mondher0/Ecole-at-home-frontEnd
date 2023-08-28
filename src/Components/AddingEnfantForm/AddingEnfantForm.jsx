@@ -117,14 +117,15 @@ const AddingEnfantForm = ({ cas, setEnfantState }) => {
                 ></input>
               </div>
             ) : null}
-            <ul>
-              <li className="yallow">
-                Sinon, votre enfant peut rejoindre le cours en direct depuis
-                votre espace personnel ecoleathome ou depuis votre e-mail
-              </li>
-            </ul>
 
-            <button className="login">Ajouter</button>
+            <button
+              className="login"
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              Ajouter
+            </button>
           </form>
         </fieldset>
       </div>

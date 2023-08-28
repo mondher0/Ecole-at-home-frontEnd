@@ -113,7 +113,7 @@ const TeacherRegister = () => {
               }}
             ></input>
           </div>
-          <div className="input_container quarter">
+          <div className="input_container half">
             <label htmlFor="Ville">Ville</label>
             <select
               id="Ville"
@@ -133,7 +133,7 @@ const TeacherRegister = () => {
               })}
             </select>
           </div>
-          <div className="input_container quarter">
+          <div className="input_container half">
             <label htmlFor="Code_postale">Code postale</label>
             <select
               id="Code_postale"
