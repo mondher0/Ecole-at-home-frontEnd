@@ -11,9 +11,6 @@ the pop up of what prof do not linked yet
 mails : 
 adding many receivers in the mail
 
-enfants :
-check if the enfant is deleted
-
 historique :
 filter parent and enfant 
 -----------------------------------------------------------------------------------------------------------
