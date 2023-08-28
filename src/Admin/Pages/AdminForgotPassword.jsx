@@ -12,6 +12,7 @@ const AdminForgotPassowrd = () => {
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,6 +22,7 @@ const AdminForgotPassowrd = () => {
   const sendCode = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -33,6 +35,8 @@ const AdminForgotPassowrd = () => {
       setIsSend("code");
       setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -41,6 +45,7 @@ const AdminForgotPassowrd = () => {
   const verifyOtp = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -51,6 +56,8 @@ const AdminForgotPassowrd = () => {
       setIsSend(false);
       setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -59,6 +66,7 @@ const AdminForgotPassowrd = () => {
   const resetPassword = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -72,6 +80,8 @@ const AdminForgotPassowrd = () => {
       setSuccess(true);
       window.location.href = "/admin/login";
     } catch (error) {
+      setIsLoaded(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -109,6 +119,7 @@ const AdminForgotPassowrd = () => {
                   }}
                 />
               </div>
+              {error && <h5 className="form_error">{error}</h5>}
               <button type="submit">
                 {" "}
                 {isLoaded ? "Chargement..." : "Envoyer le code de vérification"}
@@ -144,6 +155,7 @@ const AdminForgotPassowrd = () => {
                   }}
                 />
               </div>
+              {error && <h5 className="form_error">{error}</h5>}
               <button type="submit">
                 {isLoaded ? "Chargement..." : "Vérifier le code"}
               </button>
@@ -189,6 +201,7 @@ const AdminForgotPassowrd = () => {
                   </button>
                 </div>
               </div>
+              {error && <h5 className="form_error">{error}</h5>}
               <button type="submit">
                 {isLoaded ? "Chargement..." : "Réinitialiser le mot de passe"}
               </button>

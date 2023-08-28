@@ -20,6 +20,7 @@ const ForgotPassword = () => {
   const resetPassword = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -32,6 +33,7 @@ const ForgotPassword = () => {
       setIsLoaded(false);
       setSuccess(true);
     } catch (error) {
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -40,6 +42,7 @@ const ForgotPassword = () => {
   const sendCode = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -52,6 +55,8 @@ const ForgotPassword = () => {
       setIsSend("code");
       setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -60,6 +65,7 @@ const ForgotPassword = () => {
   const verifyOtp = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
       setIsLoaded(true);
       const data = {
         email: email,
@@ -70,6 +76,8 @@ const ForgotPassword = () => {
       setIsSend(false);
       setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -110,7 +118,7 @@ const ForgotPassword = () => {
                 }}
               ></input>
             </div>
-
+            {error && <h5 className="form_error">{error}</h5>}
             <button
               className="login_btn"
               style={{
@@ -156,7 +164,7 @@ const ForgotPassword = () => {
                 }}
               ></input>
             </div>
-
+            {error && <h5 className="form_error">{error}</h5>}
             <button
               className="login_btn"
               style={{
@@ -253,7 +261,7 @@ const ForgotPassword = () => {
                       }}
                     ></input>
                   </div>
-
+                  {error && <h5 className="form_error">{error}</h5>}
                   <button
                     className="login_btn"
                     style={{
