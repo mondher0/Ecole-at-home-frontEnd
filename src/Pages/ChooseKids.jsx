@@ -10,12 +10,16 @@ const ChooseKids = () => {
     setNomEnfant,
     setPrenomEnfant,
     setEmailEnfant,
+    error,
+    isLoading,
   } = useContext(AuthContext);
   return (
     <div className="parent_sign_up p_s_kid">
-      <fieldset style={{
-        padding: "20px"
-      }}>
+      <fieldset
+        style={{
+          padding: "20px",
+        }}
+      >
         <legend>Je suis parent, je veux inscrire mon enfant</legend>
         <form onSubmit={handleRegisterParent}>
           <h2 className="form_subtitle">
@@ -43,9 +47,12 @@ const ChooseKids = () => {
             ></input>
           </div>
           <ul>
-            <li className="blue" style={{
-              marginTop: "20px",
-            }}>
+            <li
+              className="blue"
+              style={{
+                marginTop: "20px",
+              }}
+            >
               <input
                 type="checkbox"
                 checked={isChecked}
@@ -53,9 +60,16 @@ const ChooseKids = () => {
                   setIsChecked(!isChecked);
                 }}
               />
-              Je veux rensigner <span style={{
-                marginLeft: "5px",
-              }}> l’email&nbsp;</span> de mon enfant{" "}
+              Je veux rensigner{" "}
+              <span
+                style={{
+                  marginLeft: "5px",
+                }}
+              >
+                {" "}
+                l’email&nbsp;
+              </span>{" "}
+              de mon enfant{" "}
             </li>
             <li className="yallow">
               E-mail sur lequel sera envoyé le lien pour participer au cours en
@@ -80,8 +94,17 @@ const ChooseKids = () => {
               espace personnel ecoleathome ou depuis votre e-mail
             </li>
           </ul>
-
-          <button className="login">Continuer l’Inscription</button>
+          {error && <h5 className="form_error">{error}</h5>}
+          <button className="login">
+            {" "}
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : (
+              "Inscription"
+            )}
+          </button>
         </form>
       </fieldset>
     </div>

@@ -2,6 +2,7 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { baseURl } from "../../utils/utils";
+import "../../css/loader.css";
 
 const TeacherRegister = () => {
   const [villes, setVilles] = useState([]);
@@ -18,6 +19,8 @@ const TeacherRegister = () => {
     setDiplome,
     codePostal,
     ville,
+    error,
+    isLoading,
   } = useContext(AuthContext);
   // get villes and code postales
   const getVillesAndCodePostales = async () => {
@@ -164,8 +167,17 @@ const TeacherRegister = () => {
               Se souvenir de mon identifiant
             </li>
           </ul>
-          <h5 className="form_error"></h5>
-          <button className="login">Inscription</button>
+          {error && <h5 className="form_error">{error}</h5>}
+          <button className="login">
+            {" "}
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : (
+              "Inscription"
+            )}
+          </button>
         </form>
       </fieldset>
     </div>

@@ -6,8 +6,15 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const StudentAndParent = (type) => {
-  const { handleRegisterStudent, setNom, setPrenom, setEmail, setPassword } =
-    useContext(AuthContext);
+  const {
+    handleRegisterStudent,
+    setNom,
+    setPrenom,
+    setEmail,
+    setPassword,
+    error,
+    isLoading,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/choose-your-kid");
@@ -85,7 +92,17 @@ const StudentAndParent = (type) => {
           <p>
             Site conforme règlement général sur la protection des données RGPD{" "}
           </p>
-          <button className="login">Inscription</button>
+          {error && <h5 className="form_error">{error}</h5>}
+          <button className="login">
+            {" "}
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : (
+              "Inscription"
+            )}
+          </button>
         </form>
       </fieldset>
     </div>

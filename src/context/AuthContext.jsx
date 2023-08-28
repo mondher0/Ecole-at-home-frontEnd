@@ -31,6 +31,8 @@ const AuthProvider = ({ children }) => {
   //Register student
   const handleRegisterStudent = async (e) => {
     try {
+      setIsLoading(true);
+      setError(false);
       e.preventDefault();
       const data = {
         email: email,
@@ -42,6 +44,8 @@ const AuthProvider = ({ children }) => {
       console.log(response);
       window.location.href = "/verify-email";
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -50,7 +54,8 @@ const AuthProvider = ({ children }) => {
   const handleRegisterTeacher = async (e) => {
     try {
       e.preventDefault();
-
+      setError(false);
+      setIsLoading(true);
       const data = {
         email: email,
         password: password,
@@ -69,6 +74,8 @@ const AuthProvider = ({ children }) => {
       console.log(response);
       window.location.href = "/verify-email";
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -76,6 +83,8 @@ const AuthProvider = ({ children }) => {
   // Register parent
   const handleRegisterParent = async (e) => {
     try {
+      setError(false);
+      setIsLoading(true);
       const enfants = [
         {
           nom: nomEnfant,
@@ -95,6 +104,8 @@ const AuthProvider = ({ children }) => {
       console.log(response);
       window.location.href = "/verify-email";
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };
@@ -124,6 +135,8 @@ const AuthProvider = ({ children }) => {
   // handle admin login
   const handleAdminLogin = async (e) => {
     e.preventDefault();
+    setError(false);
+    setIsLoading(true);
     try {
       const data = {
         email: adminEmail,
@@ -135,6 +148,8 @@ const AuthProvider = ({ children }) => {
       window.location.href = "/admin/board";
       checkUserLoggedIn();
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response?.data.message);
       console.log(error);
     }
   };

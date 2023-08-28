@@ -10,8 +10,13 @@ import { useNavigate } from "react-router-dom";
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const Navigate = useNavigate();
-  const { setAdminPassword, setAdminEmail, handleAdminLogin } =
-    useContext(AuthContext);
+  const {
+    setAdminPassword,
+    setAdminEmail,
+    handleAdminLogin,
+    error,
+    isLoading,
+  } = useContext(AuthContext);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,7 +31,10 @@ const AdminLogin = () => {
         <fieldset className="admin_fieldset">
           <div className="input_container2">
             <label>Adresse email</label>
-            <input type="email" onChange={(e) => setAdminEmail(e.target.value)} />
+            <input
+              type="email"
+              onChange={(e) => setAdminEmail(e.target.value)}
+            />
           </div>
           <div className="input_container2">
             <label>Mot de passe</label>
@@ -52,7 +60,17 @@ const AdminLogin = () => {
           >
             Mot de passe oublié ?
           </h5>
-          <button type="submit">Connexion</button>
+          {error && <h5 className="form_error">{error}</h5>}
+          <button type="submit">
+            {" "}
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : (
+              "Connexion"
+            )}
+          </button>
         </fieldset>
       </form>
     </div>
