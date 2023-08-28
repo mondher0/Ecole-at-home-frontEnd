@@ -179,46 +179,49 @@ const PastCourse = () => {
                 })}
             </div>
           )}
-
-          <div
-            className="table_pagination_bar"
-            style={{
-              margin: "0",
-            }}
-          >
+          {role !== "parent" && (
             <div
-              className="pagination_btns"
+              className="table_pagination_bar"
               style={{
-                gap: "10px",
+                margin: "0",
               }}
             >
-              <button
-                className="pagination_arrow"
-                disabled={currentPage === 1}
-                onClick={goToPreviousPage}
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
               >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">{currentPage}</button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPage === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPage}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                  // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
       {isError && (
