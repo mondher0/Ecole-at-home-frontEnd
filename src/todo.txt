@@ -31,7 +31,6 @@ facture : not tested yet and not linking the download
 
 teacher :
 waiting page of the admin
-adding the niveau and the matiere in the inscription
 paiement : linked but not tested yet
 
 download the facture in the parent and the student and prof 

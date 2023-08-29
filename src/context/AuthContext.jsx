@@ -72,7 +72,8 @@ const AuthProvider = ({ children }) => {
         data
       );
       console.log(response);
-      window.location.href = "/verify-email";
+      localStorage.setItem("token", response.data.access_token);
+      window.location.href = "/prof-dispo";
     } catch (error) {
       setIsLoading(false);
       setError(error.response?.data.message);

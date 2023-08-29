@@ -37,6 +37,7 @@ import EmailConfirmation from "./Pages/EmailConfirmation";
 import TeacherRating from "./Pages/TeacherRating";
 import EditEnfant from "./Admin/Pages/EditEnfant";
 import AdminForgotPassowrd from "./Admin/Pages/AdminForgotPassword";
+import ProfInfo from "./Components/ProfInfo/ProfInfo";
 
 const App = () => {
   return (
@@ -49,6 +50,14 @@ const App = () => {
           <Route path="/choose_user_type" element={<ChooseUserType />} />
           <Route path="/inscription/:userType" element={<Insecription />} />
           <Route path="/choose-your-kid" element={<ChooseKids />} />
+          <Route
+            path="/prof-dispo"
+            element={
+              <ProtectedRoute>
+                <ProfInfo />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/login"
             element={

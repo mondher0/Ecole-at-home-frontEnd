@@ -1,0 +1,15 @@
+.prof {
+  width: 580px;
+  max-width: calc(100% - 20px * 2);
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 2px 2px 15px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  border: none;
+  padding: 20px;
+  padding-top: 0px;
+  margin-top: 80px;
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: center;
+}

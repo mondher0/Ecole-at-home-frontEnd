@@ -1,312 +1,247 @@
-const ProfInfo = () => {
-  return (
-    <div className="pop_up_container">
-    <div className="pop_up edit">
-      <div className="prof_edit_top">
-        <img src="../assets/empty_avatar.png" />
-        <div className="text">
-          <h2 className="user_name">Patrick Nicholas</h2>
-          <span>Ingénieur détat en génie des procédés</span>
-        </div>
-      </div>
-      <div className="inscription_validation">
-        <table>
-          <h4 className="table_title">Niveaux</h4>
-          <div className="items_container">
-            <div className="tab_col">
-              <div className="item title">
-                <label>Primaire</label>
-              </div>
-              <div className="item">
-                <input id="CP" type={"checkbox"} />
-                <label htmlFor="CP">CP</label>
-              </div>
-              <div className="item">
-                <input id="CE1" type={"checkbox"} />
-                <label htmlFor="CE1">CE1</label>
-              </div>
-              <div className="item">
-                <input id="CE2" type={"checkbox"} />
-                <label htmlFor="CE2">CE2</label>
-              </div>
-              <div className="item">
-                <input id="CM1" type={"checkbox"} />
-                <label htmlFor="CM1">CM1</label>
-              </div>
-              <div className="item">
-                <input id="CM2" type={"checkbox"} />
-                <label htmlFor="CM2">CM2</label>
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item title">
-                <label>College</label>
-              </div>
-              <div className="item">
-                <input id="Sixième" type={"checkbox"} />
-                <label htmlFor="Sixième">Sixième</label>
-              </div>
-              <div className="item">
-                <input id="Cinquième" type={"checkbox"} />
-                <label htmlFor="Cinquième">Cinquième</label>
-              </div>
-              <div className="item">
-                <input id="Quatrième" type={"checkbox"} />
-                <label htmlFor="Quatrième">Quatrième</label>
-              </div>
-              <div className="item">
-                <input id="Troisième" type={"checkbox"} />
-                <label htmlFor="Troisième">Troisième</label>
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item title">
-                <label>Lycée</label>
-              </div>
-              <div className="item">
-                <input id="Seconde" type={"checkbox"} />
-                <label htmlFor="Seconde">Seconde</label>
-              </div>
-              <div className="item">
-                <input id="Première" type={"checkbox"} />
-                <label htmlFor="Première">Première</label>
-              </div>
-              <div className="item">
-                <input id="Première STI2D" type={"checkbox"} />
-                <label htmlFor="Première STI2D">Première STI2D</label>
-              </div>
-              <div className="item">
-                <input id="Première STMG" type={"checkbox"} />
-                <label htmlFor="Première STMG">Première STMG</label>
-              </div>
-              <div className="item">
-                <input id="Terminale" type={"checkbox"} />
-                <label htmlFor="Terminale">Terminale</label>
-              </div>
-              <div className="item">
-                <input id="Terminale STI2D" type={"checkbox"} />
-                <label htmlFor="Terminale STI2D">Terminale STI2D</label>
-              </div>
-              <div className="item">
-                <input id="Terminale STMG" type={"checkbox"} />
-                <label htmlFor="Terminale STMG">Terminale STMG</label>
-              </div>
-            </div>
-          </div>
-        </table>
-        <table>
-          <h4 className="table_title">Matières</h4>
-          <div className="items_container">
-            <div className="tab_col">
-              <div className="item title">
-                <label>Sciences</label>
-              </div>
-              <div className="item">
-                <input id="Maths" type={"checkbox"} />
-                <label htmlFor="Maths">Maths</label>
-              </div>
-              <div className="item">
-                <input id="Physique-chimie" type={"checkbox"} />
-                <label htmlFor="Physique-chimie">Physique-chimie</label>
-              </div>
-              <div className="item">
-                <input id="SVT" type={"checkbox"} />
-                <label htmlFor="SVT">SVT</label>
-              </div>
-              <div className="item">
-                <input id="Sciences de l'ingénieur" type={"checkbox"} />
-                <label htmlFor="Sciences de l'ingénieur">
-                  Sciences de lingénieur
-                </label>
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item title">
-                <label>Sciences humaines</label>
-              </div>
-              <div className="item">
-                <input id="Français" type={"checkbox"} />
-                <label htmlFor="Français">Français</label>
-              </div>
-              <div className="item">
-                <input id="Histoire-géo" type={"checkbox"} />
-                <label htmlFor="Histoire-géo">Histoire-géo</label>
-              </div>
-              <div className="item">
-                <input id="Philosophie" type={"checkbox"} />
-                <label htmlFor="Philosophie">Philosophie</label>
-              </div>
-              <div className="item">
-                <input id="SES" type={"checkbox"} />
-                <label htmlFor="SES">SES</label>
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item title">
-                <label>Langues</label>
-              </div>
-              <div className="item">
-                <input id="Anglais" type={"checkbox"} />
-                <label htmlFor="Anglais">Anglais</label>
-              </div>
-              <div className="item">
-                <input id="Espagnol" type={"checkbox"} />
-                <label htmlFor="Espagnol">Espagnol</label>
-              </div>
-              <div className="item">
-                <input id="Expression Orale" type={"checkbox"} />
-                <label htmlFor="Expression Orale">Expression Orale</label>
-              </div>
-              <div className="item">
-                <input id="Mandarin" type={"checkbox"} />
-                <label htmlFor="Mandarin">Mandarin</label>
-              </div>
-            </div>
-          </div>
-        </table>
-        <table className="timing">
-          <h4 className="table_title">Disponiblités</h4>
-          <div className="items_container">
-            <div className="tab_col">
-              <div className="item empty">
-                <label>.</label>
-              </div>
-              <div className="item">
-                <label>Lundi</label>
-              </div>
-              <div className="item">
-                <label>Mardi</label>
-              </div>
-              <div className="item">
-                <label>Mercredi</label>
-              </div>
-              <div className="item">
-                <label>Jeudi</label>
-              </div>
-              <div className="item">
-                <label>Vendredi</label>
-              </div>
-              <div className="item">
-                <label>Samedi</label>
-              </div>
-              <div className="item">
-                <label>Dimanche</label>
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item">
-                <span>Matin 08-12</span>
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item">
-                <span>Matin 08-12</span>
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item">
-                <span>Matin 08-12</span>
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-            </div>
-            <div className="tab_col">
-              <div className="item">
-                <span>Matin 08-12</span>
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-              <div className="item timing">
-                <input id="" type={"checkbox"} />
-              </div>
-            </div>
-          </div>
-        </table>
-        <div className="max">
-          <h3>Nombre de cours maximum à pourvoir donner par semaine</h3>
-          <input placeholder="1" type={"text"} />
-        </div>
-      </div>
-    </div>
-  </div>
-  )
-}
+import axios from "axios";
+import { useEffect, useState } from "react";
+import axiosInstance, { baseURl } from "../../utils/utils";
+import Multiselect from "multiselect-react-dropdown";
+import "../../css/loader.css";
 
-export default ProfInfo
+const ProfInfo = () => {
+  const [niveaux, setNiveaux] = useState();
+  const [matières, setMatières] = useState();
+  const [timings, setTimings] = useState();
+  const [subjects, setSubjects] = useState();
+  const [nombres, setNombres] = useState();
+  const [horaires, setHoraires] = useState();
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const days = [
+    {
+      fr: "Lundi",
+      en: "Monday",
+    },
+    {
+      fr: "Mardi",
+      en: "Tuesday",
+    },
+    {
+      fr: "Mercredi",
+      en: "Wednesday",
+    },
+    {
+      fr: "Jeudi",
+      en: "Thursday",
+    },
+    {
+      fr: "Vendredi",
+      en: "Friday",
+    },
+    {
+      fr: "Samedi",
+      en: "Saturday",
+    },
+    {
+      fr: "Dimanche",
+      en: "Sunday",
+    },
+  ];
+  const style = {
+    width: "300px",
+  };
+
+  // get niveaux
+  const getNiveaux = async () => {
+    try {
+      const response = await axios.get(`${baseURl}/niveau`);
+      console.log(response);
+      setNiveaux(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get matières
+  const getMatières = async () => {
+    try {
+      const response = await axios.get(`${baseURl}/matiere`);
+      console.log(response);
+      setMatières(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get timing
+  const getTiming = async () => {
+    try {
+      const response = await axios.get(`${baseURl}/timing-item`);
+      console.log(response);
+      setTimings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setError(false);
+      setIsLoading(true);
+      const data = {
+        matieresIds: subjects?.map((subject) => subject.id),
+        avItems: horaires,
+        max_hours_week: parseInt(nombres),
+      };
+      console.log(data);
+      const response = await axiosInstance.post(
+        `${baseURl}/auth/submit-availability`,
+        data
+      );
+      console.log(response);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.response?.data.message);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getNiveaux();
+    getMatières();
+    getTiming();
+  }, []);
+  return (
+    <div className="parent_sign_up container professor_sign_up">
+      <fieldset>
+        <legend>
+          Séléctionner les niveaux/matières/disponibilité à vouloir enseigner :
+        </legend>
+        <form
+          style={{
+            gap: "20px",
+          }}
+          onSubmit={handleSubmit}
+        >
+          <div
+            className="input_container"
+            style={{
+              height: "fit-content",
+            }}
+          >
+            <label htmlFor="Niveau">Niveau</label>
+            <Multiselect
+              options={niveaux?.map((niveau) => {
+                return { name: niveau.name, id: niveau.id };
+              })}
+              style={{
+                multiselectContainer: style,
+                searchBox: {
+                  border: "none",
+                },
+              }}
+              displayValue="name"
+            />
+          </div>
+          <div
+            className="input_container"
+            style={{
+              height: "fit-content",
+            }}
+          >
+            <label htmlFor="Matière">Matière</label>
+            <Multiselect
+              options={matières?.map((matiere) => {
+                return { name: matiere.name, id: matiere.id };
+              })}
+              onSelect={(e) => {
+                setSubjects(e);
+              }}
+              style={{
+                multiselectContainer: style,
+                searchBox: {
+                  border: "none",
+                },
+              }}
+              displayValue="name"
+            />
+          </div>
+          <div
+            className="input_container"
+            style={{
+              height: "fit-content",
+            }}
+          >
+            <label htmlFor="Matière">Jours de la semaine et Horraires</label>
+            <Multiselect
+              options={days?.flatMap((day) =>
+                (timings || []).map((timing) => ({
+                  label: `${day.en} - ${timing.start_hour} to ${timing.end_hour}`,
+                  value: {
+                    day: day.en,
+                    start_hour: timing.start_hour,
+                    end_hour: timing.end_hour,
+                  },
+                }))
+              )}
+              style={{
+                multiselectContainer: style,
+                searchBox: {
+                  border: "none",
+                },
+              }}
+              onSelect={(e) => {
+                const groupedTimings = e.reduce((acc, timing) => {
+                  const { value } = timing;
+                  const { day, start_hour, end_hour } = value;
+
+                  if (!acc[day]) {
+                    acc[day] = [];
+                  }
+
+                  acc[day].push({ start_hour, end_hour });
+
+                  return acc;
+                }, {});
+
+                // Convert the groupedTimings object into an array
+                const avItems = Object.keys(groupedTimings).map((day) => ({
+                  day,
+                  timingItems: groupedTimings[day],
+                }));
+                console.log(avItems);
+                setHoraires(avItems);
+                console.log(horaires);
+                console.log(e);
+              }}
+              displayValue="label"
+            />
+          </div>
+          <div className="input_container">
+            <label htmlFor="Matière">Nombre de cours maximum</label>
+            <input
+              type="number"
+              name="Nombre"
+              placeholder="Entrer"
+              onChange={(e) => {
+                setNombres(e.target.value);
+              }}
+            />
+          </div>
+          {error && <h5 className="form_error">{error}</h5>}
+          <button className="btn btn-primary">
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : (
+              "Valider l'inscription"
+            )}
+          </button>
+        </form>
+      </fieldset>
+    </div>
+  );
+};
+
+export default ProfInfo;
