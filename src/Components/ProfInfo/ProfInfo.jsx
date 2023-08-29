@@ -99,6 +99,7 @@ const ProfInfo = () => {
       );
       console.log(response);
       setIsLoading(false);
+      window.location.href = "/verify-email";
     } catch (error) {
       setIsLoading(false);
       setError(error.response?.data.message);

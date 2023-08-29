@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import "../css/NoResult.css";
 import { baseURl } from "../utils/utils";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../css/loader.css";
 
 const EmailConfirmation = () => {
@@ -12,7 +12,6 @@ const EmailConfirmation = () => {
   const token = params.get("token");
   const [verify, setVerify] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(token);
 
   // verify email
   const verifyEmail = async () => {
@@ -26,6 +25,7 @@ const EmailConfirmation = () => {
         setVerify(true);
         setLoading(false);
         setTimeout(() => {
+          localStorage.clear();
           window.location.href = "/login";
         }, 3000);
       } catch (error) {

@@ -38,6 +38,7 @@ import TeacherRating from "./Pages/TeacherRating";
 import EditEnfant from "./Admin/Pages/EditEnfant";
 import AdminForgotPassowrd from "./Admin/Pages/AdminForgotPassword";
 import ProfInfo from "./Components/ProfInfo/ProfInfo";
+import WaitAdmin from "./Pages/WaitAdmin";
 
 const App = () => {
   return (
@@ -55,6 +56,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <ProfInfo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wait-admin"
+            element={
+              <ProtectedRoute>
+                <WaitAdmin />
               </ProtectedRoute>
             }
           />
@@ -99,14 +108,7 @@ const App = () => {
               </LoginProtectedRoute>
             }
           />
-          <Route
-            path="/verify-email"
-            element={
-              <LoginProtectedRoute>
-                <EmailConfirmation />
-              </LoginProtectedRoute>
-            }
-          />
+          <Route path="/verify-email" element={<EmailConfirmation />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
         <Route
