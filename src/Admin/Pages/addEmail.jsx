@@ -7,11 +7,14 @@ const AddEmail = () => {
   const [recivers, setRecivers] = useState();
   const [object, setObject] = useState("");
   const [content, setContent] = useState();
-
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
   // const send model
   const sendModel = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
+      setIsLoaded(true);
       const data = {
         subject: object,
         bodyHtml: content,
@@ -19,7 +22,10 @@ const AddEmail = () => {
       };
       const response = await axiosInstance.post(`${baseURl}/mail/`, data);
       console.log(response);
+      setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -91,7 +97,13 @@ const AddEmail = () => {
                 onChange={(e) => setContent(e)}
               ></RichTextEditor>
               <div className="bottom_bar">
-                <button className="cta">Ajouter</button>
+                <button className="cta">
+                  {isLoaded
+                    ? "Chargement..."
+                    : error
+                    ? "Erreur"
+                    : "Ajouter"}
+                </button>
               </div>
             </form>
           </div>

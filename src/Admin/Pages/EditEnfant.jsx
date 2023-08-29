@@ -9,6 +9,8 @@ const EditEnfant = () => {
   const [inputsDisabled, setInputsDisabled] = useState(true);
   const [enfantInfo, setEnfantInfo] = useState({});
   const [toggleSubmit, setToggleSubmit] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   const { id } = useParams();
   console.log(id);
@@ -34,13 +36,19 @@ const EditEnfant = () => {
       email: enfantInfo?.email,
     };
     try {
+      setError(false);
+      setIsLoaded(true);
       const response = await axiosInstance.patch(
         `${baseURl}/enfant/admin/${id}`,
         data
       );
       console.log(response);
+      setIsLoaded(false);
+      setToggleSubmit(false);
       getEnfantInfo();
     } catch (error) {
+      setIsLoaded(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -126,7 +134,7 @@ const EditEnfant = () => {
                 marginTop: "20px",
               }}
             >
-              Enregistrer
+              {isLoaded ? "Chargement..." : error ? "Erreur" : "Enregistrer"}
             </button>
           )}
         </form>

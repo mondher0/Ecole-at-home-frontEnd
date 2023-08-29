@@ -94,9 +94,6 @@ const Cours = () => {
   };
   // Pagination handlers
   const goToPreviousPage = () => {
-    if (currentPage === pages / currentPage) {
-      return;
-    }
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
@@ -158,19 +155,28 @@ const Cours = () => {
         <h2 className="admin_section_title tabs">
           <span
             className={tab === "Professeurs" ? "active" : ""}
-            onClick={() => setTab("Professeurs")}
+            onClick={() => {
+              setTab("Professeurs");
+              setCurrentPage(1);
+            }}
           >
             Professeurs
           </span>
           <span
             className={tab === "Eleve" ? "active" : ""}
-            onClick={() => setTab("Eleve")}
+            onClick={() => {
+              setTab("Eleve");
+              setCurrentPage(1);
+            }}
           >
             Elèves
           </span>
           <span
             className={tab === "Parent" ? "active" : ""}
-            onClick={() => setTab("Parent")}
+            onClick={() => {
+              setTab("Parent");
+              setCurrentPage(1);
+            }}
           >
             Parents
           </span>
@@ -273,86 +279,148 @@ const Cours = () => {
           </div>
         </div>
       </div>
-
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered">
-          <thead>
-            <tr>
-              {tab === "Eleve"
-                ? columnsElève.map((column) => <th key={column}>{column}</th>)
-                : tab === "Parent"
-                ? columnsParent.map((column) => <th key={column}>{column}</th>)
-                : columnsProfesseur.map((column) => (
-                    <th key={column}>{column}</th>
-                  ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tab === "Professeurs"
-              ? cours.map((course) => (
-                  <tr key={course.id}>
-                    <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                      {course.id}
-                    </td>
-                    <td>
-                      {course.abonnement.professeur.user.prenom +
-                        " " +
-                        course.abonnement.professeur.user.nom}
-                    </td>
-                    <td>
-                      {course.abonnement.day}{" "}
-                      {course.abonnement.timing.start_hour +
-                        "-" +
-                        course.abonnement.timing.end_hour}
-                    </td>
-                    <td>{course.abonnement.matiere.name}</td>
-                    <td>{course.abonnement.matiere.niveau.name}</td>
-                    <td>{course.abonnement?.id}</td>
-                    <td>
-                      {course.abonnement.abonnes?.map((abonne) => (
-                        <span
-                          key={abonne.id}
-                          style={{
-                            display: "block",
-                          }}
-                        >
-                          {abonne.email}
-                        </span>
-                      ))}
-                    </td>
-                    <td className="">
-                      <div>
-                        <button className="btn btn-danger">
-                          <img
-                            src="../assets/admin_edit.svg"
-                            onClick={() =>
-                              setShowEtat({
-                                id: course.id,
-                                profName:
-                                  course.abonnement.professeur.user.prenom +
-                                  " " +
-                                  course.abonnement.professeur.user.nom,
-                                timing:
-                                  course.abonnement.timing.start_hour +
-                                  "-" +
-                                  course.abonnement.timing.end_hour,
-                                etat: course.status,
-                              })
-                            }
-                          />
-                        </button>
-                        <span>{course.status}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              : tab === "Eleve"
-              ? cours.map((course) => {
-                  return course.abonnement?.abonnes?.length > 0
-                    ? course.abonnement?.abonnes?.map(
-                        (abonne) => (
-                          console.log(abonne),
-                          (
+      {isLoading ? (
+        <div className="spinner-container">
+          <div className="loading-spinner"></div>
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                {tab === "Eleve"
+                  ? columnsElève.map((column) => <th key={column}>{column}</th>)
+                  : tab === "Parent"
+                  ? columnsParent.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))
+                  : columnsProfesseur.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tab === "Professeurs"
+                ? cours.map((course) => (
+                    <tr key={course.id}>
+                      <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                        {course.id}
+                      </td>
+                      <td>
+                        {course.abonnement.professeur.user.prenom +
+                          " " +
+                          course.abonnement.professeur.user.nom}
+                      </td>
+                      <td>
+                        {course.abonnement.day}{" "}
+                        {course.abonnement.timing.start_hour +
+                          "-" +
+                          course.abonnement.timing.end_hour}
+                      </td>
+                      <td>{course.abonnement.matiere.name}</td>
+                      <td>{course.abonnement.matiere.niveau.name}</td>
+                      <td>{course.abonnement?.id}</td>
+                      <td>
+                        {course.abonnement.abonnes?.map((abonne) => (
+                          <span
+                            key={abonne.id}
+                            style={{
+                              display: "block",
+                            }}
+                          >
+                            {abonne.email}
+                          </span>
+                        ))}
+                      </td>
+                      <td className="">
+                        <div>
+                          <button className="btn btn-danger">
+                            <img
+                              src="../assets/admin_edit.svg"
+                              onClick={() =>
+                                setShowEtat({
+                                  id: course.id,
+                                  profName:
+                                    course.abonnement.professeur.user.prenom +
+                                    " " +
+                                    course.abonnement.professeur.user.nom,
+                                  timing:
+                                    course.abonnement.timing.start_hour +
+                                    "-" +
+                                    course.abonnement.timing.end_hour,
+                                  etat: course.status,
+                                })
+                              }
+                            />
+                          </button>
+                          <span>{course.status}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                : tab === "Eleve"
+                ? cours.map((course) => {
+                    return course.abonnement?.abonnes?.length > 0
+                      ? course.abonnement?.abonnes?.map(
+                          (abonne) => (
+                            console.log(abonne),
+                            (
+                              <tr key={course.id}>
+                                <td
+                                  onClick={() => Navigate(`/admin/${tab}/edit`)}
+                                >
+                                  {course.id}
+                                </td>
+                                <td>
+                                  {course.abonnement.professeur.user.prenom +
+                                    " " +
+                                    course.abonnement.professeur.user.nom}
+                                </td>
+                                <td>
+                                  {course.abonnement.day}{" "}
+                                  {course.abonnement.timing.start_hour +
+                                    "-" +
+                                    course.abonnement.timing.end_hour}
+                                </td>
+                                <td>{course.abonnement.matiere.name}</td>
+                                <td>{course.abonnement.matiere.niveau.name}</td>
+                                <td>{course.abonnement.id}</td>
+                                <td>{abonne.nom + " " + abonne.prenom}</td>
+                                <td>{abonne.email}</td>
+                                <td className="">
+                                  <div>
+                                    <button className="btn btn-danger">
+                                      <img
+                                        src="../assets/admin_edit.svg"
+                                        onClick={() =>
+                                          setShowEtat({
+                                            id: course.id,
+                                            profName:
+                                              course.abonnement.professeur.user
+                                                .prenom +
+                                              " " +
+                                              course.abonnement.professeur.user
+                                                .nom,
+                                            timing:
+                                              course.abonnement.timing
+                                                .start_hour +
+                                              "-" +
+                                              course.abonnement.timing.end_hour,
+                                            etat: course.status,
+                                          })
+                                        }
+                                      />
+                                    </button>
+                                    <span>{course.status}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          )
+                        )
+                      : (console.log("no abonne"),
+                        (
+                          <>
                             <tr key={course.id}>
                               <td
                                 onClick={() => Navigate(`/admin/${tab}/edit`)}
@@ -373,8 +441,8 @@ const Cours = () => {
                               <td>{course.abonnement.matiere.name}</td>
                               <td>{course.abonnement.matiere.niveau.name}</td>
                               <td>{course.abonnement.id}</td>
-                              <td>{abonne.nom + " " + abonne.prenom}</td>
-                              <td>{abonne.email}</td>
+                              <td>-</td>
+                              <td>-</td>
                               <td className="">
                                 <div>
                                   <button className="btn btn-danger">
@@ -403,203 +471,148 @@ const Cours = () => {
                                 </div>
                               </td>
                             </tr>
+                          </>
+                        ));
+                  })
+                : cours.map((row) => {
+                    return (
+                      row?.abonnement?.enfants?.length > 0 &&
+                      row?.abonnement?.enfants?.map((enfant) => {
+                        console.log("helloopoff");
+
+                        return (
+                          enfant.deleted === false && (
+                            <tr key={row.id}>
+                              <td>{row.id}</td>
+                              <td>{row?.abonnement?.id}</td>
+                              <td>
+                                {row?.abonnement?.professeur?.user?.nom}{" "}
+                                {row?.abonnement?.professeur?.user?.prenom}
+                              </td>
+                              <td>
+                                {row?.abonnement?.day}
+                                {row?.abonnement?.timing?.start_hour} -{" "}
+                                {row?.abonnement?.timing?.end_hour}
+                              </td>
+                              <td>{row?.abonnement?.matiere.niveau.name}</td>
+                              <td>{row?.abonnement?.matiere.name}</td>
+                              <td>
+                                {enfant?.parent?.user?.nom}{" "}
+                                {enfant?.parent?.user?.prenom}
+                              </td>
+                              <td>
+                                {enfant?.nom} {enfant?.prenom}
+                              </td>
+                              <td className={row.etat}>
+                                <div>
+                                  <button className="btn btn-danger">
+                                    <img
+                                      src="../assets/admin_edit.svg"
+                                      onClick={() =>
+                                        setShowEtat({
+                                          id: row.id,
+                                          profName:
+                                            row?.abonnement?.professeur?.user
+                                              ?.nom +
+                                            " " +
+                                            row?.abonnement?.professeur?.user
+                                              ?.prenom,
+                                          etat: row.status,
+                                          timing:
+                                            row.abonnement.day +
+                                            " " +
+                                            row.abonnement?.timing.start_hour +
+                                            " - " +
+                                            row.abonnement?.timing.end_hour,
+                                        })
+                                      }
+                                    />
+                                  </button>
+                                  <span>{row?.status}</span>
+                                </div>
+                              </td>
+                            </tr>
                           )
-                        )
-                      )
-                    : (console.log("no abonne"),
-                      (
-                        <>
-                          <tr key={course.id}>
-                            <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
-                              {course.id}
-                            </td>
-                            <td>
-                              {course.abonnement.professeur.user.prenom +
-                                " " +
-                                course.abonnement.professeur.user.nom}
-                            </td>
-                            <td>
-                              {course.abonnement.day}{" "}
-                              {course.abonnement.timing.start_hour +
-                                "-" +
-                                course.abonnement.timing.end_hour}
-                            </td>
-                            <td>{course.abonnement.matiere.name}</td>
-                            <td>{course.abonnement.matiere.niveau.name}</td>
-                            <td>{course.abonnement.id}</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td className="">
-                              <div>
-                                <button className="btn btn-danger">
-                                  <img
-                                    src="../assets/admin_edit.svg"
-                                    onClick={() =>
-                                      setShowEtat({
-                                        id: course.id,
-                                        profName:
-                                          course.abonnement.professeur.user
-                                            .prenom +
-                                          " " +
-                                          course.abonnement.professeur.user.nom,
-                                        timing:
-                                          course.abonnement.timing.start_hour +
-                                          "-" +
-                                          course.abonnement.timing.end_hour,
-                                        etat: course.status,
-                                      })
-                                    }
-                                  />
-                                </button>
-                                <span>{course.status}</span>
-                              </div>
-                            </td>
-                          </tr>
-                        </>
-                      ));
-                })
-              : cours.map((row) => {
-                  return (
-                    row?.abonnement?.enfants?.length > 0 &&
-                    row?.abonnement?.enfants?.map((enfant) => {
-                      console.log("helloopoff");
+                        );
+                      })
+                    );
+                  })}
+            </tbody>
+          </table>
 
-                      return (
-                        enfant.deleted === false && (
-                          <tr key={row.id}>
-                            <td>{row.id}</td>
-                            <td>{row?.abonnement?.id}</td>
-                            <td>
-                              {row?.abonnement?.professeur?.user?.nom}{" "}
-                              {row?.abonnement?.professeur?.user?.prenom}
-                            </td>
-                            <td>
-                              {row?.abonnement?.day}
-                              {row?.abonnement?.timing?.start_hour} -{" "}
-                              {row?.abonnement?.timing?.end_hour}
-                            </td>
-                            <td>{row?.abonnement?.matiere.niveau.name}</td>
-                            <td>{row?.abonnement?.matiere.name}</td>
-                            <td>
-                              {enfant?.parent?.user?.nom}{" "}
-                              {enfant?.parent?.user?.prenom}
-                            </td>
-                            <td>
-                              {enfant?.nom} {enfant?.prenom}
-                            </td>
-                            <td className={row.etat}>
-                              <div>
-                                <button className="btn btn-danger">
-                                  <img
-                                    src="../assets/admin_edit.svg"
-                                    onClick={() =>
-                                      setShowEtat({
-                                        id: row.id,
-                                        profName:
-                                          row?.abonnement?.professeur?.user
-                                            ?.nom +
-                                          " " +
-                                          row?.abonnement?.professeur?.user
-                                            ?.prenom,
-                                        etat: row.status,
-                                        timing:
-                                          row.abonnement.day +
-                                          " " +
-                                          row.abonnement?.timing.start_hour +
-                                          " - " +
-                                          row.abonnement?.timing.end_hour,
-                                      })
-                                    }
-                                  />
-                                </button>
-                                <span>{row?.status}</span>
-                              </div>
-                            </td>
-                          </tr>
-                        )
-                      );
-                    })
-                  );
-                })}
-          </tbody>
-        </table>
-        {isLoading && (
-          <div className="spinner-container">
-            <div className="loading-spinner"></div>
-          </div>
-        )}
-        {isError && (
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-            }}
-          >
-            Erreur de chargement
-          </h1>
-        )}
-        {isEmpy && (
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-            }}
-          >
-            {tab === "Professeurs"
-              ? "Aucun professeur trouvé"
-              : tab === "Eleve"
-              ? "Aucun élève trouvé"
-              : "Aucun parent trouvé"}
-          </h1>
-        )}
+          {isError && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              Erreur de chargement
+            </h1>
+          )}
+          {isEmpy && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              {tab === "Professeurs"
+                ? "Aucun professeur trouvé"
+                : tab === "Eleve"
+                ? "Aucun élève trouvé"
+                : "Aucun parent trouvé"}
+            </h1>
+          )}
 
-        <div className="table_pagination_bar">
-          <div
-            className="pagination_btns"
+          <div className="table_pagination_bar">
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+          <ul
+            className="table_resume_bar"
             style={{
-              gap: "10px",
+              marginTop: "20px",
             }}
           >
-            <button
-              className="pagination_arrow"
-              disabled={currentPage === 1}
-              onClick={goToPreviousPage}
-            >
-              <img
-                src="../assets/arrow.svg"
-                style={{
-                  height: "20px",
-                }}
-              />
-            </button>
-            <button className="pagination_btn selected">{currentPage}</button>
-            <button
-              className="pagination_arrow right"
-              onClick={goToNextPage}
-              // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
-            >
-              <img
-                src="../assets/arrow.svg"
-                style={{
-                  height: "20px",
-                }}
-              />
-            </button>
-          </div>
+            <li style={{ color: "#0078D4" }}>Professeur:</li>
+            <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
+            <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
+            <li style={{ color: "#4DC643" }}>Validé: 3</li>
+            <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
+          </ul>
         </div>
-        <ul
-          className="table_resume_bar"
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
-        </ul>
-      </div>
+      )}
 
       {showEtat && (
         <div className="pop_up_container">

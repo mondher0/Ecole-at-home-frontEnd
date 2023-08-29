@@ -44,43 +44,19 @@ const Settings = () => {
   const [modeProfil, setModeProfil] = useState("");
   const [modePassword, setModePassword] = useState("");
 
-  const columns = ["ID", "Modérateur", "Email", "Téléphone", "Profil", "Admin"];
+  const [loadingDetails, setLoadingDetails] = useState(false);
+  const [loadingEnrepris, setLoadingEnrepris] = useState(false);
+  const [errorDetails, setErrorDetails] = useState(false);
+  const [errorEnrepris, setErrorEnrepris] = useState(false);
+  const [loadingConfig, setLoadingConfig] = useState(false);
+  const [errorConfig, setErrorConfig] = useState(false);
 
-  const data = [
-    {
-      id: 1,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-    },
-    {
-      id: 2,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-    },
-    {
-      id: 3,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-    },
-    {
-      id: 4,
-      professeur: "Nicholas Patrick",
-      dateInscription: "12-12-2022",
-      email: "nicholask@gmail.com",
-      telephone: "123-456-7890",
-      diplome: "Bachelor of Science",
-    },
-    // More data objects here
-  ];
+  const [modsLoading, setModsLoading] = useState(false);
+  const [modsError, setModsError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const columns = ["ID", "Modérateur", "Email", "Téléphone", "Profil", "Admin"];
 
   // get user info
   const getUserInfo = async () => {
@@ -100,6 +76,8 @@ const Settings = () => {
   const updateAdmin = async (e) => {
     e.preventDefault();
     try {
+      setErrorDetails(false);
+      setLoadingDetails(true);
       const data = {
         nom: nom,
         prenom: prenom,
@@ -114,7 +92,11 @@ const Settings = () => {
         data
       );
       console.log(response);
+      setLoadingDetails(false);
+      setToggleSubmit(false);
     } catch (error) {
+      setLoadingDetails(false);
+      setErrorDetails(true);
       console.log(error);
     }
   };
@@ -123,6 +105,8 @@ const Settings = () => {
   const updateEntreprise = async (e) => {
     e.preventDefault();
     try {
+      setErrorEnrepris(false);
+      setLoadingEnrepris(true);
       const data = {
         siret: siret,
         entrepriseName: entrepriseName,
@@ -136,7 +120,11 @@ const Settings = () => {
         data
       );
       console.log(response);
+      setLoadingEnrepris(false);
+      setToggleSubmit2(false);
     } catch (error) {
+      setLoadingEnrepris(false);
+      setErrorEnrepris(true);
       console.log(error);
     }
   };
@@ -145,13 +133,15 @@ const Settings = () => {
   const updateConfig = async (e) => {
     e.preventDefault();
     try {
+      setErrorConfig(false);
+      setLoadingConfig(true);
       const data = {
-        pricePerHour: pricePerHour,
-        dureeCours: dureeCours,
-        maxEleve: maxEleve,
-        pourcentagePlatforme: pourcentagePlatforme,
-        tva: tva,
-        dureeAvantAnnulation: dureeAvantAnnulation,
+        pricePerHour: parseInt(pricePerHour),
+        dureeCours: parseInt(dureeCours),
+        maxEleve: parseInt(maxEleve),
+        pourcentagePlatforme: parseInt(pourcentagePlatforme),
+        tva: parseInt(tva),
+        dureeAvantAnnulation: parseInt(dureeAvantAnnulation),
         enregistrement: enregistrement,
       };
       console.log(data);
@@ -160,7 +150,11 @@ const Settings = () => {
         data
       );
       console.log(response);
+      setLoadingConfig(false);
+      setToggleSubmit3(false);
     } catch (error) {
+      setLoadingConfig(false);
+      setErrorConfig(true);
       console.log(error);
     }
   };
@@ -190,10 +184,15 @@ const Settings = () => {
   // get mods
   const getMods = async () => {
     try {
+      setModsError(false);
+      setModsLoading(true);
       const response = await axiosInstance.get(`${baseURl}/admin`);
       console.log(response);
       setMods(response.data.admins);
+      setModsLoading(false);
     } catch (error) {
+      setModsLoading(false);
+      setModsError(true);
       console.log(error);
     }
   };
@@ -416,7 +415,11 @@ const Settings = () => {
                     margin: "12px auto",
                   }}
                 >
-                  Enregistrer
+                  {loadingDetails
+                    ? "Chargement..."
+                    : errorDetails
+                    ? "Erreur"
+                    : "Enregistrer"}
                 </button>
               )}
             </form>
@@ -511,7 +514,11 @@ const Settings = () => {
                     margin: "12px auto",
                   }}
                 >
-                  {pageAction2}
+                  {loadingEnrepris
+                    ? "Chargement..."
+                    : errorEnrepris
+                    ? "Erreur"
+                    : "Enregistrer"}
                 </button>
               )}
             </form>
@@ -591,7 +598,6 @@ const Settings = () => {
           </div>
         </div>
       )}
-
       {showAddModer && (
         <div className="pop_up_container">
           <div className="pop_up edit etat">
@@ -900,7 +906,11 @@ const Settings = () => {
             </div>
             {toggleSubmit3 && (
               <button className="cta green" onClick={handleModifierClick3}>
-                Enregistrer
+                {loadingConfig
+                  ? "Chargement..."
+                  : errorConfig
+                  ? "Erreur"
+                  : "Enregistrer"}
               </button>
             )}
           </form>

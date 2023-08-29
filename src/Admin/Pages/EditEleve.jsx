@@ -17,6 +17,8 @@ const EditEleve = () => {
   const [adresse, setAdresse] = useState("");
   const [codePostale, setCodePostale] = useState("");
   const [ville, setVille] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   console.log(id);
 
@@ -41,6 +43,8 @@ const EditEleve = () => {
   const updateEleve = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
+      setIsLoaded(true);
       const data = {
         nom: nom,
         prenom: prenom,
@@ -55,7 +59,12 @@ const EditEleve = () => {
         data
       );
       console.log(response);
+      setIsLoaded(false);
+      setToggleSubmit(false);
+      getEleveInfo();
     } catch (error) {
+      setIsLoaded(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -79,7 +88,9 @@ const EditEleve = () => {
       <h3 className="current_page">
         <span>Elèves</span>
         <span>{">"}</span>
-        <span>Nicholas Patrick</span>
+        <span>
+          {nom} {prenom}
+        </span>
       </h3>
       <form onSubmit={updateEleve}>
         <div className="admin_inputs_cards">
@@ -165,7 +176,7 @@ const EditEleve = () => {
         </div>
         {toggleSubmit && (
           <button className="cta green" onClick={handleModifierClick}>
-            Enregistrer
+            {isLoaded ? "Chargement..." : error ? "Erreur" : "Enregistrer"}
           </button>
         )}
       </form>

@@ -17,6 +17,8 @@ const Abonnements = () => {
   const [showDeleteNiveauPopup, setShowDeleteNiveauPopup] = useState(false);
   const [idNiveauMatier, setIdNiveauMatier] = useState("");
   const [abonnementInfo, setAbonnementInfo] = useState();
+  const [abonnementInfoParent, setAbonnementInfoParent] = useState();
+  const [abonnementInfoEleve, setAbonnementInfoEleve] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [profNom, setProfNom] = useState();
@@ -36,9 +38,12 @@ const Abonnements = () => {
   const [subjects, setSubjects] = useState([]);
   const [niveauId, setNiveauId] = useState("");
   const [currentPageNiveau, setCurrentPageNiveau] = useState(1);
+  const [pagesNiveaux, setPagesNiveaux] = useState(1);
   const [levelName, setLevelName] = useState("");
   const [subjectName, setSubjectName] = useState("");
   const [showEditMatiere, setShowEditMatiere] = useState(false);
+  const [niveauMatiereLoading, setNiveauMatiereLoading] = useState(false);
+  const [niveauMatiereError, setNiveauMatiereError] = useState(false);
   let Navigate = useNavigate();
 
   // get levels
@@ -94,6 +99,68 @@ const Abonnements = () => {
     }
   };
 
+  // get abonnment info parent
+  const getAbonnementInfoParent = async () => {
+    try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
+      const response = await axiosInstance.get(
+        `${baseURl}/abonnement/admin/search?page=${currentPage}&pageSize=5&${
+          etat2 ? `status=${etat2}` : ""
+        }${profNom ? `&professeurName=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          eleveNom ? `&abonneName=${eleveNom}` : ""
+        }
+        `
+      );
+      if (response?.data?.newResults?.length === 0) {
+        setIsEmpy(true);
+      }
+      setAbonnementInfoParent(response?.data.newResults);
+      setPages(response?.data?.count);
+      console.log(abonnementInfo);
+      setIsLoading(false);
+      console.log(response);
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
+      console.log(error);
+    }
+  };
+
+  // get abonnment info eleves
+  const getAbonnementInfoEleve = async () => {
+    try {
+      setIsEmpy(false);
+      setIsError(false);
+      setIsLoading(true);
+      const response = await axiosInstance.get(
+        `${baseURl}/abonnement/admin/search?page=${currentPage}&pageSize=5&${
+          etat2 ? `status=${etat2}` : ""
+        }${profNom ? `&professeurName=${profNom}` : ""}${
+          startDate ? `&startDate=${startDate}` : ""
+        }${endDate ? `&endDate=${endDate}` : ""}${
+          eleveNom ? `&abonneName=${eleveNom}` : ""
+        }
+        `
+      );
+      if (response?.data?.newResults?.length === 0) {
+        setIsEmpy(true);
+      }
+      setAbonnementInfoEleve(response?.data.newResults);
+      setPages(response?.data?.count);
+      console.log(abonnementInfo);
+      setIsLoading(false);
+      console.log(response);
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
+      console.log(error);
+    }
+  };
+
   // get niveaux et matieres
   const getNiveauxEtMatieres = async () => {
     try {
@@ -110,6 +177,7 @@ const Abonnements = () => {
       );
       console.log(response);
       setNiveaux(response?.data?.niveaux);
+      setPagesNiveaux(response?.data?.count);
       if (response?.data?.length === 0) {
         setIsEmpy(true);
       }
@@ -124,6 +192,8 @@ const Abonnements = () => {
   // edit matiere
   const editMatiere = async (id) => {
     try {
+      setNiveauMatiereError(false);
+      setNiveauMatiereLoading(true);
       const data = {
         name: matiere,
         niveauId: id.id,
@@ -135,8 +205,11 @@ const Abonnements = () => {
         data
       );
       console.log(response);
+      setNiveauMatiereLoading(false);
       getNiveauxEtMatieres();
     } catch (error) {
+      setNiveauMatiereLoading(false);
+      setNiveauMatiereError(true);
       console.log(error);
     }
   };
@@ -203,6 +276,8 @@ const Abonnements = () => {
   // add niveau
   const addNiveau = async () => {
     try {
+      setNiveauMatiereError(false);
+      setNiveauMatiereLoading(true);
       const data = {
         name: niveau,
       };
@@ -210,7 +285,10 @@ const Abonnements = () => {
       console.log(response);
       getNiveauxEtMatieres();
       setShowAddLevel(false);
+      setNiveauMatiereLoading(false);
     } catch (error) {
+      setNiveauMatiereLoading(false);
+      setNiveauMatiereError(true);
       console.log(error);
     }
   };
@@ -218,6 +296,8 @@ const Abonnements = () => {
   // add matiere
   const addMatiere = async () => {
     try {
+      setNiveauMatiereError(false);
+      setNiveauMatiereLoading(true);
       const data = {
         name: matiere,
         niveauId: niveauId,
@@ -225,17 +305,17 @@ const Abonnements = () => {
       console.log(data);
       const response = await axiosInstance.post(`${baseURl}/matiere`, data);
       console.log(response);
+      setNiveauMatiereLoading(false);
       getNiveauxEtMatieres();
     } catch (error) {
+      setNiveauMatiereLoading(false);
+      setNiveauMatiereError(true);
       console.log(error);
     }
   };
 
   // Pagination handlers
   const goToPreviousPage = () => {
-    if (currentPage === pages / currentPage) {
-      return;
-    }
     if (tab === "Niveaux&Matières") {
       setCurrentPageNiveau((prevPage) => prevPage - 1);
     } else {
@@ -249,6 +329,9 @@ const Abonnements = () => {
       return;
     }
     if (tab === "Niveaux&Matières") {
+      if (currentPageNiveau === Math.ceil(pagesNiveaux / 5)) {
+        return;
+      }
       setCurrentPageNiveau((prevPage) => prevPage + 1);
     } else {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -260,8 +343,15 @@ const Abonnements = () => {
       getMatiers();
       getNiveauxEtMatieres();
       getLevels();
-    } else {
+    }
+    if (tab === "Professeurs") {
       getAbonnementInfo();
+    }
+    if (tab === "Eleve") {
+      getAbonnementInfoEleve();
+    }
+    if (tab === "Parent") {
+      getAbonnementInfoParent();
     }
   }, [
     tab,
@@ -323,6 +413,7 @@ const Abonnements = () => {
             onClick={() => {
               setTab("Professeurs");
               setCurrentPage(1);
+              console.log(tab);
             }}
           >
             Professeurs
@@ -332,6 +423,7 @@ const Abonnements = () => {
             onClick={() => {
               setTab("Niveaux&Matières");
               setCurrentPage(1);
+              console.log(tab);
             }}
           >
             Niveaux&Matières
@@ -341,6 +433,7 @@ const Abonnements = () => {
             onClick={() => {
               setTab("Eleve");
               setCurrentPage(1);
+              console.log(tab);
             }}
           >
             Elèves
@@ -350,6 +443,7 @@ const Abonnements = () => {
             onClick={() => {
               setTab("Parent");
               setCurrentPage(1);
+              console.log(tab);
             }}
           >
             Parents
@@ -503,27 +597,33 @@ const Abonnements = () => {
           </button>
         </div>
       )}
-
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered">
-          <thead>
-            <tr>
-              {tab === "Eleve"
-                ? columnsElève.map((column) => <th key={column}>{column}</th>)
-                : tab === "Parent"
-                ? columnsParent.map((column) => <th key={column}>{column}</th>)
-                : tab === "Professeurs"
-                ? columnsProfesseur.map((column) => (
-                    <th key={column}>{column}</th>
-                  ))
-                : columnsNiveauMatière.map((column) => (
-                    <th key={column}>{column}</th>
-                  ))}
-            </tr>
-          </thead>
-          <tbody>
-            {tab === "Professeurs"
-              ? abonnementInfo?.map((abonnement) => {
+      {isLoading ? (
+        <div className="spinner-container">
+          <div className="loading-spinner"></div>
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                {tab === "Eleve"
+                  ? columnsElève.map((column) => <th key={column}>{column}</th>)
+                  : tab === "Parent"
+                  ? columnsParent.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))
+                  : tab === "Professeurs"
+                  ? columnsProfesseur.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))
+                  : columnsNiveauMatière.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tab === "Professeurs" &&
+                abonnementInfo?.map((abonnement) => {
                   return (
                     <tr key={abonnement.id}>
                       <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
@@ -632,9 +732,10 @@ const Abonnements = () => {
                       </td>
                     </tr>
                   );
-                })
-              : tab === "Niveaux&Matières"
-              ? niveaux.map((row) => {
+                })}
+
+              {tab === "Niveaux&Matières" &&
+                niveaux.map((row) => {
                   const { createdAt } = row;
                   const dateObject = new Date(createdAt);
                   const year = dateObject.getUTCFullYear();
@@ -644,7 +745,6 @@ const Abonnements = () => {
                   const formattedDate = `${year}-${month
                     .toString()
                     .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-
                   return row.matieres.length > 0 ? (
                     row.matieres.map((matiere) => {
                       return (
@@ -705,9 +805,9 @@ const Abonnements = () => {
                       </td>
                     </tr>
                   );
-                })
-              : tab === "Eleve"
-              ? abonnementInfo.map((abonnement) => {
+                })}
+              {tab === "Eleve" &&
+                abonnementInfoEleve?.map((abonnement) => {
                   return abonnement?.abonnes?.length > 0
                     ? abonnement.abonnes.map((abonne) => {
                         console.log(abonne.role);
@@ -810,8 +910,10 @@ const Abonnements = () => {
                           </tr>
                         </>
                       ));
-                })
-              : abonnementInfo.map((row) => {
+                })}
+              {tab === "Parent" &&
+                abonnementInfoParent?.map((row) => {
+                  console.log(row);
                   return (
                     row?.enfants?.length > 0 &&
                     row?.enfants?.map((enfant) => {
@@ -871,126 +973,128 @@ const Abonnements = () => {
                     })
                   );
                 })}
-          </tbody>
-        </table>
-        {isLoading && (
-          <div className="spinner-container">
-            <div className="loading-spinner"></div>
-          </div>
-        )}
-        {isError && (
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-            }}
-          >
-            Erreur de chargement
-          </h1>
-        )}
+            </tbody>
+          </table>
+          {isLoading && (
+            <div className="spinner-container">
+              <div className="loading-spinner"></div>
+            </div>
+          )}
+          {isError && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              Erreur de chargement
+            </h1>
+          )}
 
-        {isEmpy && (
-          <h1
+          {isEmpy && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              {tab === "Professeurs"
+                ? "Aucun professeur trouvé"
+                : tab === "Niveaux&Matières"
+                ? "Aucun niveau/matière trouvé"
+                : tab === "Eleve"
+                ? "Aucun élève trouvé"
+                : "Aucun parent trouvé"}
+            </h1>
+          )}
+          {tab === "Niveaux&Matières" ? (
+            <div className="table_pagination_bar">
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
+              >
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPageNiveau === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPageNiveau}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="table_pagination_bar">
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
+              >
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPage === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPage}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                  // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+          )}
+          <ul
+            className="table_resume_bar"
             style={{
-              textAlign: "center",
-              fontSize: "25px",
+              marginTop: "20px",
             }}
           >
-            {tab === "Professeurs"
-              ? "Aucun professeur trouvé"
-              : tab === "Niveaux&Matières"
-              ? "Aucun niveau/matière trouvé"
-              : tab === "Eleve"
-              ? "Aucun élève trouvé"
-              : "Aucun parent trouvé"}
-          </h1>
-        )}
-        {tab === "Niveaux&Matières" ? (
-          <div className="table_pagination_bar">
-            <div
-              className="pagination_btns"
-              style={{
-                gap: "10px",
-              }}
-            >
-              <button
-                className="pagination_arrow"
-                disabled={currentPageNiveau === 1}
-                onClick={goToPreviousPage}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">
-                {currentPageNiveau}
-              </button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="table_pagination_bar">
-            <div
-              className="pagination_btns"
-              style={{
-                gap: "10px",
-              }}
-            >
-              <button
-                className="pagination_arrow"
-                disabled={currentPage === 1}
-                onClick={goToPreviousPage}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">{currentPage}</button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        )}
-        <ul
-          className="table_resume_bar"
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          <li style={{ color: "#0078D4" }}>Professeur:</li>
-          <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-          <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-          <li style={{ color: "#4DC643" }}>Validé: 3</li>
-          <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
-        </ul>
-      </div>
+            <li style={{ color: "#0078D4" }}>Professeur:</li>
+            <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
+            <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
+            <li style={{ color: "#4DC643" }}>Validé: 3</li>
+            <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
+          </ul>
+        </div>
+      )}
 
       {showEtatEn && (
         <div className="pop_up_container">
@@ -1152,7 +1256,11 @@ const Abonnements = () => {
                 addNiveau();
               }}
             >
-              Ajouter
+              {niveauMatiereLoading
+                ? "Chargement..."
+                : niveauMatiereError
+                ? "Erreur"
+                : "Ajouter"}
             </button>
             <img
               className="hide_btn"
@@ -1215,7 +1323,11 @@ const Abonnements = () => {
                 setShowAddMatiere(false);
               }}
             >
-              Ajouter
+              {niveauMatiereLoading
+                ? "Chargement..."
+                : niveauMatiereError
+                ? "Erreur"
+                : "Ajouter"}
             </button>
             <img
               className="hide_btn"
@@ -1260,7 +1372,11 @@ const Abonnements = () => {
                 setShowEditMatiere(false);
               }}
             >
-              Modifier
+              {niveauMatiereLoading
+                ? "Chargement..."
+                : niveauMatiereError
+                ? "Erreur"
+                : "Modifier"}
             </button>
             <img
               className="hide_btn"

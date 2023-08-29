@@ -734,7 +734,9 @@ const EleveParent = () => {
             <div className="edit_etat delete">
               <p className="delete_text">
                 Etes vous sûr de vouloir supprimer
-                <span>
+                <span style={{
+                  marginLeft: "5px",
+                }}>
                   {showDelete.nom} {showDelete.prenom}
                 </span>
                 ?

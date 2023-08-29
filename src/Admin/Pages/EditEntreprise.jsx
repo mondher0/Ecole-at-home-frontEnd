@@ -14,6 +14,8 @@ const EditEntreprise = () => {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const { id } = useParams();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   // get prof info
   const getProfInfo = async () => {
@@ -33,6 +35,8 @@ const EditEntreprise = () => {
   const updateProfInfo = async (e) => {
     e.preventDefault();
     try {
+      setError(null);
+      setIsLoaded(true);
       const data = {
         siret: profInfo.siret,
         nomEntreprise: profInfo.nomEntreprise,
@@ -49,7 +53,11 @@ const EditEntreprise = () => {
         data
       );
       console.log(response);
+      setIsLoaded(false);
+      setToggleSubmit(false);
     } catch (error) {
+      setError(true);
+      setIsLoaded(false);
       console.log(error);
     }
   };
@@ -235,7 +243,7 @@ const EditEntreprise = () => {
         </div>
         {toggleSubmit && (
           <button className="cta green" onClick={handleModifierClick}>
-            Enregistrer
+            {isLoaded ? "Chargement..." : error ? "Erreur" : "Enregistrer"}
           </button>
         )}
       </form>

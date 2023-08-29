@@ -12,6 +12,8 @@ const EditParent = () => {
   const [parentInfo, setParentInfo] = useState({});
   const [toggleSubmit, setToggleSubmit] = useState(false);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   const { id } = useParams();
   console.log(id);
@@ -54,13 +56,19 @@ const EditParent = () => {
       ville: parentInfo?.ville,
     };
     try {
+      setError(false);
+      setIsLoaded(true);
       const response = await axiosInstance.patch(
         `${baseURl}/parent/admin/${id}`,
         data
       );
       console.log(response);
+      setIsLoaded(false);
+      setToggleSubmit(false);
       getParentInfo();
     } catch (error) {
+      setIsLoaded(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -206,7 +214,7 @@ const EditParent = () => {
                 marginTop: "20px",
               }}
             >
-              Enregistrer
+              {isLoaded ? "Chargement..." : error ? "Erreur" : "Enregistrer"}
             </button>
           )}
         </form>

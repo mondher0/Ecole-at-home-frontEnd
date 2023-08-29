@@ -11,6 +11,8 @@ const EditMail = () => {
   const [object, setObject] = useState("");
   const [content, setContent] = useState();
   const { id } = useParams();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   // get model info
   const getModelInfo = async () => {
@@ -28,6 +30,8 @@ const EditMail = () => {
   const editModal = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
+      setIsLoaded(true);
       const data = {
         subject: object,
         bodyHtml: content,
@@ -35,7 +39,10 @@ const EditMail = () => {
       };
       const response = await axiosInstance.patch(`${baseURl}/mail/${id}`, data);
       console.log(response);
+      setIsLoaded(false);
     } catch (error) {
+      setIsLoaded(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -114,7 +121,9 @@ const EditMail = () => {
                 required
               ></RichTextEditor>
               <div className="bottom_bar">
-                <button className="cta">Ajouter</button>
+                <button className="cta">
+                  {isLoaded ? "Chargement..." : error ? "Erreur" : "Modifier"}
+                </button>
               </div>
             </form>
           </div>
