@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from "react";
 import { BiShow } from "react-icons/bi";
@@ -186,7 +187,9 @@ const Settings = () => {
     try {
       setModsError(false);
       setModsLoading(true);
-      const response = await axiosInstance.get(`${baseURl}/admin`);
+      const response = await axiosInstance.get(
+        `${baseURl}/admin?page=${currentPage}`
+      );
       console.log(response);
       setMods(response.data.admins);
       setModsLoading(false);
@@ -273,7 +276,7 @@ const Settings = () => {
     getUserInfo();
     getMods();
     getEntrepriseInfo();
-  }, [tab]);
+  }, [tab, currentPage]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -307,6 +310,20 @@ const Settings = () => {
       setPageAction3("Modifier");
       setInputsDisabled(true);
     }
+  };
+
+  // Pagination handlers
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    console.log(currentPage);
+    // if (currentPage === Math.ceil(pages / 5)) {
+    //   return;
+    // }
+
+    setCurrentPage((prevPage) => prevPage + 1);
   };
   return (
     <div className="admin_section admin_edit_page">
@@ -584,15 +601,36 @@ const Settings = () => {
             </tbody>
           </table>
           <div className="table_pagination_bar">
-            <div className="pagination_btns">
-              <button className="pagination_arrow">
-                <img src="../assets/arrow.svg" />
+            <div
+              className="pagination_btns"
+              style={{
+                gap: "10px",
+              }}
+            >
+              <button
+                className="pagination_arrow"
+                disabled={currentPage === 1}
+                onClick={goToPreviousPage}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
               </button>
-              <button className="pagination_btn selected">1</button>
-              <button className="pagination_btn">2</button>
-              <button className="pagination_btn">3</button>
-              <button className="pagination_arrow right">
-                <img src="../assets/arrow.svg" />
+              <button className="pagination_btn selected">{currentPage}</button>
+              <button
+                className="pagination_arrow right"
+                onClick={goToNextPage}
+                // disabled={pages === 0 ? 1 : Math.ceil(pages / 5)}
+              >
+                <img
+                  src="../assets/arrow.svg"
+                  style={{
+                    height: "20px",
+                  }}
+                />
               </button>
             </div>
           </div>
