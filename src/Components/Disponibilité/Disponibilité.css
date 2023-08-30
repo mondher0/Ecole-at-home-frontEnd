@@ -63,10 +63,17 @@
 }
 
 .dispos_container ul.the_head li{
-    font-size: 18px;
+    font-size: 13px;
     color: var(--main_color);
 
 }
+
+@media screen and (max-width: 768px){
+    .i {
+        width: 20px;
+    }
+}
+    
 
 .dispos_container li.actions{
     column-gap: 8px; 
