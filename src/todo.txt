@@ -1,9 +1,5 @@
 --------------------------------------------------------------------------------------------------------------------------
 the hover effect 
-
-professeurs : 
-missing niveau in the pop up 
-
 mails : 
 adding many receivers in the mail
 

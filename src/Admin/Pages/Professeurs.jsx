@@ -370,7 +370,21 @@ const Profeseurs = () => {
                 >
                   <label htmlFor="Niveau">Niveaux</label>
                   <Multiselect
-                    options={[]}
+                    placeholder=""
+                    disablePreSelectedValues={true}
+                    disable={true}
+                    options={
+                      matieres?.map((matiere) => {
+                        return {
+                          name: matiere?.niveau?.name || null,
+                        };
+                      }) || []
+                    }
+                    selectedValues={matieres?.map((matiere) => {
+                      return {
+                        name: matiere?.niveau?.name || null,
+                      };
+                    })}
                     style={{
                       multiselectContainer: style,
                       searchBox: {
@@ -391,6 +405,7 @@ const Profeseurs = () => {
                 >
                   <label htmlFor="Niveau">Matiers</label>
                   <Multiselect
+                    placeholder=""
                     options={
                       matieres?.map((matiere) => {
                         return {
@@ -407,7 +422,7 @@ const Profeseurs = () => {
                         border: "none",
                       },
                       chips: {
-                        opacity: "5 !important",
+                        opacity: "4 !important",
                       },
                     }}
                     displayValue="name"
@@ -423,6 +438,7 @@ const Profeseurs = () => {
                     Jours de la semaine et Horraires
                   </label>
                   <Multiselect
+                    placeholder=""
                     disable={true}
                     disablePreSelectedValues={true}
                     options={
