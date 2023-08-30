@@ -1,12 +1,8 @@
 --------------------------------------------------------------------------------------------------------------------------
-all project:
-adding loading and error handdling
-pagination 
-the upadte state 
 the hover effect 
 
 professeurs : 
-the pop up of what prof do not linked yet 
+missing niveau in the pop up 
 
 mails : 
 adding many receivers in the mail
@@ -30,7 +26,6 @@ parent :
 facture : not tested yet and not linking the download
 
 teacher :
-waiting page of the admin
 paiement : linked but not tested yet
 
 download the facture in the parent and the student and prof 

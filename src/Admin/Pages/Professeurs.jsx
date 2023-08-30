@@ -28,6 +28,10 @@ const Profeseurs = () => {
   const [isEmpy, setIsEmpy] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(0);
+  const [niveaux, setNiveaux] = useState();
+  const [matieres, setMatieres] = useState();
+  const [timings, setTimings] = useState();
+  const [hour, setHour] = useState();
 
   let Navigate = useNavigate();
   const columns = [
@@ -92,6 +96,18 @@ const Profeseurs = () => {
     }
   };
 
+  // get professeur availability
+  const getProfAvailability = async (id) => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/availability/${id}`);
+      setMatieres(response.data?.availability?.matieres);
+      setHour(response.data?.availability?.max_hours_week);
+      setTimings(response.data?.availability?.avItems);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // Pagination handlers
   const goToPreviousPage = () => {
     if (currentPage === pages / currentPage) {
@@ -242,7 +258,12 @@ const Profeseurs = () => {
                     <button className="btn btn-primary">
                       <img
                         src="../assets/aye.svg"
-                        onClick={() => setShowProfInfo(true)}
+                        onClick={() => {
+                          getProfAvailability(prof.id);
+                          setShowProfInfo({
+                            info: prof.user,
+                          });
+                        }}
                       />
                     </button>
                     <button
@@ -337,7 +358,9 @@ const Profeseurs = () => {
         <div className="pop_up_container">
           <div className="pop_up edit">
             <div className="parent_sign_up container professor_sign_up">
-              <legend>PProf</legend>
+              <legend>
+                {showProfInfo?.info.nom} {showProfInfo?.info.prenom}
+              </legend>
               <form>
                 <div
                   className="input_container"
@@ -345,13 +368,16 @@ const Profeseurs = () => {
                     height: "fit-content",
                   }}
                 >
-                  <label htmlFor="Niveau">Niveau</label>
+                  <label htmlFor="Niveau">Niveaux</label>
                   <Multiselect
                     options={[]}
                     style={{
                       multiselectContainer: style,
                       searchBox: {
                         border: "none",
+                      },
+                      chips: {
+                        opacity: "4",
                       },
                     }}
                     displayValue="name"
@@ -363,13 +389,25 @@ const Profeseurs = () => {
                     height: "fit-content",
                   }}
                 >
-                  <label htmlFor="Niveau">Niveau</label>
+                  <label htmlFor="Niveau">Matiers</label>
                   <Multiselect
-                    options={[]}
+                    options={
+                      matieres?.map((matiere) => {
+                        return {
+                          name: matiere.name,
+                        };
+                      }) || []
+                    }
+                    disable={true}
+                    selectedValues={matieres}
+                    disablePreSelectedValues={true}
                     style={{
                       multiselectContainer: style,
                       searchBox: {
                         border: "none",
+                      },
+                      chips: {
+                        opacity: "5 !important",
                       },
                     }}
                     displayValue="name"
@@ -381,13 +419,41 @@ const Profeseurs = () => {
                     height: "fit-content",
                   }}
                 >
-                  <label htmlFor="Niveau">Niveau</label>
+                  <label htmlFor="Niveau">
+                    Jours de la semaine et Horraires
+                  </label>
                   <Multiselect
-                    options={[]}
+                    disable={true}
+                    disablePreSelectedValues={true}
+                    options={
+                      timings?.map((item) => ({
+                        name: `${item.day}: ${item.timingItems
+                          .map(
+                            (timing) =>
+                              `${timing.label}${timing.start_hour} - ${timing.end_hour}`
+                          )
+                          .join(", ")}`,
+                        value: item, // Store the whole avItem as the value
+                      })) || []
+                    }
+                    selectedValues={
+                      timings?.map((item) => ({
+                        name: `${item.day}: ${item.timingItems
+                          .map(
+                            (timing) =>
+                              `${timing.label}${timing.start_hour} - ${timing.end_hour}`
+                          )
+                          .join(", ")}`,
+                        value: item, // Store the whole avItem as the value
+                      })) || []
+                    }
                     style={{
                       multiselectContainer: style,
                       searchBox: {
                         border: "none",
+                      },
+                      chips: {
+                        opacity: "5",
                       },
                     }}
                     displayValue="name"
@@ -395,7 +461,13 @@ const Profeseurs = () => {
                 </div>
                 <div className="input_container">
                   <label htmlFor="Matière">Nombre de cours maximum</label>
-                  <input type="number" name="Nombre" placeholder="Entrer" />
+                  <input
+                    type="number"
+                    name="Nombre"
+                    placeholder="Entrer"
+                    value={hour}
+                    disabled
+                  />
                 </div>
               </form>
             </div>

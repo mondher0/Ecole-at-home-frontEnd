@@ -59,14 +59,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/wait-admin"
-            element={
-              <ProtectedRoute>
-                <WaitAdmin />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/wait-admin" element={<WaitAdmin />} />
           <Route
             path="/login"
             element={
