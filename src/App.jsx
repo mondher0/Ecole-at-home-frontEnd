@@ -41,6 +41,8 @@ import ProfInfo from "./Components/ProfInfo/ProfInfo";
 import WaitAdmin from "./Pages/WaitAdmin";
 import BloqueAccont from "./Pages/BloqueAccont";
 import SuspendreAccount from "./Pages/SuspendreAccount";
+import SuccesPayment from "./Pages/SuccesPayment";
+import FailPayment from "./Pages/FailPayment";
 
 const App = () => {
   return (
@@ -64,6 +66,15 @@ const App = () => {
           <Route path="/wait-admin" element={<WaitAdmin />} />
           <Route path="/bloque-account" element={<BloqueAccont />} />
           <Route path="/suspendre-account" element={<SuspendreAccount />} />
+          <Route
+            path="/carte-ajoutee"
+            element={
+              <ProtectedRoute>
+                <SuccesPayment />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/carte-non-ajoutee" element={<FailPayment />} />
           <Route
             path="/login"
             element={
