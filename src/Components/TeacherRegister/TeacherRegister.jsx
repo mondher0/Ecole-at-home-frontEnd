@@ -5,7 +5,6 @@ import { baseURl } from "../../utils/utils";
 import "../../css/loader.css";
 
 const TeacherRegister = () => {
-  const [villes, setVilles] = useState([]);
   const {
     handleRegisterTeacher,
     setNom,
@@ -22,20 +21,6 @@ const TeacherRegister = () => {
     error,
     isLoading,
   } = useContext(AuthContext);
-  // get villes and code postales
-  const getVillesAndCodePostales = async () => {
-    try {
-      const response = await fetch(`${baseURl}/ville`);
-      const data = await response.json();
-      console.log(data);
-      setVilles(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getVillesAndCodePostales();
-  }, []);
 
   return (
     <div className="parent_sign_up container professor_sign_up">
@@ -118,43 +103,24 @@ const TeacherRegister = () => {
           </div>
           <div className="input_container half">
             <label htmlFor="Ville">Ville</label>
-            <select
-              id="Ville"
+
+            <input
+              type="text"
               name="Ville"
-              value={ville}
               onChange={(e) => {
                 setVille(e.target.value);
               }}
-            >
-              <option value="">Selectionner</option>
-              {villes.map((ville) => {
-                return (
-                  <option key={ville.id} value={ville.ville}>
-                    {ville.ville}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </div>
           <div className="input_container half">
             <label htmlFor="Code_postale">Code postale</label>
-            <select
-              id="Code_postale"
+            <input
+              type="number"
               name="Code_postale"
-              value={codePostal}
               onChange={(e) => {
                 setCodePostal(e.target.value);
               }}
-            >
-              <option value="">Selectionner</option>
-              {villes.map((ville) => {
-                return (
-                  <option key={ville.id} value={ville.codePostal}>
-                    {ville.codePostal}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </div>
           <ul>
             <li>

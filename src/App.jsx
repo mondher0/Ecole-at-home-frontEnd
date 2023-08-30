@@ -43,6 +43,7 @@ import BloqueAccont from "./Pages/BloqueAccont";
 import SuspendreAccount from "./Pages/SuspendreAccount";
 import SuccesPayment from "./Pages/SuccesPayment";
 import FailPayment from "./Pages/FailPayment";
+import Apropos from "./Pages/Apropos";
 
 const App = () => {
   return (
@@ -99,7 +100,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/a-propos" element={<h1>a propos</h1>} />
+          <Route path="/a-propos" element={<Apropos />} />
           <Route
             path="/forgot-password"
             element={
