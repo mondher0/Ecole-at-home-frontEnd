@@ -10,10 +10,7 @@ adding many receivers in the mail
 historique :
 filter parent and enfant 
 -----------------------------------------------------------------------------------------------------------
-confirm email :
-na7i commentaire mn login function
-
-404 error page : 
+404 error page :
 coding the page
 
 a propos :
