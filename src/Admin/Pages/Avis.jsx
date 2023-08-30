@@ -65,6 +65,7 @@ const Avis = () => {
         `${baseURl}/rating/${id}`,
         data
       );
+      getAvis();
     } catch (error) {
       console.log(error);
     }

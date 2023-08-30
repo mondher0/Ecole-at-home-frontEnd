@@ -130,7 +130,7 @@ const Disponibilité = () => {
                     <img
                       src={editDispo}
                       alt="edit"
-                      className="i"
+                      className="i hover"
                       onClick={() => {
                         setShowedit(dispo.id);
                       }}
@@ -138,7 +138,7 @@ const Disponibilité = () => {
                     <img
                       src={deleteDispo}
                       alt="edit"
-                      className="i"
+                      className="i hover"
                       onClick={() => {
                         deleteDisponibilité(dispo.id);
                       }}

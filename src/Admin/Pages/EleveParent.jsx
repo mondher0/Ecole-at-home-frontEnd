@@ -313,7 +313,7 @@ const EleveParent = () => {
                     .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
                   return (
                     <tr key={student.id}>
-                      <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                      <td>
                         {student.user.nom} {student.user.prenom}
                       </td>
                       <td>{formattedDate}</td>
@@ -388,7 +388,6 @@ const EleveParent = () => {
                           enfant.deleted === false && (
                             <tr key={enfant.id}>
                               <td
-                                onClick={() => Navigate(`/admin/${tab}/edit`)}
                               >
                                 {parent.user.nom} {parent.user.prenom}
                               </td>
@@ -468,7 +467,7 @@ const EleveParent = () => {
                     ) : (
                       <>
                         <tr key={parent.id}>
-                          <td onClick={() => Navigate(`/admin/${tab}/edit`)}>
+                          <td>
                             {parent.user.nom} {parent.user.prenom}
                           </td>
                           <td>{formattedDate}</td>

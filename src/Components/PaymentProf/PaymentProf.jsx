@@ -36,7 +36,7 @@ const PaymentProf = () => {
   }, []);
   return (
     <div className="invoices_page">
-      <h3 className="main_title">Mes factures</h3>
+      <h3 className="main_title">Paiment</h3>
       <table className="invoices_table">
         <tbody>
           <tr>
@@ -58,7 +58,7 @@ const PaymentProf = () => {
                 <td>{userInfo.prenom}</td>
                 <td>{fac.matiere}</td>
                 <td>{fac.amount}$</td>
-                <td>
+                <td className="hover">
                   <a
                     href={`${baseURl}/payment/download-professeur-invoice/${fac.id}`}
                   >

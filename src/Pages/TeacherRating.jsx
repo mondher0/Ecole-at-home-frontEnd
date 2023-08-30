@@ -134,7 +134,7 @@ const TeacherRating = () => {
                   {firstNote ? (
                     <img
                       src="../assets/Star.svg"
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFifthNote(false);
                         setFourthNote(false);
@@ -146,7 +146,7 @@ const TeacherRating = () => {
                   ) : (
                     <img
                       src={notColoredStar}
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFirstNote(true);
                         setNote(1);
@@ -156,7 +156,7 @@ const TeacherRating = () => {
                   {secondNote ? (
                     <img
                       src="../assets/Star.svg"
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFifthNote(false);
                         setFourthNote(false);
@@ -167,7 +167,7 @@ const TeacherRating = () => {
                   ) : (
                     <img
                       src={notColoredStar}
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFirstNote(true);
                         setSecondNote(true);
@@ -178,7 +178,7 @@ const TeacherRating = () => {
                   {thirdNote ? (
                     <img
                       src="../assets/Star.svg"
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFifthNote(false);
                         setFourthNote(false);
@@ -188,7 +188,7 @@ const TeacherRating = () => {
                   ) : (
                     <img
                       src={notColoredStar}
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFirstNote(true);
                         setSecondNote(true);
@@ -200,7 +200,7 @@ const TeacherRating = () => {
                   {fourthNote ? (
                     <img
                       src="../assets/Star.svg"
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFifthNote(false);
                         setNote(4);
@@ -209,7 +209,7 @@ const TeacherRating = () => {
                   ) : (
                     <img
                       src={notColoredStar}
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFirstNote(true);
                         setSecondNote(true);
@@ -220,11 +220,11 @@ const TeacherRating = () => {
                     />
                   )}
                   {fifthNote ? (
-                    <img src="../assets/Star.svg" className="cmnt" />
+                    <img src="../assets/Star.svg" className="cmnt hover" />
                   ) : (
                     <img
                       src={notColoredStar}
-                      className="cmnt"
+                      className="cmnt hover"
                       onClick={() => {
                         setFirstNote(true);
                         setSecondNote(true);

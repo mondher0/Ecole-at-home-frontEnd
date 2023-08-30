@@ -1,14 +1,33 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from "react";
+import { useState, useEffect } from "react";
 import "./AdminTopBar.css";
 import {
   adminBellIcon,
   adminProfileIcon,
   adminSearchIcon,
 } from "../../../assets/index";
+import axiosInstance, { baseURl } from "../../../utils/utils";
 
 const AdminTopBar = (props) => {
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+
+  // get user info
+  const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance.get(`${baseURl}/users/me`);
+      console.log(response);
+      setNom(response.data.nom);
+      setPrenom(response.data.prenom);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <div className="admin_top_bar">
       <div
@@ -22,17 +41,16 @@ const AdminTopBar = (props) => {
         <div></div>
       </div>
 
-      <div className="admin_search_bar">
-        <input type="text" placeholder="Chercher" />
-        <img src={adminSearchIcon} />
-      </div>
+      <div className="admin_search_bar"></div>
       <ul className="links">
         <li>
-          <img src={adminBellIcon} />
+        
         </li>
         <li>
           <img src={adminProfileIcon} />
-          <span className="username">Test Username</span>
+          <span className="username">
+            {nom} {prenom}
+          </span>
         </li>
       </ul>
     </div>

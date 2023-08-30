@@ -210,9 +210,6 @@ const Profeseurs = () => {
               return (
                 <tr key={prof.id}>
                   <td
-                    onClick={() =>
-                      Navigate(`/admin/Profeseurs/edit/${prof?.id}`)
-                    }
                   >
                     {prof?.user?.nom} {prof.user.prenom}
                   </td>
