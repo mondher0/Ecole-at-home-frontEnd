@@ -173,7 +173,7 @@ const EmailsPage = () => {
               fontSize: "25px",
             }}
           >
-            Aucun professeur trouvé
+            Aucun Email trouvé
           </h1>
         )}
         <div className="table_pagination_bar">

@@ -136,6 +136,19 @@ const PastCourse = () => {
         >
           Loading...
         </h1>
+      ) : isEmpy ? (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2rem",
+            color: "black",
+          }}
+        >
+          Aucun cours à afficher
+        </h1>
       ) : (
         <div className="up_coming_courses">
           <h3 className="green_title">Cours à venir de la semaine</h3>
@@ -242,19 +255,6 @@ const PastCourse = () => {
           }}
         >
           Something went wrong -_-
-        </h1>
-      )}
-      {isEmpy && (
-        <h1
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "2rem",
-            color: "black",
-          }}
-        >
-          Aucun cours à afficher
         </h1>
       )}
     </>

@@ -32,6 +32,9 @@ const Abonnement = () => {
       );
       console.log(response);
       setAbonnmentsEnfant(response.data.abonnements);
+      if (response.data.abonnements.length === 0) {
+        setIsEmpty(true);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -49,6 +52,9 @@ const Abonnement = () => {
       const response = await axiosInstance.get(`${baseURl}/abonnement/user`);
       console.log(response);
       setUpComingCoursesStudent(response.data.abonnements);
+      if (response.data.abonnements.length === 0) {
+        setIsEmpty(true);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -90,6 +96,19 @@ const Abonnement = () => {
           }}
         >
           Loading...
+        </h1>
+      ) : isEmpty ? (
+        <h1
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh",
+            fontSize: "2rem",
+            color: "black",
+          }}
+        >
+          Aucun abonnement à afficher
         </h1>
       ) : (
         <div className="up_coming_courses">
