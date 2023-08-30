@@ -804,19 +804,6 @@ const Settings = () => {
 
       {tab === "Configuration" && (
         <div className="admin_edit_page settings">
-          <div className="admin_hor_section">
-            <div>
-              <button className="shadow_btn">
-                <img src="../assets/vimeo.png" />
-                <span>Ajouter un compte Vimeo</span>
-              </button>
-              <button className="shadow_btn">
-                <img src="../assets/zoom_pf_icon.png" />
-                <span>Ajouter un compte Vimeo</span>
-              </button>
-            </div>
-          </div>
-
           <h4 className="admin_edit_title">Configuration générale</h4>
           <form onSubmit={updateConfig}>
             <div className="admin_inputs_cards settings">
