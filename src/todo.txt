@@ -9,9 +9,6 @@ filter parent and enfant
 404 error page :
 coding the page
 
-a propos :
-not coding yet
-
 student : 
 facture : not tested yet and not linking the download
 
