@@ -2,9 +2,6 @@
 the hover effect 
 
 -----------------------------------------------------------------------------------------------------------
-404 error page :
-coding the page
-
 student : 
 facture : not tested yet and not linking the download
 
