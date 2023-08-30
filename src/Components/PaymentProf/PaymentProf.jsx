@@ -8,9 +8,6 @@ import "../../css/loader.css";
 
 const PaymentProf = () => {
   const { userInfo } = useContext(GlobalContext);
-  const { role } = userInfo;
-  const [enfants, setEnfants] = useState();
-  const [parentFacture, setParentFacture] = useState();
   const [studentFacture, setStudentFacture] = useState();
   const [loading, setLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -62,7 +59,11 @@ const PaymentProf = () => {
                 <td>{fac.matiere}</td>
                 <td>{fac.amount}$</td>
                 <td>
-                  <img src="../assets/download.svg" />
+                  <a
+                    href={`${baseURl}/payment/download-professeur-invoice/${fac.id}`}
+                  >
+                    <img src="../assets/download.svg" />
+                  </a>
                 </td>
               </tr>
             );

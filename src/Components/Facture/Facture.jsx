@@ -120,7 +120,11 @@ const Facture = () => {
                     <td>{fac.matiere}</td>
                     <td>{fac.amount}$</td>
                     <td>
-                      <img src="../assets/download.svg" />
+                      <a
+                        href={`${baseURl}/payment/download-parent-invoice/${fac.id}`}
+                      >
+                        <img src="../assets/download.svg" />
+                      </a>
                     </td>
                   </tr>
                 );
@@ -138,7 +142,11 @@ const Facture = () => {
                     <td>{fac.matiere}</td>
                     <td>{fac.amount}$</td>
                     <td>
-                      <img src="../assets/download.svg" />
+                      <a
+                        href={`${baseURl}/payment/download-eleve-invoice/${fac.id}`}
+                      >
+                        <img src="../assets/download.svg" />
+                      </a>
                     </td>
                   </tr>
                 );
