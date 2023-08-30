@@ -2,13 +2,16 @@ import { RichTextEditor } from "@mantine/rte";
 import "../css/EditEmail.css";
 import { useState } from "react";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import Multiselect from "multiselect-react-dropdown";
 
 const AddEmail = () => {
   const [recivers, setRecivers] = useState();
+  const [manyRecivers, setManyRecivers] = useState([]);
   const [object, setObject] = useState("");
   const [content, setContent] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
   // const send model
   const sendModel = async (e) => {
     e.preventDefault();
@@ -18,8 +21,9 @@ const AddEmail = () => {
       const data = {
         subject: object,
         bodyHtml: content,
-        receivers: [recivers],
+        receivers: manyRecivers,
       };
+      console.log(data);
       const response = await axiosInstance.post(`${baseURl}/mail/`, data);
       console.log(response);
       setIsLoaded(false);
@@ -28,6 +32,13 @@ const AddEmail = () => {
       setError(true);
       console.log(error);
     }
+  };
+
+  // push to many recivers
+  const pushToRecivers = () => {
+    setIsAdded(true);
+    setManyRecivers([...manyRecivers, recivers]);
+    setRecivers("");
   };
 
   return (
@@ -56,6 +67,41 @@ const AddEmail = () => {
               }}
               onSubmit={sendModel}
             >
+              {isAdded && (
+                <Multiselect
+                  placeholder=""
+                  option={
+                    manyRecivers?.map((reciver) => {
+                      return {
+                        name: reciver,
+                      };
+                    }) || []
+                  }
+                  selectedValues={
+                    manyRecivers?.map((reciver) => {
+                      return {
+                        name: reciver,
+                      };
+                    }) || []
+                  }
+                  onRemove={(selectedList, selectedItem) => {
+                    setManyRecivers(
+                      manyRecivers.filter(
+                        (reciver) => reciver !== selectedItem.name
+                      )
+                    );
+                  }}
+                  style={{
+                    searchBox: {
+                      border: "none",
+                    },
+                    chips: {
+                      opacity: "4 !important",
+                    },
+                  }}
+                  displayValue="name"
+                />
+              )}
               <input
                 type="email"
                 placeholder="A"
@@ -68,7 +114,19 @@ const AddEmail = () => {
                   outline: "none",
                 }}
                 onChange={(e) => setRecivers(e.target.value)}
+                value={recivers}
               />
+              <div className="bottom_bar">
+                <button
+                  className="cta"
+                  type="button"
+                  onClick={() => {
+                    pushToRecivers();
+                  }}
+                >
+                  Ajouter un destinataire
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="Object"
@@ -98,11 +156,7 @@ const AddEmail = () => {
               ></RichTextEditor>
               <div className="bottom_bar">
                 <button className="cta">
-                  {isLoaded
-                    ? "Chargement..."
-                    : error
-                    ? "Erreur"
-                    : "Ajouter"}
+                  {isLoaded ? "Chargement..." : error ? "Erreur" : "Ajouter"}
                 </button>
               </div>
             </form>
