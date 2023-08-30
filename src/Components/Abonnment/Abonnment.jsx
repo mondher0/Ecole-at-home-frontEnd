@@ -190,19 +190,6 @@ const Abonnement = () => {
           Something went wrong -_-
         </h1>
       )}
-      {isEmpty && (
-        <h1
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "2rem",
-            color: "black",
-          }}
-        >
-          Aucun abonnement à afficher
-        </h1>
-      )}
     </>
   );
 };
