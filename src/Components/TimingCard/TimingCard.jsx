@@ -113,7 +113,7 @@ const TimingCard = ({ item }) => {
     <>
       <div className="time_card">
         <div
-          className="info_section"
+          className="info_section hover"
           onClick={() => {
             navigate(`/rating/${id}`);
           }}
@@ -168,7 +168,7 @@ const TimingCard = ({ item }) => {
               }}
             >
               <>
-                <h3 className="the_time">
+                <h3 className="the_time hover">
                   {item.timing.start_hour} - {item.timing.end_hour}
                 </h3>
                 <h5 className="places">{item.nbrEleve}places</h5>

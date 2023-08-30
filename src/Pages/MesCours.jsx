@@ -17,7 +17,7 @@ const MesCours = () => {
   const { userInfo } = useContext(GlobalContext);
   const { prenom, role, nom } = userInfo;
   console.log(userInfo);
-  const [sideLinks, setSideLinks] = useState("parametres");
+  const [sideLinks, setSideLinks] = useState("");
   console.log(role);
   return (
     <>

@@ -6,6 +6,8 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { Parent, img } from "../../assets/index";
 import AddingEnfantForm from "../AddingEnfantForm/AddingEnfantForm";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import "./settings.css";
+import "../../css/loader.css";
 
 const Settings = () => {
   const { userInfo } = useContext(GlobalContext);
@@ -14,6 +16,7 @@ const Settings = () => {
   const [email, setEmail] = useState(userInfo.email);
   const [nom, setNom] = useState(userInfo.nom);
   const [prenom, setPrenom] = useState(userInfo.prenom);
+  const [iban, setIban] = useState("");
   const [telephone, setTelephone] = useState(
     role === "parent"
       ? userInfo.parentProfileEntity.phoneNumber
@@ -54,11 +57,17 @@ const Settings = () => {
     userInfo?.proffesseurProfile?.nomEntreprise
   );
   const [siret, setSiret] = useState(userInfo?.proffesseurProfile?.siret);
+  const [settingsLoader, setSettingsLoader] = useState(false);
+  const [settingsError, setSettingsError] = useState(false);
+  const [ibanError, setIbanError] = useState(false);
+  const [ibanLoader, setIbanLoader] = useState("");
 
   // update student
   const updateStudent = async (e) => {
     e.preventDefault();
     try {
+      setSettingsError(false);
+      setSettingsLoader(true);
       const data = {
         email: email,
         prenom: prenom,
@@ -75,8 +84,11 @@ const Settings = () => {
         `${baseURl}/users/update`,
         data
       );
+      setSettingsLoader(false);
       console.log(response);
     } catch (error) {
+      setSettingsLoader(false);
+      setSettingsError(true);
       console.log(error);
     }
   };
@@ -85,6 +97,8 @@ const Settings = () => {
   const updateProfesseur = async (e) => {
     e.preventDefault();
     try {
+      setSettingsError(false);
+      setSettingsLoader(true);
       const data = {
         email: email,
         prenom: prenom,
@@ -104,7 +118,10 @@ const Settings = () => {
         data
       );
       console.log(response);
+      setSettingsLoader(false);
     } catch (error) {
+      setSettingsLoader(false);
+      setSettingsError(true);
       console.log(error);
     }
   };
@@ -121,6 +138,26 @@ const Settings = () => {
       console.log(response);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // submit iban
+  const submitIban = async (e) => {
+    e.preventDefault();
+    try {
+      setIbanError(false);
+      setIbanLoader(true);
+      const response = await axiosInstance.post(
+        `${baseURl}/payment/add-bank-account`,
+        {
+          iban: iban,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setIbanLoader(false);
+      setIbanError(true);
     }
   };
 
@@ -313,10 +350,68 @@ const Settings = () => {
               marginTop: "10px",
             }}
           >
-            Enregistre
+            {settingsLoader ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : settingsError ? (
+              "Error"
+            ) : (
+              "Enregistre"
+            )}
           </button>
         </form>
       </fieldset>
+      {role === "teacher" && (
+        <fieldset
+          style={{
+            marginTop: "20px",
+          }}
+        >
+          <form
+            style={{
+              gap: "10px",
+            }}
+            onSubmit={submitIban}
+          >
+            <div
+              className="input_container half"
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <label htmlFor="email">Iban</label>
+              <input
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+                type="text"
+                name="iban"
+                placeholder="iban"
+                onChange={(e) => {
+                  setIban(e.target.value);
+                }}
+              ></input>
+            </div>
+            <button
+              style={{
+                width: "200px",
+              }}
+            >
+              {ibanLoader ? (
+                <div className="spinner-container">
+                  <div className="loading-spinner"></div>
+                </div>
+              ) : ibanError ? (
+                "Error"
+              ) : (
+                "Enregistre"
+              )}
+            </button>
+          </form>
+        </fieldset>
+      )}
       {role === "teacher" && (
         <div
           className="media"
@@ -343,7 +438,6 @@ const Settings = () => {
               borderRadius: "12px",
               border: "1px solid #ddd",
               outline: "none",
-              width: "30%",
               margin: "20px",
               height: "200px",
               position: "relative",
@@ -376,6 +470,7 @@ const Settings = () => {
           </div>
         </div>
       )}
+
       {role === "parent" && (
         <>
           <h1

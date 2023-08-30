@@ -5,18 +5,17 @@ import { useState } from "react";
 const SuspendreAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [success, setSuccess] = useState(false);
 
-  // redirect to stripe
-  const redirectToStripe = async () => {
+  // valider payment
+  const validerPayment = async () => {
     try {
       setError(false);
       setIsLoading(true);
-      const res = await axiosInstance.get(
-        `${baseURl}/payment/add-payment-method`
-      );
+      const res = await axiosInstance.get(`${baseURl}/payment/retry-payment`);
       console.log(res);
       setIsLoading(false);
-      window.location.href = res.data.url;
+      setSuccess(true);
     } catch (error) {
       setIsLoading(false);
       setError(true);
@@ -26,29 +25,42 @@ const SuspendreAccount = () => {
   return (
     <div className="card-container">
       <fieldset className="card">
-        <legend>Votre compte a été suspendu</legend>
+        <legend>
+          {success
+            ? "Votre compte a été activé"
+            : "Votre compte a été suspendu"}
+        </legend>
         <div className="card-content">
-          <p className="not-found-message">
-            Votre compte a été suspendu par l’administrateur de l’ecole at home
-            Merci de ajouter votre carte bancaire pour réactiver votre compte
-          </p>
-        </div>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            redirectToStripe();
-          }}
-        >
-          {isLoading ? (
-            <div className="spinner-container">
-              <div className="loading-spinner"></div>
-            </div>
-          ) : error ? (
-            "Réessayer"
+          {success ? (
+            <p className="not-found-message">
+              Profitez de nos cours en ligne pour améliorer votre niveau
+              scolaire
+            </p>
           ) : (
-            "Continuer avec stripe"
+            <p className="not-found-message">
+              Votre compte a été suspendu par l’administrateur de l’ecole at
+              home Merci de valider votre payment pour réactiver votre compte
+            </p>
           )}
-        </button>
+        </div>
+        {!success && (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              validerPayment();
+            }}
+          >
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="loading-spinner"></div>
+              </div>
+            ) : error ? (
+              "Réessayer"
+            ) : (
+              "Valider le payment"
+            )}
+          </button>
+        )}
       </fieldset>
     </div>
   );
