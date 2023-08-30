@@ -110,7 +110,18 @@ const EmailsPage = () => {
                 <td>{mail.id}</td>
                 <td>{mail.subject}</td>
                 <td dangerouslySetInnerHTML={{ __html: mail.bodyHtml }} />
-                <td>{mail.receivers[0]}</td>
+                <td>
+                  {mail.receivers?.map((receiver) => (
+                    <span
+                      key={Math.random()}
+                      style={{
+                        display: "block",
+                      }}
+                    >
+                      {receiver}
+                    </span>
+                  ))}
+                </td>
                 <td>
                   <button
                     className="btn"
