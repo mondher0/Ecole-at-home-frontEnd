@@ -666,6 +666,7 @@ const EleveParent = () => {
                       setEtat(e.target.value);
                     }}
                   >
+                    <option value="">Choisir</option>
                     <option value="inscrit">Inscrit</option>
                     <option value="confirme">Confirmé</option>
                     <option value="valide">Validé</option>
@@ -734,9 +735,11 @@ const EleveParent = () => {
             <div className="edit_etat delete">
               <p className="delete_text">
                 Etes vous sûr de vouloir supprimer
-                <span style={{
-                  marginLeft: "5px",
-                }}>
+                <span
+                  style={{
+                    marginLeft: "5px",
+                  }}
+                >
                   {showDelete.nom} {showDelete.prenom}
                 </span>
                 ?

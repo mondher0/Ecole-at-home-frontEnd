@@ -39,6 +39,8 @@ import EditEnfant from "./Admin/Pages/EditEnfant";
 import AdminForgotPassowrd from "./Admin/Pages/AdminForgotPassword";
 import ProfInfo from "./Components/ProfInfo/ProfInfo";
 import WaitAdmin from "./Pages/WaitAdmin";
+import BloqueAccont from "./Pages/BloqueAccont";
+import SuspendreAccount from "./Pages/SuspendreAccount";
 
 const App = () => {
   return (
@@ -60,6 +62,8 @@ const App = () => {
             }
           />
           <Route path="/wait-admin" element={<WaitAdmin />} />
+          <Route path="/bloque-account" element={<BloqueAccont />} />
+          <Route path="/suspendre-account" element={<SuspendreAccount />} />
           <Route
             path="/login"
             element={

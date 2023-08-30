@@ -10,6 +10,7 @@ import RatingContainer from "../Components/RatingContainer/RatingContainer";
 import "../css/loader.css";
 import { notColoredStar } from "../assets";
 import { AuthContext } from "../context/AuthContext";
+import "../css/loader.css";
 
 const TeacherRating = () => {
   const { id } = useParams();
@@ -26,6 +27,8 @@ const TeacherRating = () => {
   const [note, setNote] = useState(0);
   const [comment, setComment] = useState("");
   const { isLogged } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   // get abonnement by id
@@ -57,6 +60,8 @@ const TeacherRating = () => {
         navigate("/login");
         return;
       }
+      setIsError(false);
+      setIsLoading(true);
       const data = {
         note: note,
         comment: comment,
@@ -65,7 +70,10 @@ const TeacherRating = () => {
       console.log(data);
       const response = await axiosInstance.post(`${baseURl}/rating`, data);
       console.log(response);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
       console.log(error);
     }
   };
@@ -228,7 +236,17 @@ const TeacherRating = () => {
                     />
                   )}
                 </div>
-                <button className="rating_btn">Envoyer</button>
+                <button className="rating_btn">
+                  {isLoading ? (
+                    <div className="spinner-container">
+                      <div className="loading-spinner"></div>
+                    </div>
+                  ) : isError ? (
+                    "Réessayer"
+                  ) : (
+                    "Envoyer"
+                  )}
+                </button>
               </div>
             </form>
           </div>

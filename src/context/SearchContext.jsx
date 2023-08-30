@@ -44,7 +44,6 @@ const SearchProvider = ({ children }) => {
 
   //Search
   const handleSearch = async (e) => {
-    console.log(selectedMatiere, selectedNiveau);
     e.preventDefault();
     if (!selectedMatiere || !selectedNiveau) {
       setMessage(true);
@@ -52,8 +51,8 @@ const SearchProvider = ({ children }) => {
     }
     try {
       setMessage(false);
+      setResult(false);
       setIsLoading(true);
-      console.log(selectedMatiere, selectedNiveau);
       const response = await axios.get(
         `${baseURl}/abonnement/search/${selectedMatiere}`
       );

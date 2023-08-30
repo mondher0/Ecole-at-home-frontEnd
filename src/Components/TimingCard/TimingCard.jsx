@@ -18,42 +18,20 @@ const TimingCard = ({ item }) => {
   const { isLogged } = useContext(AuthContext);
   const { eleveProfile } = userInfo;
   const { parentProfileEntity } = userInfo;
-  const [timings, setTimings] = useState([]);
   const [enfants, setEnfants] = useState();
   const [enfant, setEnfant] = useState();
   const [showEssaiePopUp, setShowEssaiePopUp] = useState(false);
   const [showChooseEnfantPoPup, setShowChooseEnfantPopUp] = useState(false);
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const jours = {
-    Monday: "Lundi",
-    Tuesday: "Mardi",
-    Wednesday: "Mercredi",
-    Thursday: "Jeudi",
-    Friday: "Vendredi",
-    Saturday: "Samedi",
-    Sunday: "Dimanche",
-  };
-
-  //Get Timing
-  const getTiming = async () => {
-    const response = await fetch(`${baseURl}/timing-item`);
-    const timingData = await response.json();
-    setTimings(timingData);
-  };
 
   // Subscribe in a course
   const handleSubscribe = async (id) => {
     try {
       if (!isLogged) {
         navigate("/login");
+        return;
+      }
+      if (eleveProfile?.status === "suspendu") {
+        navigate("/suspendre-account");
         return;
       }
       if (eleveProfile?.status === "test") {
@@ -126,7 +104,6 @@ const TimingCard = ({ item }) => {
   };
 
   useEffect(() => {
-    getTiming();
     if (role === "parent") {
       getEnfants();
     }

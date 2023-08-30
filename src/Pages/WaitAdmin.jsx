@@ -8,7 +8,7 @@ const WaitAdmin = () => {
         <div className="card-content">
           <p className="not-found-message">
             Votre demande d’inscription a été envoyée au proviseur de
-            l’ecoleathome Vous allez recevoir bientot un email de pour
+            l’ecole at home Vous allez recevoir bientot un email de pour
             l’activation de votre compte Merci de votre inscription
           </p>
         </div>

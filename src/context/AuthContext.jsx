@@ -131,7 +131,15 @@ const AuthProvider = ({ children }) => {
         window.location.href = "/wait-admin";
         return;
       }
+      if (response.data.status === "bloque") {
+        window.location.href = "/bloque-account";
+        return;
+      }
       localStorage.setItem("token", response.data.access_token);
+      if (response.data.status === "suspendu") {
+        window.location.href = "/suspendre-account";
+        return;
+      }
       window.location.href = "/";
       checkUserLoggedIn();
     } catch (error) {
