@@ -804,25 +804,7 @@ const Settings = () => {
 
       {tab === "Configuration" && (
         <div className="admin_edit_page settings">
-          <h4 className="admin_edit_title">Configuration des comptes</h4>
-
           <div className="admin_hor_section">
-            <div className="admin_card">
-              <div>
-                <img src="../assets/zoom_pf_icon.png" />
-                <span>Zoom</span>
-                <span>Khaled Zoom</span>
-                <span>+1545,00</span>
-                <span className="cta">Modifier</span>
-              </div>
-              <div>
-                <img src="../assets/vimeo.png" />
-                <span>Zoom</span>
-                <span>Khaled Zoom</span>
-                <span>+1545,00</span>
-                <span className="cta">Modifier</span>
-              </div>
-            </div>
             <div>
               <button className="shadow_btn">
                 <img src="../assets/vimeo.png" />
