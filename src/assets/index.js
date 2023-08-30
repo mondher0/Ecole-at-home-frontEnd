@@ -34,6 +34,7 @@ import deleteDispo from "./delete-dispo.svg";
 import notColoredStar from "./not-colored-star.svg";
 import hide from "./x.svg";
 import aPropos1 from "./apropos1.svg";
+import errorLogo from "./error-logo.svg";
 
 export {
   A,
@@ -72,4 +73,5 @@ export {
   notColoredStar,
   hide,
   aPropos1,
+  errorLogo,
 };

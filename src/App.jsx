@@ -44,6 +44,7 @@ import SuspendreAccount from "./Pages/SuspendreAccount";
 import SuccesPayment from "./Pages/SuccesPayment";
 import FailPayment from "./Pages/FailPayment";
 import Apropos from "./Pages/Apropos";
+import ErrorPage from "./Pages/ErrorPage";
 
 const App = () => {
   return (
@@ -119,7 +120,7 @@ const App = () => {
           />
           <Route path="/verify-email" element={<EmailConfirmation />} />
         </Route>
-        <Route path="*" element={<h1>404</h1>} />
+        <Route path="*" element={<ErrorPage />} />
         <Route
           path="/admin/login"
           element={
