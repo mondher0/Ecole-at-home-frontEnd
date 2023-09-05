@@ -159,7 +159,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.eleveAnnuleCount}</h3>
-                <img className="card_icon" src={anuuler} />
+                <img className="card_icon" src="../assets/annulés.svg" />
               </div>
               <div className="card">
                 <div className="text">
@@ -170,7 +170,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.eleveAbonneCount}</h3>
-                <img className="card_icon" src={Elèves_abonnés} />
+                <img className="card_icon" src="../assets/Elèves_abonnés.svg" />
               </div>
             </div>
           </div>
@@ -200,7 +200,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.profValideCount}</h3>
-                <img className="card_icon" src={validé} />
+                <img className="card_icon" src="../assets/validé.svg" />
               </div>
             </div>
           </div>
@@ -227,7 +227,10 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementAbonnesCount}</h3>
-                <img className="card_icon" src={abonnementAbonne} />
+                <img
+                  className="card_icon"
+                  src="../assets/Abonnements_abonnés.svg"
+                />
               </div>
               <div className="card">
                 <div className="text">
@@ -238,7 +241,10 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementProposeCount}</h3>
-                <img className="card_icon" src={Abonnements_proposés} />
+                <img
+                  className="card_icon"
+                  src="../assets/Abonnements_proposés.svg"
+                />
               </div>
               <div className="card">
                 <div className="text">
@@ -249,7 +255,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementValideCount}</h3>
-                <img className="card_icon" src={validé} />
+                <img className="card_icon" src="../assets/validé.svg" />
               </div>
             </div>
           </div>
@@ -265,7 +271,10 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.coursTermineCount}</h3>
-                <img className="card_icon" src={Cours_termminés} />
+                <img
+                  className="card_icon"
+                  src="../assets/Cours_termminés.svg"
+                />
               </div>
               <div className="card">
                 <div className="text">
@@ -276,7 +285,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.coursAnnuleCount}</h3>
-                <img className="card_icon" src={anuuler} />
+                <img className="card_icon" src="../assets/annulés.svg" />
               </div>
             </div>
           </div>
