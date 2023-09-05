@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance, { baseURl } from "../../utils/utils";
+import axios from "axios";
 
 const Paiment = () => {
   let [tab, setTab] = useState("Professeurs");
@@ -80,7 +81,7 @@ const Paiment = () => {
         }${endDate ? `&endDate=${endDate}` : ""}`
       );
       console.log(response);
-      setParentPayment(response.data?.payments);
+      setProfPayment(response.data?.payments);
       if (response.data?.payments?.length === 0) {
         setIsEmpy(true);
       }
@@ -142,13 +143,103 @@ const Paiment = () => {
         setIsEmpy(true);
       }
       setPagesParent(response.data?.count);
-      setParentPayment(response.data?.payments);
+      setParentPayment(response.data.payments);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
       console.log(error);
     }
+  };
+
+  // donwlod pdf prof
+  const downloadPDFProf = (id) => {
+    const pdfUrl = `${baseURl}/payment/download-professeur-invoice/${id}`;
+    const token = localStorage.getItem("token");
+
+    // Create a config object with headers containing the token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    };
+
+    axios
+      .get(pdfUrl, config)
+      .then((response) => {
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "downloaded-file.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF file:", error);
+      });
+  };
+
+  // donwlod pdf student
+  const downloadPDFStudent = (id) => {
+    const pdfUrl = `${baseURl}/payment/download-eleve-invoice/${id}`;
+    const token = localStorage.getItem("token");
+
+    // Create a config object with headers containing the token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    };
+
+    axios
+      .get(pdfUrl, config)
+      .then((response) => {
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "downloaded-file.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF file:", error);
+      });
+  };
+
+  // donwlod pdf parent
+  const downloadPDFParent = (id) => {
+    const pdfUrl = `${baseURl}/payment/download-parent-invoice/${id}`;
+    const token = localStorage.getItem("token");
+
+    // Create a config object with headers containing the token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    };
+
+    axios
+      .get(pdfUrl, config)
+      .then((response) => {
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "downloaded-file.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF file:", error);
+      });
   };
 
   // Pagination handlers
@@ -346,240 +437,292 @@ const Paiment = () => {
           </div>
         </div>
       </div>
+      {isLoading ? (
+        <div className="spinner-container">
+          <div className="loading-spinner"></div>
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                {tab === "Eleve"
+                  ? columnsElève.map((column) => <th key={column}>{column}</th>)
+                  : tab === "Professeurs"
+                  ? columnsProfesseur.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))
+                  : columnsParent.map((column) => (
+                      <th key={column}>{column}</th>
+                    ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tab === "Professeurs" &&
+                profPayment?.map((prof) => {
+                  const date = new Date(prof.createdAt);
+                  const day = date.getDate();
+                  let month = date.getMonth() + 1;
+                  const year = date.getFullYear();
+                  const dateFormated = `${day}-${month}-${year}`;
+                  return (
+                    <tr key={prof?.id}>
+                      <td>{prof?.id}</td>
+                      <td>{prof?.cours.id}</td>
+                      <td>{dateFormated}</td>
+                      <td>
+                        {prof?.prof?.user.nom}
+                        {prof?.prof?.user.prenom}
+                      </td>
+                      <td>{prof?.prof?.user.email}</td>
+                      <td>{prof?.prof.status}</td>
+                      <td>{prof.amount}</td>
+                      <td>{prof.status}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            downloadPDFProf(prof.id);
+                          }}
+                        >
+                          <img src="../assets/admin_download.svg" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              {tab === "Eleve" &&
+                elevePayment?.map((eleve) => {
+                  const date = new Date(eleve.createdAt);
+                  console.log(date);
+                  const day = date.getDate();
+                  console.log(day);
+                  let month = date.getMonth() + 1;
+                  console.log(month);
+                  const year = date.getFullYear();
+                  const dateFormated = `${day}-${month}-${year}`;
+                  return (
+                    <tr key={eleve?.id}>
+                      <td>{eleve?.id}</td>
+                      <td>{eleve?.cours.id}</td>
+                      <td>{dateFormated}</td>
+                      <td>
+                        {eleve?.eleve?.user.nom}
+                        {eleve?.eleve?.user.prenom}
+                      </td>
+                      <td>{eleve?.eleve?.user.email}</td>
+                      <td>{eleve?.eleve.status}</td>
+                      <td>{eleve.amount}</td>
+                      <td>{eleve.status}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            downloadPDFStudent(eleve.id);
+                          }}
+                        >
+                          <img src="../assets/admin_download.svg" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
 
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered">
-          <thead>
-            <tr>
-              {tab === "Eleve"
-                ? columnsElève.map((column) => <th key={column}>{column}</th>)
-                : tab === "Professeurs"
-                ? columnsProfesseur.map((column) => (
-                    <th key={column}>{column}</th>
-                  ))
-                : columnsParent.map((column) => <th key={column}>{column}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {tab === "Eleve"
-              ? elevePayment?.map((eleve) => (
-                  <tr key={eleve?.id}>
-                    <td>{eleve?.id}</td>
-                    <td>{eleve?.cours.id}</td>
-                    <td>date</td>
-                    <td>
-                      {eleve?.eleve?.user.nom}
-                      {eleve?.eleve?.user.prenom}
-                    </td>
-                    <td>{eleve?.eleve?.user.email}</td>
-                    <td>{eleve?.eleve.status}</td>
-                    <td>{eleve.amount}</td>
-                    <td>{eleve.status}</td>
-                    <td>
-                      <button type="button">
-                        <img src="../assets/admin_download.svg" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              : tab === "Professeurs"
-              ? profPayment?.map((prof) => (
-                  <tr key={prof?.id}>
-                    <td>{prof?.id}</td>
-                    <td>{prof?.cours.id}</td>
-                    <td>date</td>
-                    <td>
-                      {prof?.prof?.user.nom}
-                      {prof?.prof?.user.prenom}
-                    </td>
-                    <td>{prof?.prof?.user.email}</td>
-                    <td>{prof?.prof.status}</td>
-                    <td>{prof.amount}</td>
-                    <td>{prof.status}</td>
-                    <td>
-                      <button type="button">
-                        <img src="../assets/admin_download.svg" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              : parentPayment?.map((parent) => (
-                  <tr key={parent?.id}>
-                    <td>{parent?.id}</td>
-                    <td>{parent?.cours.id}</td>
-                    <td>date</td>
-                    <td>
-                      {parent?.enfant?.parent?.user.nom}
-                      {parent?.enfant.parent?.user.prenom}
-                    </td>
-                    <td>{parent?.enfant?.parent?.user.email}</td>
-                    <td>
-                      {parent?.enfant.nom} {parent?.enfant.prenom}
-                    </td>
-                    <td>{parent?.enfant.email}</td>
-                    <td>{parent?.amount}</td>
-                    <td>{parent?.status}</td>
-                    <td>
-                      <button type="button">
-                        <img src="../assets/admin_download.svg" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-        {isLoading && (
-          <div className="spinner-container">
-            <div className="loading-spinner"></div>
-          </div>
-        )}
-        {isError && (
-          <h1
+              {tab === "Parent" &&
+                parentPayment?.map((parent) => {
+                  const date = new Date(parent.createdAt);
+                  const day = date.getDate();
+                  console.log(day);
+                  let month = date.getMonth() + 1;
+                  console.log(month);
+                  const year = date.getFullYear();
+                  const dateFormated = `${day}-${month}-${year}`;
+                  return (
+                    <tr key={parent?.id}>
+                      <td>{parent?.id}</td>
+                      <td>{parent?.cours.id}</td>
+                      <td>{dateFormated}</td>
+                      <td>
+                        {parent?.enfant?.parent?.user.nom}
+                        {parent?.enfant.parent?.user.prenom}
+                      </td>
+                      <td>{parent?.enfant?.parent?.user.email}</td>
+                      <td>
+                        {parent?.enfant.nom} {parent?.enfant.prenom}
+                      </td>
+                      <td>{parent?.enfant.email}</td>
+                      <td>{parent?.amount}</td>
+                      <td>{parent?.status}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            downloadPDFParent(parent.id);
+                          }}
+                        >
+                          <img src="../assets/admin_download.svg" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+
+          {isError && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              Erreur de chargement
+            </h1>
+          )}
+
+          {isEmpy && (
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "25px",
+              }}
+            >
+              Aucun payment trouvé
+            </h1>
+          )}
+          {tab === "Eleve" ? (
+            <div className="table_pagination_bar">
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
+              >
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPageStudent === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPageStudent}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                  disabled={
+                    pagesStudent === 0 ? 1 : Math.ceil(pagesStudent / 5)
+                  }
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+          ) : tab === "Parent" ? (
+            <div className="table_pagination_bar">
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
+              >
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPageParent === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPageParent}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                  disabled={
+                    pagesParent === 0
+                      ? 1
+                      : currentPageParent == Math.ceil(pagesParent / 5)
+                  }
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="table_pagination_bar">
+              <div
+                className="pagination_btns"
+                style={{
+                  gap: "10px",
+                }}
+              >
+                <button
+                  className="pagination_arrow"
+                  disabled={currentPage === 1}
+                  onClick={goToPreviousPage}
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+                <button className="pagination_btn selected">
+                  {currentPage}
+                </button>
+                <button
+                  className="pagination_arrow right"
+                  onClick={goToNextPage}
+                  disabled={
+                    pages === 0 ? 1 : currentPage == Math.ceil(pages / 5)
+                  }
+                >
+                  <img
+                    src="../assets/arrow.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+          )}
+          <ul
+            className="table_resume_bar"
             style={{
-              textAlign: "center",
-              fontSize: "25px",
+              marginTop: "20px",
             }}
           >
-            Erreur de chargement
-          </h1>
-        )}
-
-        {isEmpy && (
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-            }}
-          >
-            Aucun payment trouvé
-          </h1>
-        )}
-        {tab === "Eleve" ? (
-          <div className="table_pagination_bar">
-            <div
-              className="pagination_btns"
-              style={{
-                gap: "10px",
-              }}
-            >
-              <button
-                className="pagination_arrow"
-                disabled={currentPageStudent === 1}
-                onClick={goToPreviousPage}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">
-                {currentPageStudent}
-              </button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                disabled={pagesStudent === 0 ? 1 : Math.ceil(pagesStudent / 5)}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        ) : tab === "Parent" ? (
-          <div className="table_pagination_bar">
-            <div
-              className="pagination_btns"
-              style={{
-                gap: "10px",
-              }}
-            >
-              <button
-                className="pagination_arrow"
-                disabled={currentPageParent === 1}
-                onClick={goToPreviousPage}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">
-                {currentPageParent}
-              </button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                disabled={
-                  pagesParent === 0
-                    ? 1
-                    : currentPageParent == Math.ceil(pagesParent / 5)
-                }
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="table_pagination_bar">
-            <div
-              className="pagination_btns"
-              style={{
-                gap: "10px",
-              }}
-            >
-              <button
-                className="pagination_arrow"
-                disabled={currentPage === 1}
-                onClick={goToPreviousPage}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-              <button className="pagination_btn selected">{currentPage}</button>
-              <button
-                className="pagination_arrow right"
-                onClick={goToNextPage}
-                disabled={pages === 0 ? 1 : currentPage == Math.ceil(pages / 5)}
-              >
-                <img
-                  src="../assets/arrow.svg"
-                  style={{
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        )}
-        <ul
-          className="table_resume_bar"
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          <li style={{ color: "#0078D4" }}>Paiement::</li>
-          <li style={{ color: "#38B6FF" }}>Complété: 3</li>
-          <li style={{ color: "#004AAD" }}>En attente: 0</li>
-          <li style={{ color: "#4DC643" }}>ERROR: 1</li>
-        </ul>
-      </div>
+            <li style={{ color: "#0078D4" }}>Paiement::</li>
+            <li style={{ color: "#38B6FF" }}>Complété: 3</li>
+            <li style={{ color: "#004AAD" }}>En attente: 0</li>
+            <li style={{ color: "#4DC643" }}>ERROR: 1</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -16,6 +16,7 @@ const AdminLogin = () => {
     handleAdminLogin,
     error,
     isLoading,
+    disabled,
   } = useContext(AuthContext);
 
   const togglePasswordVisibility = () => {
@@ -61,7 +62,7 @@ const AdminLogin = () => {
             Mot de passe oublié ?
           </h5>
           {error && <h5 className="form_error">{error}</h5>}
-          <button type="submit">
+          <button type="submit" disabled={disabled}>
             {" "}
             {isLoading ? (
               <div className="spinner-container">

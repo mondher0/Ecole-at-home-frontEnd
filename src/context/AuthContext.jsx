@@ -176,6 +176,16 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURl}/auth/login`, data);
       console.log(response);
+      if (
+        response.data.role === "teacher" ||
+        response.data.role === "parent" ||
+        response.data.role === "student"
+      ) {
+        setError("Vous n'êtes pas un admin");
+        setIsLoading(false);
+        setDisabled(false);
+        return;
+      }
       localStorage.setItem("token", response.data.access_token);
       setDisabled(false);
       window.location.href = "/admin/board";
