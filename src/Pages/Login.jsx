@@ -7,7 +7,7 @@ import "../css/loader.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleLogin, setPassword, setEmail, isLoading, error } =
+  const { handleLogin, setPassword, setEmail, isLoading, error, disabled } =
     useContext(AuthContext);
   return (
     <>
@@ -39,7 +39,7 @@ const Login = () => {
               Mot de passe oublié ?
             </h5>
             {error && <h5 className="form_error">{error}</h5>}
-            <button className="login_btn">
+            <button className="login_btn" disabled={disabled}>
               {isLoading ? (
                 <div className="spinner-container">
                   <div className="loading-spinner"></div>

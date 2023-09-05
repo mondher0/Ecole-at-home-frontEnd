@@ -26,11 +26,13 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState();
   const [adminEmail, setAdminEmail] = useState();
   const [adminPassword, setAdminPassword] = useState();
+  const [disabled, setDisabled] = useState(false);
   const baseURlAuth = `${baseURl}/auth`;
 
   //Register student
   const handleRegisterStudent = async (e) => {
     try {
+      setDisabled(true);
       setIsLoading(true);
       setError(false);
       e.preventDefault();
@@ -42,10 +44,12 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/register-eleve`, data);
       console.log(response);
+      setDisabled(false);
       window.location.href = "/verify-email";
     } catch (error) {
       setIsLoading(false);
       setError(error.response?.data.message);
+      setDisabled(false);
       console.log(error);
     }
   };
@@ -53,6 +57,7 @@ const AuthProvider = ({ children }) => {
   // Register teacher
   const handleRegisterTeacher = async (e) => {
     try {
+      setDisabled(true);
       e.preventDefault();
       setError(false);
       setIsLoading(true);
@@ -73,9 +78,11 @@ const AuthProvider = ({ children }) => {
       );
       console.log(response);
       localStorage.setItem("token", response.data.access_token);
+      setDisabled(false);
       window.location.href = "/prof-dispo";
     } catch (error) {
       setIsLoading(false);
+      setDisabled(false);
       setError(error.response?.data.message);
       console.log(error);
     }
@@ -84,6 +91,7 @@ const AuthProvider = ({ children }) => {
   // Register parent
   const handleRegisterParent = async (e) => {
     try {
+      setDisabled(true);
       setError(false);
       setIsLoading(true);
       const enfants = [
@@ -103,9 +111,11 @@ const AuthProvider = ({ children }) => {
       };
       const response = await axios.post(`${baseURlAuth}/register-parent`, data);
       console.log(response);
+      setDisabled(false);
       window.location.href = "/verify-email";
     } catch (error) {
       setIsLoading(false);
+      setDisabled(false);
       setError(error.response?.data.message);
       console.log(error);
     }
@@ -114,6 +124,8 @@ const AuthProvider = ({ children }) => {
   // Login
   const handleLogin = async (e) => {
     try {
+      setError(false);
+      setDisabled(true);
       setIsLoading(true);
       e.preventDefault();
       const data = {
@@ -140,11 +152,13 @@ const AuthProvider = ({ children }) => {
         window.location.href = "/suspendre-account";
         return;
       }
+      setDisabled(false);
       window.location.href = "/";
       checkUserLoggedIn();
     } catch (error) {
       setIsLoading(false);
       setError(error.response?.data.message);
+      setDisabled(false);
       console.log(error);
     }
   };
@@ -152,6 +166,7 @@ const AuthProvider = ({ children }) => {
   // handle admin login
   const handleAdminLogin = async (e) => {
     e.preventDefault();
+    setDisabled(true);
     setError(false);
     setIsLoading(true);
     try {
@@ -162,10 +177,12 @@ const AuthProvider = ({ children }) => {
       const response = await axios.post(`${baseURl}/auth/login`, data);
       console.log(response);
       localStorage.setItem("token", response.data.access_token);
+      setDisabled(false);
       window.location.href = "/admin/board";
       checkUserLoggedIn();
     } catch (error) {
       setIsLoading(false);
+      setDisabled(false);
       setError(error.response?.data.message);
       console.log(error);
     }
@@ -235,6 +252,7 @@ const AuthProvider = ({ children }) => {
         nomEnfant,
         prenomEnfant,
         emailEnfant,
+        disabled,
       }}
     >
       {children}
