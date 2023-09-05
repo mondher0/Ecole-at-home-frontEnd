@@ -38,6 +38,12 @@ import errorLogo from "./error-logo.svg";
 import avatar from "./avatare.png";
 import drop from "./drop.svg";
 import logout1 from "./log-out.svg";
+import abonnementAbonne from "./Abonnements_abonnés.svg";
+import anuuler from "./annulés.svg";
+import Elèves_abonnés from "./Elèves_abonnés.svg";
+import validé from "./validé.svg";
+import Abonnements_proposés from "./Abonnements_proposés.svg";
+import Cours_termminés from "./Cours_termminés.svg";
 
 export {
   A,
@@ -80,4 +86,10 @@ export {
   errorLogo,
   drop,
   logout1,
+  abonnementAbonne,
+  anuuler,
+  Elèves_abonnés,
+  validé,
+  Abonnements_proposés,
+  Cours_termminés,
 };

@@ -76,6 +76,10 @@ const EleveParent = () => {
         setIsEmpy(true);
       }
       setParents(response.data?.items);
+      setBloqueCount(response.data?.bloqueCount);
+      setConfirmeCount(response.data?.confirmeCount);
+      setInscritCount(response.data?.inscritCount);
+      setSuspenduCount(response.data?.suspenduCount);
       setPages(response.data?.totalCount);
       setIsLoading(false);
     } catch (error) {
@@ -387,8 +391,7 @@ const EleveParent = () => {
                         return (
                           enfant.deleted === false && (
                             <tr key={enfant.id}>
-                              <td
-                              >
+                              <td>
                                 {parent.user.nom} {parent.user.prenom}
                               </td>
                               <td>{formattedDate}</td>
@@ -632,7 +635,7 @@ const EleveParent = () => {
             marginTop: "20px",
           }}
         >
-          <li style={{ color: "#0078D4" }}>Professeur:</li>
+          <li style={{ color: "#0078D4" }}>{tab}:</li>
           <li style={{ color: "#38B6FF" }}>Inscrit: {inscritCount}</li>
           <li style={{ color: "#004AAD" }}>Confirmé: {confirmeCount}</li>
           <li style={{ color: "#4DC643" }}>Suspendu: {suspenduCount}</li>

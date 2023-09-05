@@ -710,17 +710,6 @@ const Paiment = () => {
               </div>
             </div>
           )}
-          <ul
-            className="table_resume_bar"
-            style={{
-              marginTop: "20px",
-            }}
-          >
-            <li style={{ color: "#0078D4" }}>Paiement::</li>
-            <li style={{ color: "#38B6FF" }}>Complété: 3</li>
-            <li style={{ color: "#004AAD" }}>En attente: 0</li>
-            <li style={{ color: "#4DC643" }}>ERROR: 1</li>
-          </ul>
         </div>
       )}
     </div>

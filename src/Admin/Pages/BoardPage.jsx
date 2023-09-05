@@ -5,6 +5,14 @@ import "../css/boardPage.css";
 import PaymentChart from "../Components/PaymentChart";
 import axiosInstance, { baseURl } from "../../utils/utils";
 import "../../css/loader.css";
+import {
+  Abonnements_proposés,
+  Cours_termminés,
+  Elèves_abonnés,
+  abonnementAbonne,
+  anuuler,
+  validé,
+} from "../../assets";
 
 const BoardPage = () => {
   const [startDate, setStartDate] = useState("2023-07-07T00:00:00.000Z");
@@ -151,7 +159,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.eleveAnnuleCount}</h3>
-                <img className="card_icon" src="../assets/annulés.svg" />
+                <img className="card_icon" src={anuuler} />
               </div>
               <div className="card">
                 <div className="text">
@@ -162,7 +170,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.eleveAbonneCount}</h3>
-                <img className="card_icon" src="../assets/Elèves_abonnés.svg" />
+                <img className="card_icon" src={Elèves_abonnés} />
               </div>
             </div>
           </div>
@@ -192,7 +200,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.profValideCount}</h3>
-                <img className="card_icon" src="../assets/validé.svg" />
+                <img className="card_icon" src={validé} />
               </div>
             </div>
           </div>
@@ -219,10 +227,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementAbonnesCount}</h3>
-                <img
-                  className="card_icon"
-                  src="../assets/Abonnements_abonnés.svg"
-                />
+                <img className="card_icon" src={abonnementAbonne} />
               </div>
               <div className="card">
                 <div className="text">
@@ -233,10 +238,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementProposeCount}</h3>
-                <img
-                  className="card_icon"
-                  src="../assets/Abonnements_proposés.svg"
-                />
+                <img className="card_icon" src={Abonnements_proposés} />
               </div>
               <div className="card">
                 <div className="text">
@@ -247,7 +249,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.abonnementValideCount}</h3>
-                <img className="card_icon" src="../assets/validé.svg" />
+                <img className="card_icon" src={validé} />
               </div>
             </div>
           </div>
@@ -263,10 +265,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.coursTermineCount}</h3>
-                <img
-                  className="card_icon"
-                  src="../assets/Cours_termminés.svg"
-                />
+                <img className="card_icon" src={Cours_termminés} />
               </div>
               <div className="card">
                 <div className="text">
@@ -277,7 +276,7 @@ const BoardPage = () => {
                   </span>
                 </div>
                 <h3 className="value">{data.coursAnnuleCount}</h3>
-                <img className="card_icon" src="../assets/annulés.svg" />
+                <img className="card_icon" src={anuuler} />
               </div>
             </div>
           </div>

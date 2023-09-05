@@ -1081,18 +1081,6 @@ const Abonnements = () => {
               </div>
             </div>
           )}
-          <ul
-            className="table_resume_bar"
-            style={{
-              marginTop: "20px",
-            }}
-          >
-            <li style={{ color: "#0078D4" }}>Professeur:</li>
-            <li style={{ color: "#38B6FF" }}>Inscrit: 0</li>
-            <li style={{ color: "#004AAD" }}>Confirmé: 0</li>
-            <li style={{ color: "#4DC643" }}>Validé: 3</li>
-            <li style={{ color: "#FF914D" }}>Bloqué: 1</li>
-          </ul>
         </div>
       )}
 
