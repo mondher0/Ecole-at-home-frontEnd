@@ -1,9 +1,0 @@
------------------------------------------------------------------------------------------------------------
-student : 
-facture : not tested yet and not linking the download
-
-parent :
-facture : not tested yet and not linking the download
-
-teacher :
-paiement : linked but not tested yet
