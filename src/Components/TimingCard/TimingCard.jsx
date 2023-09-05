@@ -22,6 +22,19 @@ const TimingCard = ({ item }) => {
   const [enfant, setEnfant] = useState();
   const [showEssaiePopUp, setShowEssaiePopUp] = useState(false);
   const [showChooseEnfantPoPup, setShowChooseEnfantPopUp] = useState(false);
+  const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   // Subscribe in a course
   const handleSubscribe = async (id) => {
@@ -34,6 +47,8 @@ const TimingCard = ({ item }) => {
         navigate("/suspendre-account");
         return;
       }
+      setError(false);
+      setLoading(true);
       if (eleveProfile?.status === "test") {
         const res = await axiosInstance.get(
           `${baseURl}/payment/get-payment-methods`
@@ -51,8 +66,15 @@ const TimingCard = ({ item }) => {
       console.log(eleveProfile.status);
       if (eleveProfile?.status === "confirme") {
         setShowEssaiePopUp(true);
+        setLoading(false);
+        return;
       }
+      setShowConfirmPopUp(false);
+      setShowSuccessPopUp(true);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -69,6 +91,12 @@ const TimingCard = ({ item }) => {
       const data = {
         enfantId: parseInt(enfant),
       };
+      if (parentProfileEntity?.status === "suspendu") {
+        navigate("/suspendre-account");
+        return;
+      }
+      setLoading(true);
+      setError(false);
       if (parentProfileEntity?.status == "test") {
         const res = await axiosInstance.get(
           `${baseURl}/payment/get-payment-methods`
@@ -86,8 +114,14 @@ const TimingCard = ({ item }) => {
       console.log(response);
       if (parentProfileEntity?.status === "confirme") {
         setShowEssaiePopUp(true);
+        return;
       }
+      setLoading(false);
+      setShowConfirmPopUp(false);
+      setShowSuccessPopUp(true);
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -118,10 +152,7 @@ const TimingCard = ({ item }) => {
             navigate(`/rating/${id}`);
           }}
         >
-          <img
-            className="avatare"
-            src={`${baseURl}${item.professeur.imgUrl}`}
-          />
+          <img className="avatare" src={`${item.professeur.imgUrl}`} />
           <div className="text_section">
             <h3>
               {item.professeur.user.nom} {item.professeur.user.prenom}
@@ -146,35 +177,38 @@ const TimingCard = ({ item }) => {
           </div>
         </div>
         <div className="days_section">
-          <div className="day">
-            <h5 className="day_name">{item.day}</h5>
-            <div
-              className="time_blocks"
-              onClick={() => {
-                if (!isLogged) {
-                  navigate("/login");
-                  return;
-                }
-                if (role === "student") {
-                  handleSubscribe(item.id);
-                }
-                if (role === "parent") {
-                  setShowChooseEnfantPopUp({
-                    id: item.id,
-                  });
-                } else {
-                  return;
-                }
-              }}
-            >
-              <>
-                <h3 className="the_time hover">
-                  {item.timing.start_hour} - {item.timing.end_hour}
-                </h3>
-                <h5 className="places">{item.nbrEleve}places</h5>
-              </>
-            </div>
-          </div>
+          {days.map((day, index) => {
+            console.log(item.day);
+            console.log(day);
+            return day === item.day ? (
+              <div className="day">
+                <h5 className="day_name">{item.day}</h5>
+                <div
+                  className="time_blocks"
+                  onClick={() => {
+                    if (!isLogged) {
+                      navigate("/login");
+                      return;
+                    }
+                    setShowConfirmPopUp({
+                      id: item.id,
+                    });
+                  }}
+                >
+                  <>
+                    <h3 className="the_time hover">
+                      {item.timing.start_hour} - {item.timing.end_hour}
+                    </h3>
+                    <h5 className="places">{item.nbrEleve}places</h5>
+                  </>
+                </div>
+              </div>
+            ) : (
+              <div className="day">
+                <h5 className="day_name">{day}</h5>
+              </div>
+            );
+          })}
         </div>
       </div>
       {showEssaiePopUp && (
@@ -213,6 +247,94 @@ const TimingCard = ({ item }) => {
               src="../assets/x.svg"
               onClick={() => {
                 setShowEssaiePopUp(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {showConfirmPopUp && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2>Confirmation!</h2>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">
+                Êtes-vous sûr de vouloir vous abonner à cet abonnement ?
+              </p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                if (role === "student") {
+                  handleSubscribe(showConfirmPopUp.id);
+                }
+                if (role === "parent") {
+                  setShowChooseEnfantPopUp({
+                    id: showConfirmPopUp.id,
+                  });
+                }
+              }}
+            >
+              {loading ? "Chargement..." : error ? "Erreur" : "Continuer"}
+            </button>
+            <img
+              className="hide_btn"
+              src="../assets/x.svg"
+              onClick={() => {
+                setError(false);
+                setShowConfirmPopUp(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {showSuccessPopUp && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2>Félicitations</h2>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">Vous êtes maintenant abonné !</p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                setShowSuccessPopUp(false);
+              }}
+            >
+              Continuer
+            </button>
+            <img
+              className="hide_btn"
+              src="../assets/x.svg"
+              onClick={() => {
+                setShowSuccessPopUp(false);
               }}
             />
           </div>

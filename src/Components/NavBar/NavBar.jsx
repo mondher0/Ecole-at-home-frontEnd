@@ -4,11 +4,17 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom/dist";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useLocation } from "react-router-dom";
+import { GlobalContext } from "../../context/GlobalContext";
+import { avatar, drop, logout1 } from "../../assets/index";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { isLogged, handleLogout } = useContext(AuthContext);
+  const { userInfo } = useContext(GlobalContext);
+  console.log(userInfo);
+  const { role } = userInfo;
   const [isMobile, setIsMobile] = useState(false);
+  const [logoutAction, setLogoutAction] = useState(false);
   let L = useLocation();
   useEffect(() => {
     if (isMobile) {
@@ -52,9 +58,73 @@ const NavBar = () => {
             </ul>
             <div className="nav_logs">
               {isLogged ? (
-                <button className="con_btn" onClick={handleLogout}>
-                  DECONNEXION
-                </button>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
+                    borderRadius: "50%",
+                    position: "relative",
+                  }}
+                >
+                  {role === "teacher" ? (
+                    <img
+                      src={
+                        userInfo?.proffesseurProfile?.imgUrl
+                          ? userInfo?.proffesseurProfile?.imgUrl
+                          : avatar
+                      }
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        marginRight: "10px",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={avatar}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        marginRight: "10px",
+                      }}
+                    />
+                  )}
+                  {userInfo?.prenom}
+                  <img
+                    src={drop}
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => {
+                      setLogoutAction(!logoutAction);
+                    }}
+                  />
+                  {logoutAction && (
+                    <div
+                      onClick={handleLogout}
+                      style={{
+                        position: "absolute",
+                        top: "50px",
+                        right: "-0",
+                        backgroundColor: "#fff",
+                        width: "200px",
+                        borderRadius: "12px",
+                        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.25)",
+                        padding: "20px",
+                        color: "black",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <img src={logout1} />
+                      SE DECONNECTER
+                    </div>
+                  )}
+                </div>
               ) : (
                 <>
                   {" "}

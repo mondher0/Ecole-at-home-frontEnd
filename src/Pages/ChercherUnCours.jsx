@@ -80,16 +80,17 @@ const ChercherUnCours = () => {
         <button className="hero_search_btn">RECHERCHER</button>
       </form>
       <div className="timing_cards">
-        {professeurs?.length === 1 ? (
-          <TimingCard
-            key={professeurs[0].id}
-            item={professeurs[0]}
-            timings={timings}
-          />
-        ) : professeurs?.length > 1 ? (
-          professeurs?.map((prof) => (
-            <TimingCard key={prof.id} item={prof} timings={timings} />
-          ))
+        {professeurs?.length >= 1 ? (
+          professeurs?.map(
+            (prof) => (
+              console.log(prof),
+              (
+                <>
+                  <TimingCard key={prof.id} item={prof} timings={timings} />
+                </>
+              )
+            )
+          )
         ) : (
           <h1
             style={{

@@ -88,7 +88,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
     <div className="cours_card">
       <img
         className="avatare"
-        src={`${baseURl}${abonnement.professeur.imgUrl}`}
+        src={`${abonnement.professeur.imgUrl}`}
       />
       <div className="info">
         <h4 className="bold">

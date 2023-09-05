@@ -15,16 +15,22 @@ const Status = () => {
   const [ratings, setRating] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   // get prof ratings
   const getProfRatings = async () => {
     try {
       setLoading(true);
+      setError(false);
+      setIsEmpty(false);
       const response = await axios.get(
         `${baseURl}/rating/professeur/${id}?page=1&pageSize=10`
       );
       console.log(response);
       setRating(response.data?.ratings);
+      if (response.data?.ratings.length === 0) {
+        setIsEmpty(true);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -66,6 +72,15 @@ const Status = () => {
           }}
         >
           Erreur de chargement
+        </h2>
+      )}
+      {isEmpty && (
+        <h2
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Aucun avis
         </h2>
       )}
       {ratings?.map(

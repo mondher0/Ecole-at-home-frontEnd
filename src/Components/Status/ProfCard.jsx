@@ -1,4 +1,4 @@
-import { baseURl } from "../../utils/utils";
+
 
 /* eslint-disable react/prop-types */
 const ProfCard = ({ prof }) => {
@@ -6,7 +6,7 @@ const ProfCard = ({ prof }) => {
     <div className="cours_card">
       <img
         className="avatare"
-        src={`${baseURl}${prof.proffesseurProfile.imgUrl}`}
+        src={`${prof.proffesseurProfile.imgUrl}`}
       />
       <div className="info">
         <h4 className="bold">

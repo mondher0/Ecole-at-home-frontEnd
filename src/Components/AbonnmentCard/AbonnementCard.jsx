@@ -41,7 +41,7 @@ const AbonnementCard = ({ course, etat, id, cas, update }) => {
     <div className="cours_card">
       <img
         className="avatare"
-        src={`${baseURl}${course?.professeur?.imgUrl}`}
+        src={`${course?.professeur?.imgUrl}`}
       />
       <div className="info">
         <h4 className="bold">

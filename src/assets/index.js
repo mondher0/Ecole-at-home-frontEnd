@@ -35,6 +35,9 @@ import notColoredStar from "./not-colored-star.svg";
 import hide from "./x.svg";
 import aPropos1 from "./apropos1.svg";
 import errorLogo from "./error-logo.svg";
+import avatar from "./avatare.png";
+import drop from "./drop.svg";
+import logout1 from "./log-out.svg";
 
 export {
   A,
@@ -73,5 +76,8 @@ export {
   notColoredStar,
   hide,
   aPropos1,
+  avatar,
   errorLogo,
+  drop,
+  logout1,
 };
