@@ -26,6 +26,7 @@ const TimingCard = ({ item }) => {
   const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const days = [
     "Sunday",
     "Monday",
@@ -47,6 +48,7 @@ const TimingCard = ({ item }) => {
         navigate("/suspendre-account");
         return;
       }
+      setDisabled(true);
       setError(false);
       setLoading(true);
       if (eleveProfile?.status === "test") {
@@ -72,16 +74,18 @@ const TimingCard = ({ item }) => {
       setShowConfirmPopUp(false);
       setShowSuccessPopUp(true);
       setLoading(false);
+      setDisabled(false);
     } catch (error) {
       setLoading(false);
       setError(true);
+      setDisabled(false);
       console.log(error);
     }
   };
 
   // subscribe in a course of parent
   const handleSubscribeParent = async (id) => {
-    setShowChooseEnfantPopUp(false);
+    setShowConfirmPopUp(false);
     console.log(enfant);
     try {
       if (!isLogged) {
@@ -95,6 +99,7 @@ const TimingCard = ({ item }) => {
         navigate("/suspendre-account");
         return;
       }
+      setDisabled(true);
       setLoading(true);
       setError(false);
       if (parentProfileEntity?.status == "test") {
@@ -117,11 +122,13 @@ const TimingCard = ({ item }) => {
         return;
       }
       setLoading(false);
+      setDisabled(false);
       setShowConfirmPopUp(false);
       setShowSuccessPopUp(true);
     } catch (error) {
       setLoading(false);
       setError(true);
+      setDisabled(false);
       console.log(error);
     }
   };
@@ -266,6 +273,7 @@ const TimingCard = ({ item }) => {
               </p>
             </div>
             <button
+              disabled={disabled}
               style={{
                 backgroundColor: "#0078D4",
                 color: "white",
@@ -378,11 +386,14 @@ const TimingCard = ({ item }) => {
                 width: "120px",
                 textAlign: "center",
               }}
+              disabled={disabled}
               onClick={() => {
                 handleSubscribeParent(showChooseEnfantPoPup.id);
               }}
             >
-              Continuer
+             {
+              loading ? "Chargement..." : error ? "Erreur" : "Continuer"
+             }
             </button>
             <img
               className="hide_btn"

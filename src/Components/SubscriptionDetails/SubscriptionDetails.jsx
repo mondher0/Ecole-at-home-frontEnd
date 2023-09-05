@@ -73,7 +73,7 @@ const SubscriptionDetails = ({ id }) => {
           <div className="avatar_nextC">
             <img
               className="avatar"
-              src={`${baseURl}${professeur?.professeur.imgUrl}`}
+              src={`${professeur?.professeur.imgUrl}`}
             />
             <h3 className="next_cours">
               <img src="../assets/clock_calender.svg" />
