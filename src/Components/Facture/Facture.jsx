@@ -40,7 +40,7 @@ const Facture = () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        `${baseURl}/payment/parent/?enfantId=${id}`
+        `${baseURl}/payment/parent/?efantInd=${id}`
       );
       console.log(response);
       console.log(response?.data?.length);

@@ -48,6 +48,10 @@ const TimingCard = ({ item }) => {
         navigate("/suspendre-account");
         return;
       }
+      if (eleveProfile?.status === "confirme") {
+        navigate(`/reserver-coure-essaie/${id}`);
+        return;
+      }
       setDisabled(true);
       setError(false);
       setLoading(true);
@@ -66,11 +70,6 @@ const TimingCard = ({ item }) => {
       );
       console.log(response);
       console.log(eleveProfile.status);
-      if (eleveProfile?.status === "confirme") {
-        setShowEssaiePopUp(true);
-        setLoading(false);
-        return;
-      }
       setShowConfirmPopUp(false);
       setShowSuccessPopUp(true);
       setLoading(false);
@@ -117,10 +116,7 @@ const TimingCard = ({ item }) => {
         data
       );
       console.log(response);
-      if (parentProfileEntity?.status === "confirme") {
-        setShowEssaiePopUp(true);
-        return;
-      }
+
       setLoading(false);
       setDisabled(false);
       setShowConfirmPopUp(false);
@@ -290,6 +286,10 @@ const TimingCard = ({ item }) => {
                   handleSubscribe(showConfirmPopUp.id);
                 }
                 if (role === "parent") {
+                  if (parentProfileEntity?.status === "confirme") {
+                    navigate(`/reserver-coure-essaie/${id}`);
+                    return;
+                  }
                   setShowChooseEnfantPopUp({
                     id: showConfirmPopUp.id,
                   });
@@ -391,9 +391,7 @@ const TimingCard = ({ item }) => {
                 handleSubscribeParent(showChooseEnfantPoPup.id);
               }}
             >
-             {
-              loading ? "Chargement..." : error ? "Erreur" : "Continuer"
-             }
+              {loading ? "Chargement..." : error ? "Erreur" : "Continuer"}
             </button>
             <img
               className="hide_btn"

@@ -44,6 +44,9 @@ import Elèves_abonnés from "./Elèves_abonnés.svg";
 import validé from "./validé.svg";
 import Abonnements_proposés from "./Abonnements_proposés.svg";
 import Cours_termminés from "./Cours_termminés.svg";
+import desc_img01 from "./desc_img01.svg";
+import CloudClick from "./CloudClick.svg";
+import teacher from "./teacher.svg";
 
 export {
   A,
@@ -92,4 +95,7 @@ export {
   validé,
   Abonnements_proposés,
   Cours_termminés,
+  desc_img01,
+  CloudClick,
+  teacher,
 };

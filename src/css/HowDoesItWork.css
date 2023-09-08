@@ -1,0 +1,46 @@
+.how_does_it_work .steps {
+  margin-top: 24px;
+}
+
+.how_does_it_work .step {
+  width: 100%;
+  overflow: hidden;
+  height: 108px;
+  background: linear-gradient(
+    270deg,
+    rgba(0, 120, 212, 0.3) 0%,
+    rgba(0, 120, 212, 0) 79.69%
+  );
+  max-width: 540px;
+  display: flex;
+  padding: 0px 25px;
+  align-items: center;
+  border-radius: 50px;
+  justify-content: flex-end;
+}
+
+.how_does_it_work .step:nth-child(even) {
+  flex-direction: row-reverse;
+  background: linear-gradient(
+    450deg,
+    rgba(0, 120, 212, 0.3) 0%,
+    rgba(0, 120, 212, 0) 79.69%
+  );
+}
+
+.how_does_it_work .step img {
+  width: 140px;
+  height: 85px;
+}
+
+.how_does_it_work .step p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #3d3f3f;
+  padding-left: 30px;
+}
+
+.how_does_it_work button {
+  background-color: rgba(43, 176, 74, 1);
+}
