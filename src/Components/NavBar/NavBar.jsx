@@ -5,7 +5,14 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
-import { avatar, drop, logout1 } from "../../assets/index";
+import {
+  avatar,
+  drop,
+  logout1,
+  parentPicture,
+  studentPicture,
+  teacherPicture,
+} from "../../assets/index";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -73,7 +80,7 @@ const NavBar = () => {
                       src={
                         userInfo?.proffesseurProfile?.imgUrl
                           ? userInfo?.proffesseurProfile?.imgUrl
-                          : avatar
+                          : teacherPicture
                       }
                       style={{
                         width: "40px",
@@ -82,9 +89,9 @@ const NavBar = () => {
                         marginRight: "10px",
                       }}
                     />
-                  ) : (
+                  ) : role === "student" ? (
                     <img
-                      src={avatar}
+                      src={studentPicture}
                       style={{
                         width: "40px",
                         height: "40px",
@@ -92,7 +99,17 @@ const NavBar = () => {
                         marginRight: "10px",
                       }}
                     />
-                  )}
+                  ) : role === "parent" ? (
+                    <img
+                      src={parentPicture}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        marginRight: "10px",
+                      }}
+                    />
+                  ) : null}
                   {userInfo?.prenom}
                   <img
                     src={drop}

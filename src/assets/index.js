@@ -47,6 +47,9 @@ import Cours_termminés from "./Cours_termminés.svg";
 import desc_img01 from "./desc_img01.svg";
 import CloudClick from "./CloudClick.svg";
 import teacher from "./teacher.svg";
+import studentPicture from "./studentPicture.svg";
+import parentPicture from "./parentPicture.svg";
+import teacherPicture from "./teacherPicture.svg";
 
 export {
   A,
@@ -98,4 +101,7 @@ export {
   desc_img01,
   CloudClick,
   teacher,
+  studentPicture,
+  parentPicture,
+  teacherPicture,
 };
