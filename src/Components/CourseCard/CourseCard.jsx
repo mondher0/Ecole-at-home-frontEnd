@@ -76,7 +76,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   };
 
   useEffect(() => {
-    if (role !== "teacher" && etat === "venir") {
+    if (etat === "venir") {
       getZoomMeetingStartUrl(course.id);
     }
     if (etat !== "venir") {
@@ -86,10 +86,7 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
 
   return (
     <div className="cours_card">
-      <img
-        className="avatare"
-        src={`${abonnement.professeur.imgUrl}`}
-      />
+      <img className="avatare" src={`${abonnement.professeur.imgUrl}`} />
       <div className="info">
         <h4 className="bold">
           {abonnement.professeur.user.nom} {abonnement.professeur.user.prenom}
@@ -119,14 +116,14 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
           {etat === "venir" ? (
             <>
               {role === "teacher" ? (
-                <button
+                <a
+                  href={url}
                   className="green"
-                  onClick={() => {
-                    window.location.href = zoomMeetingJoinUrl;
-                  }}
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   Démarrer le cours
-                </button>
+                </a>
               ) : (
                 <a
                   href={url}
