@@ -29,6 +29,7 @@ const TeacherRating = () => {
   const { isLogged } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorPopUp, setErrorPopUp] = useState(false);
   const navigate = useNavigate();
 
   // get abonnement by id
@@ -48,6 +49,18 @@ const TeacherRating = () => {
     } catch (error) {
       setLoading(false);
       setError(true);
+      console.log(error);
+    }
+  };
+
+  // check rating
+  const checkRating = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${baseURl}/rating/check-rating?profId=${id}`
+      );
+      console.log(response);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -74,12 +87,14 @@ const TeacherRating = () => {
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
+      setErrorPopUp(error.response.data.message);
       console.log(error);
     }
   };
 
   useEffect(() => {
     getAbonnement();
+    checkRating();
   }, []);
   return (
     <>
@@ -121,6 +136,7 @@ const TeacherRating = () => {
                 }}
               >
                 <input
+                  required
                   type={"text"}
                   name="email"
                   placeholder="Ajouter un commentaire"
@@ -251,6 +267,45 @@ const TeacherRating = () => {
             </form>
           </div>
         </>
+      )}
+      {errorPopUp && (
+        <div className="pop_up_container">
+          <div className="pop_up edit etat delete">
+            <div className="prof_edit_top">
+              <div className="text">
+                <h2>Erreur!</h2>
+              </div>
+            </div>
+            <div className="edit_etat delete">
+              <p className="delete_text">{errorPopUp}</p>
+            </div>
+            <button
+              style={{
+                backgroundColor: "#0078D4",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "25px",
+                cursor: "pointer",
+                marginTop: "20px",
+                width: "120px",
+                textAlign: "center",
+              }}
+              onClick={() => {
+                setErrorPopUp(false);
+              }}
+            >
+              Continuer
+            </button>
+            <img
+              className="hide_btn"
+              src="../assets/x.svg"
+              onClick={() => {
+                setErrorPopUp(false);
+              }}
+            />
+          </div>
+        </div>
       )}
     </>
   );

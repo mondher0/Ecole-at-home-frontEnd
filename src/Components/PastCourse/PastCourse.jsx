@@ -151,7 +151,7 @@ const PastCourse = () => {
         </h1>
       ) : (
         <div className="up_coming_courses">
-          <h3 className="green_title">Cours à venir de la semaine</h3>
+          <h3 className="green_title">Cours passé</h3>
           {role === "parent" ? (
             <div className="select_child">
               <label>Enfant:</label>
