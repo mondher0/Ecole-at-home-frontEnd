@@ -53,6 +53,7 @@ import teacherPicture from "./teacherPicture.svg";
 import test1 from "./test1.svg";
 import test2 from "./test2.svg";
 import test3 from "./test3.svg";
+import landingPicture from "./landing-picture.svg";
 
 export {
   A,
@@ -110,4 +111,5 @@ export {
   test1,
   test2,
   test3,
+  landingPicture,
 };

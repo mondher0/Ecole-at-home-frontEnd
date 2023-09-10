@@ -4,6 +4,7 @@ import "../App.css";
 import Footer from "../Components/Footer/Footer";
 import { SearchContext } from "../context/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { landingPicture } from "../assets";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const Home = () => {
                 Mini classe de 5 élèves
               </span>
             </h2>
-
+            <img src={landingPicture} className="landing-picture" />
             <div className="hero_form">
               <h3 className="hero_form_title">Trouvez votre professeur</h3>
               <form
