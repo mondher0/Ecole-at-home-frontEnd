@@ -12,6 +12,9 @@ import {
   parentPicture,
   studentPicture,
   teacherPicture,
+  test1,
+  test2,
+  test3,
 } from "../../assets/index";
 
 const NavBar = () => {
@@ -80,7 +83,7 @@ const NavBar = () => {
                       src={
                         userInfo?.proffesseurProfile?.imgUrl
                           ? userInfo?.proffesseurProfile?.imgUrl
-                          : teacherPicture
+                          : test3
                       }
                       style={{
                         width: "40px",
@@ -91,7 +94,7 @@ const NavBar = () => {
                     />
                   ) : role === "student" ? (
                     <img
-                      src={studentPicture}
+                      src={test1}
                       style={{
                         width: "40px",
                         height: "40px",
@@ -101,7 +104,7 @@ const NavBar = () => {
                     />
                   ) : role === "parent" ? (
                     <img
-                      src={parentPicture}
+                      src={test2}
                       style={{
                         width: "40px",
                         height: "40px",
