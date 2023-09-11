@@ -25,7 +25,10 @@ const ChooseUserType = () => {
                 ? "user_type_card selected"
                 : "user_type_card"
             }
-            onClick={() => setUserType("Student")}
+            onClick={() => {
+              setUserType("Student");
+              navigate(`/inscription/Student`);
+            }}
           >
             <img src="./assets/student.svg" />
             Elève
@@ -37,7 +40,10 @@ const ChooseUserType = () => {
                 ? "user_type_card selected"
                 : "user_type_card"
             }
-            onClick={() => setUserType("Parent")}
+            onClick={() => {
+              setUserType("Parent");
+              navigate(`/inscription/Parent`);
+            }}
           >
             <img src="./assets/Parent.svg" />
             Parent
@@ -49,12 +55,14 @@ const ChooseUserType = () => {
                 ? "user_type_card selected"
                 : "user_type_card"
             }
-            onClick={() => setUserType("Teacher")}
+            onClick={() => {
+              setUserType("Teacher");
+              navigate(`/inscription/Teacher`);
+            }}
           >
             <img src="./assets/Parent.svg" />
             Enseignant
           </div>
-          <button className="continue_btn">Continue</button>
         </form>
       </fieldset>
     </div>

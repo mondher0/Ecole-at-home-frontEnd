@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams } from "react-router-dom";
-import AbonnementCard from "../Components/AbonnmentCard/AbonnementCard";
 import { CloudClick, desc_img01, teacher } from "../assets/index";
 import "../css/HowDoesItWork.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance, { baseURl } from "../utils/utils";
 import { GlobalContext } from "../context/GlobalContext";
+import EssaieCard from "../Components/EssaieCard/EssaieCard";
 
 const Reserver = () => {
   const { id } = useParams();
@@ -96,13 +96,13 @@ const Reserver = () => {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row-reverse",
           alignItems: "center",
-          width: "100%",
+
           padding: "20px",
         }}
       >
-        <AbonnementCard course={course} etat="venir" cas="rating" />
+        <EssaieCard course={course} etat="venir" cas="rating" />
         <fieldset
           className="how_does_it_work"
           style={{
