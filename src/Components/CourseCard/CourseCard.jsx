@@ -15,7 +15,8 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   const [url, setUrl] = useState();
   const [vemeoUrl, setVemeoUrl] = useState();
   console.log(course);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   // get date
   const date = new Date(createdAt);
   const day = date.getDate();
@@ -40,11 +41,16 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   // cancel course
   const cancelCourse = async () => {
     try {
+      setError(false);
+      setLoading(true);
       const response = await axiosInstance.patch(
         `${baseURl}/cours/cancel/${course.id}`
       );
       console.log(response);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError(true);
       console.log(error);
     }
   };
@@ -52,11 +58,16 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
   // cancel course for student
   const cancelCourseForStudent = async () => {
     try {
+      setError(false);
+      setLoading(true);
+
       const response = await axiosInstance.patch(
         `${baseURl}/cours/cancel-user/${course.id}`
       );
       console.log(response);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -157,7 +168,9 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
                   }
                 }}
               >
-                Annuler
+                {
+                  loading ? "Chargement..." : error ? "Erreur" : "Annuler"
+                }
               </button>
             </>
           ) : (
