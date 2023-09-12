@@ -49,6 +49,18 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
     }
   };
 
+  // cancel course for student
+  const cancelCourseForStudent = async () => {
+    try {
+      const response = await axiosInstance.patch(
+        `${baseURl}/cours/cancel-user/${course.id}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // get zoom meeting start url
   const getZoomMeetingStartUrl = async (id) => {
     try {
@@ -134,16 +146,19 @@ const CourseCard = ({ course, etat, rol, zoomMeetingJoinUrl }) => {
                   Assiter au cours
                 </a>
               )}
-              {rol === "teacher" && (
-                <button
-                  className="red"
-                  onClick={() => {
+
+              <button
+                className="red"
+                onClick={() => {
+                  if (role === "teacher") {
                     cancelCourse();
-                  }}
-                >
-                  Annuler
-                </button>
-              )}
+                  } else {
+                    cancelCourseForStudent();
+                  }
+                }}
+              >
+                Annuler
+              </button>
             </>
           ) : (
             <a
