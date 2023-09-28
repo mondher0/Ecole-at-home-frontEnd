@@ -458,15 +458,32 @@ const Settings = () => {
                 uploadImage(e);
               }}
             />
-            <img
-              src={img}
-              alt="image"
+            <label
+              htmlFor="image"
+              className="hover"
               style={{
-                width: "50px",
-                margin: "0",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px",
+                outline: "none",
+                margin: "20px",
+                height: "200px",
+                position: "relative",
+                color: "black",
               }}
-            />
-            <p className="photo">Modifier la photo</p>
+            >
+              <img
+                src={img}
+                alt="image"
+                style={{
+                  width: "50px",
+                  margin: "0",
+                }}
+              />
+              <p className="photo">Modifier la photo</p>
+            </label>
           </div>
         </div>
       )}

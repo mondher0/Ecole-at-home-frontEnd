@@ -193,9 +193,7 @@ const TimingCard = ({ item }) => {
                       navigate("/login");
                       return;
                     }
-                    setShowConfirmPopUp({
-                      id: item.id,
-                    });
+                    navigate(`/reserver-coure/${id}`);
                   }}
                 >
                   <>
@@ -309,45 +307,7 @@ const TimingCard = ({ item }) => {
           </div>
         </div>
       )}
-      {showSuccessPopUp && (
-        <div className="pop_up_container">
-          <div className="pop_up edit etat delete">
-            <div className="prof_edit_top">
-              <div className="text">
-                <h2>Félicitations</h2>
-              </div>
-            </div>
-            <div className="edit_etat delete">
-              <p className="delete_text">Vous êtes maintenant abonné !</p>
-            </div>
-            <button
-              style={{
-                backgroundColor: "#0078D4",
-                color: "white",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "25px",
-                cursor: "pointer",
-                marginTop: "20px",
-                width: "120px",
-                textAlign: "center",
-              }}
-              onClick={() => {
-                setShowSuccessPopUp(false);
-              }}
-            >
-              Continuer
-            </button>
-            <img
-              className="hide_btn"
-              src="../assets/x.svg"
-              onClick={() => {
-                setShowSuccessPopUp(false);
-              }}
-            />
-          </div>
-        </div>
-      )}
+  
       {showChooseEnfantPoPup && (
         <div className="pop_up_container">
           <div className="pop_up edit etat delete">

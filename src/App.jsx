@@ -46,6 +46,7 @@ import FailPayment from "./Pages/FailPayment";
 import Apropos from "./Pages/Apropos";
 import ErrorPage from "./Pages/ErrorPage";
 import Reserver from "./Pages/Reserver";
+import AbonnmentDetailsPage from "./Pages/abonnment-details-page";
 
 const App = () => {
   return (
@@ -55,6 +56,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="/chercher-un-cours" element={<ChercherUnCours />} />
           <Route path="/reserver-coure-essaie/:id" element={<Reserver />} />
+          <Route
+            path="/reserver-coure/:id"
+            element={<AbonnmentDetailsPage />}
+          />
           <Route path="/rating/:id" element={<TeacherRating />} />
           <Route path="/choose_user_type" element={<ChooseUserType />} />
           <Route path="/inscription/:userType" element={<Insecription />} />
